@@ -1,0 +1,21 @@
+{
+  "name": "nt-image-viewer",
+  "version": "0.0.1",
+  "description": "大图浏览",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ascoders/react-native-image-viewer.git"
+  },
+  "keywords": [
+    "image-viewer"
+  ],
+  "author": "ascoders",
+  "license": "ISC",
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0",
+    "react-native": "^0.32.0"
+  }
+}
