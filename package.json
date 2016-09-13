@@ -1,5 +1,5 @@
 {
-  "name": "nt-image-viewer",
+  "name": "react-native-image-zoom-viewer",
   "version": "0.0.1",
   "description": "大图浏览",
   "main": "lib/index.js",
