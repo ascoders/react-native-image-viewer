@@ -111,7 +111,6 @@ export interface StateDefine {
 
 export class State implements StateDefine {
     show = false
-    imageLoaded = false
     currentShowIndex = 0
     imageSizes = [] as any
     isShowMenu = false

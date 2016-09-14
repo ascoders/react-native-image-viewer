@@ -94,7 +94,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         // 图片加载完毕回调
         prefetchImagePromise.then(()=> {
             imageLoaded = true
-            if (sizeLoaded && imageStatus.status === 'loading') {
+            if (sizeLoaded) {
                 imageStatus.status = 'success'
                 saveImageSize()
             }
@@ -111,7 +111,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             imageStatus.width = image.width
             imageStatus.height = image.height
 
-            if (imageLoaded && !this.state.imageLoaded) {
+            if (imageLoaded) {
                 imageStatus.status = 'success'
                 saveImageSize()
             }
@@ -121,7 +121,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 imageStatus.width = width
                 imageStatus.height = height
 
-                if (imageLoaded && !this.state.imageLoaded) {
+                if (imageLoaded) {
                     saveImageSize()
                 }
             }, (error)=> {
