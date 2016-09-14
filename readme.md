@@ -19,7 +19,7 @@ react native image viewer with pan and zoom
 
 ### Installation
 
-```
+```bash
 npm i react-native-image-zoom-viewer --save
 ```
 
@@ -27,19 +27,19 @@ npm i react-native-image-zoom-viewer --save
 
 - Install react-native first
 
-```
+```bash
 $ npm i react-native -g
 ```
 
 - Initialization of a react-native project
 
-```
+```bash
 $ react-native init myproject
 ```
 
 - Then, edit myproject/index.ios.js, like this:
 
-```
+```typescript
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -71,3 +71,7 @@ class ImageViewer extends React.Component {
 
 AppRegistry.registerComponent('myproject', () => ImageViewer);
 ```
+
+### Document
+
+![image](https://cloud.githubusercontent.com/assets/7970947/18501167/1d1adcf8-7a81-11e6-8551-163634b3bedd.png)
