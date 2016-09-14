@@ -5,15 +5,15 @@ react native image viewer with pan and zoom
 
 > Swiper image smoothly
 
-![1.gif](http://upload-images.jianshu.io/upload_images/2979188-7b2b43f9ded013e9.gif?imageMogr2/auto-orient/strip)
+![1.gif](http://odhbct4cw.bkt.clouddn.com/image-viewer/111.gif)
 
 > Zoom while sliding
 
-![3.gif](http://upload-images.jianshu.io/upload_images/2979188-deeef785dcb710be.gif?imageMogr2/auto-orient/strip)
+![3.gif](http://odhbct4cw.bkt.clouddn.com/image-viewer/333.gif)
 
 > Intelligent zoom
 
-![2.gif](http://upload-images.jianshu.io/upload_images/2979188-8288c6d3174c3bee.gif?imageMogr2/auto-orient/strip)
+![2.gif](http://odhbct4cw.bkt.clouddn.com/image-viewer/222.gif)
 
 ## Getting Started
 
