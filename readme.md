@@ -1,3 +1,5 @@
+Depend on `react-native-image-pan-zoom`: https://github.com/ascoders/react-native-image-zoom
+
 ## Show Cases
 
 > Swiper image smoothly

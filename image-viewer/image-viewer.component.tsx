@@ -48,7 +48,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             this.fadeAnim = new Animated.Value(0)
 
             // 立刻预加载要看的图
-            this.loadImage(this.state.currentShowIndex)
+            this.loadImage(this.props.index)
 
             // 跳到当前图的位置
             this.positionXNumber = -Dimensions.get('window').width * this.state.currentShowIndex
