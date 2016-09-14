@@ -42,10 +42,6 @@ export interface StateDefine {
 }
 export declare class State implements StateDefine {
     show: boolean;
-<<<<<<< HEAD
-=======
-    imageLoaded: boolean;
->>>>>>> 8e0154bc1af0262fa681873d9ae48802a2301bd2
     currentShowIndex: number;
     imageSizes: any;
     isShowMenu: boolean;
