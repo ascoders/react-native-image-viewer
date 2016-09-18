@@ -9,7 +9,7 @@ export default class Demo extends React.Component <any, any> {
 
     render() {
         return (
-            <ImageViewer imageUrls={null}/>
+            <div>暂无Web版</div>
         )
     }
 }
