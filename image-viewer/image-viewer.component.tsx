@@ -339,7 +339,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      * 保存当前图片到本地相册
      */
     saveToLocal() {
-        CameraRoll.saveImageWithTag(this.props.imageUrls[this.state.currentShowIndex].url)
+        CameraRoll.saveToCameraRoll(this.props.imageUrls[this.state.currentShowIndex].url)
         this.setState({
             isShowMenu: false
         })
