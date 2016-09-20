@@ -5,7 +5,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     enableImageZoom?: boolean;
     onShowModal?: (content?: JSX.Element) => void;
     visible?: boolean;
-    onCancle?: () => void;
+    onCancel?: () => void;
     flipThreshold?: number;
     maxOverflow?: number;
     index?: number;
