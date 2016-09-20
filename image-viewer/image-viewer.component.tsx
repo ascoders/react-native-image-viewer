@@ -122,6 +122,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 imageStatus.height = height
 
                 if (imageLoaded) {
+                    imageStatus.status = 'success'
                     saveImageSize()
                 }
             }, (error)=> {
