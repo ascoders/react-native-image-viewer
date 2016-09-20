@@ -25,7 +25,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 取消看图的回调
      */
-    onCancle?: ()=>void
+    onCancel?: ()=>void
 
     /**
      * 滑动到下一页的X阈值

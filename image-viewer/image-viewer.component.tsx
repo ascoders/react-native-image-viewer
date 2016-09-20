@@ -279,7 +279,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                                horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
                                responderRelease={this.handleResponderRelease.bind(this)}
                                onLongPress={this.handleLongPress.bind(this, image)}
-                               onCancle={this.props.onCancle}>
+                               onCancel={this.props.onCancel}>
                         <Image style={[styles.imageStyle, {width:width, height:height}]}
                                source={{uri:image.url}}/>
                     </ImageZoom>
