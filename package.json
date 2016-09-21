@@ -1,6 +1,6 @@
 {
   "name": "react-native-image-zoom-viewer",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "大图浏览",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -14,12 +14,12 @@
   "author": "ascoders",
   "license": "ISC",
   "dependencies": {
-    "nt-auto-bind": "^2.0.1",
-    "nt-transmit-transparently": "^1.0.3",
-    "react-native-image-pan-zoom": "^1.1.2"
+    "nt-auto-bind": "^2.0.2",
+    "nt-transmit-transparently": "^1.0.4",
+    "react-native-image-pan-zoom": "^1.1.3"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
-    "react-native": "^0.33.0"
+    "react-native": "*"
   }
 }
