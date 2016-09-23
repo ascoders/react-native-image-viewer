@@ -298,12 +298,12 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             } else {
                 switch (imageInfo.status) {
                     case 'loading':
-                        // return (
-                        //     <View key={index}
-                        //           style={styles.loadingContainer}>
-                        //         {this.props.loadingRender()}
-                        //     </View>
-                        // )
+                        return (
+                            <View key={index}
+                                  style={styles.loadingContainer}>
+                                {this.props.loadingRender()}
+                            </View>
+                        )
                         return (
                             <Text style={{color:'white'}}>loading</Text>
                         )
