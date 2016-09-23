@@ -25,15 +25,19 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private positionXNumber = 0
     private positionX = new Animated.Value(0)
 
-    componentWillMount() {
-        // 图片数组为空,不显示
-        if (!this.props.visible || this.props.imageUrls.length === 0) {
+    componentWillReceiveProps(nextProps: typings.PropsDefine) {
+        if (!nextProps.visible || nextProps.imageUrls.length === 0) {
+            this.setState({
+                isShowMenu: false,
+                show: false,
+                imageSizes: [] as any
+            })
             return
         }
 
         // 给 imageSizes 塞入空数组
         const imageSizes: Array<typings.ImageSize> = []
-        this.props.imageUrls.forEach(imageUrl=> {
+        nextProps.imageUrls.forEach(imageUrl=> {
             imageSizes.push({
                 width: 0,
                 height: 0,
@@ -42,13 +46,13 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         })
 
         this.setState({
-            currentShowIndex: this.props.index,
+            currentShowIndex: nextProps.index,
             imageSizes
         }, ()=> {
             this.fadeAnim = new Animated.Value(0)
 
             // 立刻预加载要看的图
-            this.loadImage(this.props.index)
+            this.loadImage(nextProps.index)
 
             // 跳到当前图的位置
             this.positionXNumber = -Dimensions.get('window').width * this.state.currentShowIndex

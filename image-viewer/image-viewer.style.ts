@@ -85,7 +85,9 @@ export default {
         backgroundColor: 'white',
         height: 40
     } as React.ViewStyle,
-    operateText: {},
+    operateText: {
+
+    },
     loadingContainer: {
         justifyContent: 'center',
         alignItems: 'center',
