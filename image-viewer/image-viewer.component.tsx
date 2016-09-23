@@ -39,6 +39,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     init(nextProps: typings.PropsDefine) {
         if (!nextProps.visible || nextProps.imageUrls.length === 0) {
             // 隐藏时候清空
+            this.fadeAnim.setValue(0)
             return this.setState(new typings.State())
         }
 
@@ -56,8 +57,6 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             currentShowIndex: nextProps.index,
             imageSizes
         }, ()=> {
-            this.fadeAnim = new Animated.Value(0)
-
             // 立刻预加载要看的图
             this.loadImage(nextProps.index)
 
