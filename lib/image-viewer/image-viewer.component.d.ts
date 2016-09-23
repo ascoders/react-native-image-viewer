@@ -7,7 +7,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private standardPositionX;
     private positionXNumber;
     private positionX;
-    componentWillMount(): void;
+    componentWillReceiveProps(nextProps: typings.PropsDefine): void;
     loadImage(index: number): void;
     handleHorizontalOuterRangeOffset(offsetX: number): void;
     handleResponderRelease(vx: number): void;
