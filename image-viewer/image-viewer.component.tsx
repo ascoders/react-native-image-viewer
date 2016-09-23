@@ -25,13 +25,22 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private positionXNumber = 0
     private positionX = new Animated.Value(0)
 
+    componentWillMount() {
+        this.init(this.props)
+    }
+
     componentWillReceiveProps(nextProps: typings.PropsDefine) {
+        this.init(nextProps)
+    }
+
+    /**
+     * props 有变化时执行
+     */
+    init(nextProps: typings.PropsDefine) {
         if (!nextProps.visible || nextProps.imageUrls.length === 0) {
             // 隐藏时候清空
             return this.setState(new typings.State())
         }
-
-        // 显示看大图
 
         // 给 imageSizes 塞入空数组
         const imageSizes: Array<typings.ImageSize> = []
