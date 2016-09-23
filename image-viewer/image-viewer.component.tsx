@@ -79,7 +79,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      */
     loadImage(index: number) {
         const image = this.props.imageUrls[index]
-        const imageStatus = this.state.imageSizes[index]
+        const imageStatus = Object.assign({}, this.state.imageSizes[index])
 
         // 保存 imageSize
         const saveImageSize = ()=> {
@@ -298,11 +298,14 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             } else {
                 switch (imageInfo.status) {
                     case 'loading':
+                        // return (
+                        //     <View key={index}
+                        //           style={styles.loadingContainer}>
+                        //         {this.props.loadingRender()}
+                        //     </View>
+                        // )
                         return (
-                            <View key={index}
-                                  style={styles.loadingContainer}>
-                                {this.props.loadingRender()}
-                            </View>
+                            <Text style={{color:'white'}}>loading</Text>
                         )
                     case 'success':
                         return (
