@@ -27,13 +27,11 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
     componentWillReceiveProps(nextProps: typings.PropsDefine) {
         if (!nextProps.visible || nextProps.imageUrls.length === 0) {
-            this.setState({
-                isShowMenu: false,
-                show: false,
-                imageSizes: [] as any
-            })
-            return
+            // 隐藏时候清空
+            return this.setState(new typings.State())
         }
+
+        // 显示看大图
 
         // 给 imageSizes 塞入空数组
         const imageSizes: Array<typings.ImageSize> = []
@@ -381,12 +379,14 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     }
 
     render() {
-        const Menu = this.getMenu()
+        if (!this.props.visible) {
+            return null
+        }
 
         return (
             <View {...this.props.others}>
-                {this.props.visible && this.getContent()}
-                {Menu}
+                {this.getContent()}
+                {this.getMenu()}
             </View>
         )
     }
