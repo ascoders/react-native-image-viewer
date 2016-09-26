@@ -76,7 +76,7 @@ export class Props extends PropsGaea implements PropsDefine {
     onShowModal = ()=> {
     }
     visible = false
-    onCancle = ()=> {
+    onCancel = ()=> {
     }
     flipThreshold = 80
     maxOverflow = 300
