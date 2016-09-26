@@ -13,6 +13,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
         uri: string;
     };
     loadingRender?: () => React.ReactElement<any>;
+    onSaveToCamera?: (index?: number) => void;
     others?: any;
 }
 export declare class PropsGaea {
@@ -32,6 +33,7 @@ export declare class Props extends PropsGaea implements PropsDefine {
     failImageSource: string;
     index: number;
     loadingRender: () => any;
+    onSaveToCamera: () => void;
 }
 export interface StateDefine {
     show?: boolean;
