@@ -27,7 +27,7 @@ export declare class Props extends PropsGaea implements PropsDefine {
     enableImageZoom: boolean;
     onShowModal: () => void;
     visible: boolean;
-    onCancle: () => void;
+    onCancel: () => void;
     flipThreshold: number;
     maxOverflow: number;
     failImageSource: string;
