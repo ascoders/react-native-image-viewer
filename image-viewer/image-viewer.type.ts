@@ -53,6 +53,11 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     loadingRender?: ()=> React.ReactElement<any>
 
     /**
+     * 保存到相册的回调
+     */
+    onSaveToCamera?: (index?: number)=>void
+
+    /**
      * 透传
      */
     others?: any
@@ -79,6 +84,8 @@ export class Props extends PropsGaea implements PropsDefine {
     index = 0
     loadingRender = ()=> {
         return null as any
+    }
+    onSaveToCamera = () => {
     }
 }
 

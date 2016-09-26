@@ -351,6 +351,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      */
     saveToLocal() {
         CameraRoll.saveToCameraRoll(this.props.imageUrls[this.state.currentShowIndex].url)
+        this.props.onSaveToCamera(this.state.currentShowIndex)
         this.setState({
             isShowMenu: false
         })
