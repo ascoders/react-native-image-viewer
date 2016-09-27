@@ -1,5 +1,3 @@
-Depend on `react-native-image-pan-zoom`: https://github.com/ascoders/react-native-image-zoom
-
 ## Show Cases
 
 > Swiper image smoothly
@@ -74,3 +72,7 @@ AppRegistry.registerComponent('myproject', () => ImageViewer);
 ### Document
 
 ![image](https://cloud.githubusercontent.com/assets/7970947/18501167/1d1adcf8-7a81-11e6-8551-163634b3bedd.png)
+
+### Dependence
+
+Depend on `react-native-image-pan-zoom`: https://github.com/ascoders/react-native-image-zoom
