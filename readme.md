@@ -62,7 +62,7 @@ class ImageViewer extends React.Component {
     render: function() {
         return (
             <Modal visible={true} transparent={true}>
-                <ImageViewer imageUrls={images}/>
+                <ImageViewer visible={true} imageUrls={images}/>
             </Modal>
         )
     }
