@@ -204,6 +204,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         this.setState({
             currentShowIndex: this.state.currentShowIndex - 1
+        }, ()=> {
+            this.props.onChange(this.state.currentShowIndex)
         })
     }
 
@@ -226,6 +228,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         this.setState({
             currentShowIndex: this.state.currentShowIndex + 1
+        }, ()=> {
+            this.props.onChange(this.state.currentShowIndex)
         })
     }
 
