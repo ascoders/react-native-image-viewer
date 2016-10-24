@@ -4,7 +4,6 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     imageUrls: Array<ImageInfo>;
     enableImageZoom?: boolean;
     onShowModal?: (content?: JSX.Element) => void;
-    visible?: boolean;
     onCancel?: () => void;
     flipThreshold?: number;
     maxOverflow?: number;
@@ -15,7 +14,10 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     loadingRender?: () => React.ReactElement<any>;
     onSaveToCamera?: (index?: number) => void;
     onChange?: (index?: number) => void;
+    saveToLocalByLongPress?: boolean;
     others?: any;
+    onClick?: (close?: Function) => void;
+    onDoubleClick?: (close?: Function) => void;
 }
 export declare class PropsGaea {
     gaeaName: string;
@@ -26,16 +28,19 @@ export declare class Props extends PropsGaea implements PropsDefine {
     show: boolean;
     imageUrls: ImageInfo[];
     enableImageZoom: boolean;
-    onShowModal: () => void;
     visible: boolean;
-    onCancel: () => void;
     flipThreshold: number;
     maxOverflow: number;
     failImageSource: string;
     index: number;
+    saveToLocalByLongPress: boolean;
+    onShowModal: () => void;
+    onCancel: () => void;
     loadingRender: () => any;
     onSaveToCamera: () => void;
     onChange: () => void;
+    onClick: (close?: Function) => void;
+    onDoubleClick: (close?: Function) => void;
 }
 export interface StateDefine {
     show?: boolean;

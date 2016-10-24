@@ -1,4 +1,4 @@
-declare var _default: {
+declare var _default: (width: number, height: number) => {
     modalContainer: React.ViewStyle;
     count: React.ViewStyle;
     countText: React.TextStyle;
