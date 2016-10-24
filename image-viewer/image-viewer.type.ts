@@ -18,11 +18,6 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     onShowModal?: (content?: JSX.Element)=>void
 
     /**
-     * 是否显示
-     */
-    visible?: boolean
-
-    /**
      * 取消看图的回调
      */
     onCancel?: ()=>void
@@ -63,9 +58,24 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     onChange?: (index?: number)=>void
 
     /**
+     * 是否开启长按保存到本地的功能
+     */
+    saveToLocalByLongPress?: boolean
+
+    /**
      * 透传
      */
     others?: any
+
+    /**
+     * 单击回调
+     */
+    onClick?: (close?: Function)=>void
+
+    /**
+     * 双击回调
+     */
+    onDoubleClick?: (close?: Function)=>void
 }
 
 export class PropsGaea {
@@ -78,21 +88,36 @@ export class Props extends PropsGaea implements PropsDefine {
     show = false
     imageUrls = [] as Array<ImageInfo>
     enableImageZoom = true
-    onShowModal = ()=> {
-    }
     visible = false
-    onCancel = ()=> {
-    }
+
     flipThreshold = 80
     maxOverflow = 300
     failImageSource = ''
     index = 0
+    saveToLocalByLongPress = true
+
+    onShowModal = ()=> {
+    }
+
+    onCancel = ()=> {
+    }
+
     loadingRender = ()=> {
         return null as any
     }
+
     onSaveToCamera = () => {
     }
+
     onChange = ()=> {
+    }
+
+    onClick = (close?: Function)=> {
+        close()
+    }
+
+    onDoubleClick = (close?: Function)=> {
+
     }
 }
 

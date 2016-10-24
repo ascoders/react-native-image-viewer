@@ -2,14 +2,32 @@
  * 由于 react-native 不能动态在根元素创建节点,因此我需要一个节点!!
  */
 import * as React from 'react'
-import {TouchableOpacity, View, Text, Image, Animated, TouchableHighlight, CameraRoll, Dimensions} from 'react-native'
+import {
+    TouchableOpacity,
+    View,
+    Text,
+    Image,
+    Animated,
+    TouchableHighlight,
+    CameraRoll,
+    Dimensions,
+    Platform
+} from 'react-native'
 import * as typings from './image-viewer.type'
 import {autoBindClass} from '../../auto-bind/index'
 import {TransmitTransparently} from '../../transmit-transparently/index'
 import ImageZoom from '../../image-zoom/index'
 import styles from './image-viewer.style'
 
-@TransmitTransparently()
+interface Window {
+    Image: {
+        prototype: HTMLImageElement
+        new (): HTMLImageElement
+    }
+}
+declare var window:Window
+
+@TransmitTransparently('style')
 @autoBindClass
 export default class ImageViewer extends React.Component<typings.PropsDefine, typings.StateDefine> {
     static defaultProps: typings.PropsDefine = new typings.Props()
@@ -25,6 +43,11 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private positionXNumber = 0
     private positionX = new Animated.Value(0)
 
+    private width = 0
+    private height = 0
+
+    private styles = styles(0, 0)
+
     componentWillMount() {
         this.init(this.props)
     }
@@ -37,7 +60,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      * props 有变化时执行
      */
     init(nextProps: typings.PropsDefine) {
-        if (!nextProps.visible || nextProps.imageUrls.length === 0) {
+        if (nextProps.imageUrls.length === 0) {
             // 隐藏时候清空
             this.fadeAnim.setValue(0)
             return this.setState(new typings.State())
@@ -61,7 +84,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             this.loadImage(nextProps.index)
 
             // 跳到当前图的位置
-            this.positionXNumber = -Dimensions.get('window').width * this.state.currentShowIndex
+            this.positionXNumber = -this.width * this.state.currentShowIndex
             this.standardPositionX = this.positionXNumber
             this.positionX.setValue(this.positionXNumber)
 
@@ -99,47 +122,58 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         // 是否加载完毕了图片
         let imageLoaded = false
 
-        const prefetchImagePromise = Image.prefetch(image.url)
+        if (Platform.OS !== 'web') {
+            const prefetchImagePromise = Image.prefetch(image.url)
 
-        // 图片加载完毕回调
-        prefetchImagePromise.then(()=> {
-            imageLoaded = true
-            if (sizeLoaded) {
-                imageStatus.status = 'success'
+            // 图片加载完毕回调
+            prefetchImagePromise.then(()=> {
+                imageLoaded = true
+                if (sizeLoaded) {
+                    imageStatus.status = 'success'
+                    saveImageSize()
+                }
+            }, ()=> {
+                // 预加载失败
+                imageStatus.status = 'fail'
                 saveImageSize()
-            }
-        }, ()=> {
-            // 预加载失败
-            imageStatus.status = 'fail'
-            saveImageSize()
-        })
+            })
 
-        // 获取图片大小
-        if (image.width && image.height) {
-            // 如果已经传了图片长宽,那直接 success
-            sizeLoaded = true
-            imageStatus.width = image.width
-            imageStatus.height = image.height
-
-            if (imageLoaded) {
-                imageStatus.status = 'success'
-                saveImageSize()
-            }
-        } else {
-            Image.getSize(image.url, (width, height)=> {
+            // 获取图片大小
+            if (image.width && image.height) {
+                // 如果已经传了图片长宽,那直接 success
                 sizeLoaded = true
-                imageStatus.width = width
-                imageStatus.height = height
+                imageStatus.width = image.width
+                imageStatus.height = image.height
 
                 if (imageLoaded) {
                     imageStatus.status = 'success'
                     saveImageSize()
                 }
-            }, (error)=> {
-                // 获取大小失败
-                imageStatus.status = 'fail'
+            } else {
+                Image.getSize(image.url, (width, height)=> {
+                    sizeLoaded = true
+                    imageStatus.width = width
+                    imageStatus.height = height
+
+                    if (imageLoaded) {
+                        imageStatus.status = 'success'
+                        saveImageSize()
+                    }
+                }, (error)=> {
+                    // 获取大小失败
+                    imageStatus.status = 'fail'
+                    saveImageSize()
+                })
+            }
+        } else {
+            const imageFetch = new window.Image()
+            imageFetch.src = image.url
+            imageFetch.onload = ()=> {
+                imageStatus.width = imageFetch.width
+                imageStatus.height = imageFetch.height
+                imageStatus.status = 'success'
                 saveImageSize()
-            })
+            }
         }
     }
 
@@ -195,7 +229,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             return
         }
 
-        this.positionXNumber = this.standardPositionX + Dimensions.get('window').width
+        this.positionXNumber = this.standardPositionX + this.width
         this.standardPositionX = this.positionXNumber
         Animated.timing(this.positionX, {
             toValue: this.positionXNumber,
@@ -219,7 +253,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             return
         }
 
-        this.positionXNumber = this.standardPositionX - Dimensions.get('window').width
+        this.positionXNumber = this.standardPositionX - this.width
         this.standardPositionX = this.positionXNumber
         Animated.timing(this.positionX, {
             toValue: this.positionXNumber,
@@ -245,13 +279,39 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     }
 
     /**
-     * 在图片上长按
+     * 长按
      */
     handleLongPress(image: typings.ImageInfo) {
-        // 出现操作框
-        this.setState({
-            isShowMenu: true
-        })
+        if (this.props.saveToLocalByLongPress) {
+            // 出现保存到本地的操作框
+            this.setState({
+                isShowMenu: true
+            })
+        }
+    }
+
+    /**
+     * 单击
+     */
+    handleClick(){
+        this.props.onClick(this.props.onCancel)
+    }
+
+    /**
+     * 双击
+     */
+    handleDoubleClick(){
+        this.props.onDoubleClick(this.props.onCancel)
+    }
+
+    /**
+     * 完成布局
+     */
+    handleLayout(event: React.LayoutChangeEvent) {
+        this.width = event.nativeEvent.layout.width
+        this.height = event.nativeEvent.layout.height
+        this.styles = styles(this.width, this.height)
+        this.forceUpdate()
     }
 
     /**
@@ -259,8 +319,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      */
     getContent() {
         // 获得屏幕宽高
-        const screenWidth = Dimensions.get('window').width
-        const screenHeight = Dimensions.get('window').height
+        const screenWidth = this.width
+        const screenHeight = this.height
 
         const ImageElements = this.props.imageUrls.map((image, index)=> {
             let width = this.state.imageSizes[index] && this.state.imageSizes[index].width
@@ -284,17 +344,18 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             if (imageInfo.status === 'success' && this.props.enableImageZoom) {
                 return (
                     <ImageZoom key={index}
-                               style={styles.modalContainer}
-                               cropWidth={Dimensions.get('window').width}
-                               cropHeight={Dimensions.get('window').height}
+                               style={this.styles.modalContainer}
+                               cropWidth={this.width}
+                               cropHeight={this.height}
                                imageWidth={width}
                                imageHeight={height}
                                maxOverflow={this.props.maxOverflow}
                                horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
                                responderRelease={this.handleResponderRelease.bind(this)}
                                onLongPress={this.handleLongPress.bind(this, image)}
-                               onCancel={this.props.onCancel}>
-                        <Image style={[styles.imageStyle, {width:width, height:height}]}
+                               onClick={this.handleClick}
+                    onDoubleClick={this.handleDoubleClick}>
+                        <Image style={[this.styles.imageStyle, {width:width, height:height}]}
                                source={{uri:image.url}}/>
                     </ImageZoom>
                 )
@@ -303,22 +364,22 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     case 'loading':
                         return (
                             <View key={index}
-                                  style={styles.loadingContainer}>
+                                  style={this.styles.loadingContainer}>
                                 {this.props.loadingRender()}
                             </View>
                         )
                     case 'success':
                         return (
                             <Image key={index}
-                                   style={[styles.imageStyle, {width:width, height:height}]}
+                                   style={[this.styles.imageStyle, {width:width, height:height}]}
                                    source={{uri:image.url}}/>
                         )
                     case 'fail':
                         return (
                             <TouchableOpacity key={index}
-                                              style={styles.failContainer}>
+                                              style={this.styles.failContainer}>
                                 <Image source={this.props.failImageSource}
-                                       style={styles.failImage}/>
+                                       style={this.styles.failImage}/>
                             </TouchableOpacity>
                         )
                 }
@@ -326,22 +387,22 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         })
 
         return (
-            <Animated.View style={[styles.container, {opacity: this.fadeAnim}]}>
+            <Animated.View style={[this.styles.container, {opacity: this.fadeAnim}]}>
 
-                <Animated.View style={[styles.moveBox, {transform:[{translateX:this.positionX}]}, {width: Dimensions.get('window').width * this.props.imageUrls.length}]}>
+                <Animated.View style={[this.styles.moveBox, {transform:[{translateX:this.positionX}]}, {width: this.width * this.props.imageUrls.length}]}>
                     {ImageElements}
                 </Animated.View>
 
                 {this.props.imageUrls.length > 1 &&
-                <View style={styles.count}>
-                    <Text style={styles.countText}>{this.state.currentShowIndex + 1}/{this.props.imageUrls.length}</Text>
+                <View style={this.styles.count}>
+                    <Text style={this.styles.countText}>{this.state.currentShowIndex + 1}/{this.props.imageUrls.length}</Text>
                 </View>
                 }
 
                 {this.props.imageUrls[this.state.currentShowIndex].originSizeKb && this.props.imageUrls[this.state.currentShowIndex].originUrl &&
-                <View style={styles.watchOrigin}>
-                    <TouchableOpacity style={styles.watchOriginTouchable}>
-                        <Text style={styles.watchOriginText}>查看原图(2M)</Text>
+                <View style={this.styles.watchOrigin}>
+                    <TouchableOpacity style={this.styles.watchOriginTouchable}>
+                        <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
                     </TouchableOpacity>
                 </View>
                 }
@@ -367,18 +428,18 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         }
 
         return (
-            <View style={styles.menuContainer}>
-                <View style={styles.menuShadow}/>
-                <View style={styles.menuContent}>
+            <View style={this.styles.menuContainer}>
+                <View style={this.styles.menuShadow}/>
+                <View style={this.styles.menuContent}>
                     <TouchableHighlight underlayColor="#F2F2F2"
                                         onPress={this.saveToLocal.bind(this)}
-                                        style={styles.operateContainer}>
-                        <Text style={styles.operateText}>保存到相册</Text>
+                                        style={this.styles.operateContainer}>
+                        <Text style={this.styles.operateText}>保存到相册</Text>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor="#F2F2F2"
                                         onPress={this.handleLeaveMenu.bind(this)}
-                                        style={styles.operateContainer}>
-                        <Text style={styles.operateText}>取消</Text>
+                                        style={this.styles.operateContainer}>
+                        <Text style={this.styles.operateText}>取消</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -392,14 +453,21 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     }
 
     render() {
-        if (!this.props.visible) {
-            return null
+        let childs: React.ReactElement<any> = null
+
+        if (this.width !== 0 && this.height !== 0) {
+            childs = (
+                <View>
+                    {this.getContent()}
+                    {this.getMenu()}
+                </View>
+            )
         }
 
         return (
-            <View {...this.props.others}>
-                {this.getContent()}
-                {this.getMenu()}
+            <View onLayout={this.handleLayout}
+                  style={[{flex:1,overflow:'hidden'}, this.props.style]} {...this.props.others}>
+                {childs}
             </View>
         )
     }
