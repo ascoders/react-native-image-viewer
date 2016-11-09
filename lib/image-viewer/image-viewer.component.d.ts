@@ -10,6 +10,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private width;
     private height;
     private styles;
+    private hasLayout;
     componentWillMount(): void;
     componentWillReceiveProps(nextProps: typings.PropsDefine): void;
     init(nextProps: typings.PropsDefine): void;
@@ -22,6 +23,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     handleLongPress(image: typings.ImageInfo): void;
     handleClick(): void;
     handleDoubleClick(): void;
+    handleCancel(): void;
     handleLayout(event: React.LayoutChangeEvent): void;
     getContent(): JSX.Element;
     saveToLocal(): void;
