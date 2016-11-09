@@ -14,8 +14,8 @@ import {
     Platform
 } from 'react-native'
 import * as typings from './image-viewer.type'
-import { autoBindClass } from '../../auto-bind/index'
-import { TransmitTransparently } from '../../transmit-transparently/index'
+import {autoBindClass} from '../../auto-bind/index'
+import {TransmitTransparently} from '../../transmit-transparently/index'
 import ImageZoom from '../../image-zoom/index'
 import styles from './image-viewer.style'
 
@@ -47,6 +47,9 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private height = 0
 
     private styles = styles(0, 0)
+
+    // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
+    private hasLayout = false
 
     componentWillMount() {
         this.init(this.props)
@@ -294,20 +297,34 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      * 单击
      */
     handleClick() {
-        this.props.onClick(this.props.onCancel)
+        this.props.onClick(this.handleCancel.bind(this))
     }
 
     /**
      * 双击
      */
     handleDoubleClick() {
-        this.props.onDoubleClick(this.props.onCancel)
+        this.props.onDoubleClick(this.handleCancel.bind(this))
+    }
+
+    /**
+     * 退出
+     */
+    handleCancel() {
+        this.hasLayout = false
+        this.props.onCancel()
     }
 
     /**
      * 完成布局
      */
     handleLayout(event: React.LayoutChangeEvent) {
+        if (this.hasLayout) {
+            return
+        }
+
+        this.hasLayout = true
+
         this.width = event.nativeEvent.layout.width
         this.height = event.nativeEvent.layout.height
         this.styles = styles(this.width, this.height)
@@ -344,19 +361,19 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             if (imageInfo.status === 'success' && this.props.enableImageZoom) {
                 return (
                     <ImageZoom key={index}
-                        style={this.styles.modalContainer}
-                        cropWidth={this.width}
-                        cropHeight={this.height}
-                        imageWidth={width}
-                        imageHeight={height}
-                        maxOverflow={this.props.maxOverflow}
-                        horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
-                        responderRelease={this.handleResponderRelease.bind(this)}
-                        onLongPress={this.handleLongPress.bind(this, image)}
-                        onClick={this.handleClick}
-                        onDoubleClick={this.handleDoubleClick}>
+                               style={this.styles.modalContainer}
+                               cropWidth={this.width}
+                               cropHeight={this.height}
+                               imageWidth={width}
+                               imageHeight={height}
+                               maxOverflow={this.props.maxOverflow}
+                               horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
+                               responderRelease={this.handleResponderRelease.bind(this)}
+                               onLongPress={this.handleLongPress.bind(this, image)}
+                               onClick={this.handleClick}
+                               onDoubleClick={this.handleDoubleClick}>
                         <Image style={[this.styles.imageStyle, { width: width, height: height }]}
-                            source={{ uri: image.url }} />
+                               source={{ uri: image.url }}/>
                     </ImageZoom>
                 )
             } else {
@@ -364,22 +381,22 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     case 'loading':
                         return (
                             <View key={index}
-                                style={this.styles.loadingContainer}>
+                                  style={this.styles.loadingContainer}>
                                 {this.props.loadingRender()}
                             </View>
                         )
                     case 'success':
                         return (
                             <Image key={index}
-                                style={[this.styles.imageStyle, { width: width, height: height }]}
-                                source={{ uri: image.url }} />
+                                   style={[this.styles.imageStyle, { width: width, height: height }]}
+                                   source={{ uri: image.url }}/>
                         )
                     case 'fail':
                         return (
                             <TouchableOpacity key={index}
-                                style={this.styles.failContainer}>
+                                              style={this.styles.failContainer}>
                                 <Image source={this.props.failImageSource}
-                                    style={this.styles.failImage} />
+                                       style={this.styles.failImage}/>
                             </TouchableOpacity>
                         )
                 }
@@ -394,17 +411,17 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 </Animated.View>
 
                 {this.props.imageUrls.length > 1 &&
-                    <View style={this.styles.count}>
-                        <Text style={this.styles.countText}>{this.state.currentShowIndex + 1}/{this.props.imageUrls.length}</Text>
-                    </View>
+                <View style={this.styles.count}>
+                    <Text style={this.styles.countText}>{this.state.currentShowIndex + 1}/{this.props.imageUrls.length}</Text>
+                </View>
                 }
 
                 {this.props.imageUrls[this.state.currentShowIndex].originSizeKb && this.props.imageUrls[this.state.currentShowIndex].originUrl &&
-                    <View style={this.styles.watchOrigin}>
-                        <TouchableOpacity style={this.styles.watchOriginTouchable}>
-                            <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={this.styles.watchOrigin}>
+                    <TouchableOpacity style={this.styles.watchOriginTouchable}>
+                        <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
+                    </TouchableOpacity>
+                </View>
                 }
 
             </Animated.View>
@@ -429,16 +446,16 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <View style={this.styles.menuContainer}>
-                <View style={this.styles.menuShadow} />
+                <View style={this.styles.menuShadow}/>
                 <View style={this.styles.menuContent}>
                     <TouchableHighlight underlayColor="#F2F2F2"
-                        onPress={this.saveToLocal.bind(this)}
-                        style={this.styles.operateContainer}>
+                                        onPress={this.saveToLocal.bind(this)}
+                                        style={this.styles.operateContainer}>
                         <Text style={this.styles.operateText}>保存到相册</Text>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor="#F2F2F2"
-                        onPress={this.handleLeaveMenu.bind(this)}
-                        style={this.styles.operateContainer}>
+                                        onPress={this.handleLeaveMenu.bind(this)}
+                                        style={this.styles.operateContainer}>
                         <Text style={this.styles.operateText}>取消</Text>
                     </TouchableHighlight>
                 </View>
@@ -466,7 +483,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <View onLayout={this.handleLayout}
-                style={[{ flex: 1, overflow: 'hidden' }, this.props.style]} {...this.props.others}>
+                  style={[{ flex: 1, overflow: 'hidden' }, this.props.style]} {...this.props.others}>
                 {childs}
             </View>
         )
