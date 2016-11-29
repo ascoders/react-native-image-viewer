@@ -14,9 +14,9 @@ import {
     Platform
 } from 'react-native'
 import * as typings from './image-viewer.type'
-import {autoBindClass} from '../../auto-bind/index'
-import {TransmitTransparently} from '../../transmit-transparently/index'
-import ImageZoom from '../../image-zoom/index'
+import {autoBindClass} from 'nt-auto-bind'
+import {TransmitTransparently} from 'nt-transmit-transparently'
+import ImageZoom from 'react-native-image-pan-zoom'
 import styles from './image-viewer.style'
 
 interface Window {
