@@ -345,7 +345,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         this.width = event.nativeEvent.layout.width
         this.height = event.nativeEvent.layout.height
         this.styles = styles(this.width, this.height)
-        this.init(this.props)
+        this.forceUpdate()
     }
 
     /**
