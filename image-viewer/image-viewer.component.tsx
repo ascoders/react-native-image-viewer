@@ -51,6 +51,9 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
     private hasLayout = false
 
+    // 记录已加载的图片 index
+    private loadedIndex = new Map<number, boolean>()
+
     componentWillMount() {
         this.init(this.props)
     }
@@ -103,6 +106,11 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      * 加载图片
      */
     loadImage(index: number) {
+        if (this.loadedIndex.has(index)){
+            return
+        }
+        this.loadedIndex.set(index, true)
+
         const image = this.props.imageUrls[index]
         const imageStatus = Object.assign({}, this.state.imageSizes[index])
 
@@ -175,6 +183,10 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 imageStatus.width = imageFetch.width
                 imageStatus.height = imageFetch.height
                 imageStatus.status = 'success'
+                saveImageSize()
+            }
+            imageFetch.onerror = () => {
+                imageStatus.status = 'fail'
                 saveImageSize()
             }
         }
@@ -393,11 +405,24 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                         )
                     case 'fail':
                         return (
-                            <TouchableOpacity key={index}
-                                              style={this.styles.failContainer}>
-                                <Image source={this.props.failImageSource}
-                                       style={this.styles.failImage}/>
-                            </TouchableOpacity>
+                            <ImageZoom key={index}
+                                       style={this.styles.modalContainer}
+                                       cropWidth={this.width}
+                                       cropHeight={this.height}
+                                       imageWidth={width}
+                                       imageHeight={height}
+                                       maxOverflow={this.props.maxOverflow}
+                                       horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
+                                       responderRelease={this.handleResponderRelease.bind(this)}
+                                       onLongPress={this.handleLongPress.bind(this, image)}
+                                       onClick={this.handleClick}
+                                       onDoubleClick={this.handleDoubleClick}>
+                                <TouchableOpacity key={index}
+                                                  style={this.styles.failContainer}>
+                                    <Image source={this.props.failImageSource}
+                                           style={this.styles.failImage}/>
+                                </TouchableOpacity>
+                            </ImageZoom>
                         )
                 }
             }
