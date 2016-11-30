@@ -106,7 +106,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      * 加载图片
      */
     loadImage(index: number) {
-        if (this.loadedIndex.has(index)){
+        if (this.loadedIndex.has(index)) {
             return
         }
         this.loadedIndex.set(index, true)
@@ -116,6 +116,11 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         // 保存 imageSize
         const saveImageSize = () => {
+            // 如果已经 success 了，就不做处理
+            if (this.state.imageSizes[index] && this.state.imageSizes[index].status !== 'loading') {
+                return
+            }
+
             const imageSizes = this.state.imageSizes.slice()
             imageSizes[index] = imageStatus
             this.setState({
@@ -497,14 +502,12 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     render() {
         let childs: React.ReactElement<any> = null
 
-        if (this.width !== 0 && this.height !== 0) {
-            childs = (
-                <View>
-                    {this.getContent()}
-                    {this.getMenu()}
-                </View>
-            )
-        }
+        childs = (
+            <View>
+                {this.getContent()}
+                {this.getMenu()}
+            </View>
+        )
 
         return (
             <View onLayout={this.handleLayout}
