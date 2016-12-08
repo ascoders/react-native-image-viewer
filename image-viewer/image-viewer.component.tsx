@@ -55,10 +55,6 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         this.init(this.props)
     }
 
-    componentWillReceiveProps(nextProps: typings.PropsDefine) {
-        this.init(nextProps)
-    }
-
     /**
      * props 有变化时执行
      */
