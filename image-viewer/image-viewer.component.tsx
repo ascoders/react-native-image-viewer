@@ -52,7 +52,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private loadedIndex = new Map<number, boolean>()
 
     componentWillMount() {
-        // 初始化不调用 init，等 onlayout 完毕了再执行
+        this.init(this.props)
     }
 
     componentWillReceiveProps(nextProps: typings.PropsDefine) {
@@ -86,10 +86,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             // 立刻预加载要看的图
             this.loadImage(nextProps.index)
 
-            // 跳到当前图的位置
-            this.positionXNumber = -this.width * this.state.currentShowIndex
-            this.standardPositionX = this.positionXNumber
-            this.positionX.setValue(this.positionXNumber)
+            this.jumpToCurrentImage()
 
             // 显示动画
             Animated.timing(this.fadeAnim, {
@@ -97,6 +94,16 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 duration: 200
             }).start()
         })
+    }
+
+    /**
+     * 调到当前看图位置
+     */
+    jumpToCurrentImage() {
+        // 跳到当前图的位置
+        this.positionXNumber = -this.width * this.state.currentShowIndex
+        this.standardPositionX = this.positionXNumber
+        this.positionX.setValue(this.positionXNumber)
     }
 
     /**
@@ -342,7 +349,10 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         this.width = event.nativeEvent.layout.width
         this.height = event.nativeEvent.layout.height
         this.styles = styles(this.width, this.height)
-        this.init(this.props)
+
+        // 强制刷新
+        this.forceUpdate()
+        this.jumpToCurrentImage()
     }
 
     /**
