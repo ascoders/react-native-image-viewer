@@ -1,6 +1,3 @@
-/**
- * 由于 react-native 不能动态在根元素创建节点,因此我需要一个节点!!
- */
 import * as React from 'react'
 import {
     TouchableOpacity,
