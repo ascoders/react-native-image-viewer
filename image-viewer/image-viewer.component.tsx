@@ -52,7 +52,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     private loadedIndex = new Map<number, boolean>()
 
     componentWillMount() {
-        this.init(this.props)
+        // 初始化不调用 init，等 onlayout 完毕了再执行
     }
 
     componentWillReceiveProps(nextProps: typings.PropsDefine) {
@@ -342,7 +342,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         this.width = event.nativeEvent.layout.width
         this.height = event.nativeEvent.layout.height
         this.styles = styles(this.width, this.height)
-        this.forceUpdate()
+        this.init(this.props)
     }
 
     /**
