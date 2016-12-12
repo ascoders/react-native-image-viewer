@@ -86,7 +86,9 @@ export default (width: number, height: number)=> {
             borderBottomColor: '#ccc',
             borderBottomWidth: 1
         } as React.ViewStyle,
-        operateText: {},
+        operateText: {
+            color: '#333'
+        },
         loadingContainer: {
             justifyContent: 'center',
             alignItems: 'center',
