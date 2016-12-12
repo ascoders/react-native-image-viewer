@@ -1,16 +1,12 @@
 ## Show Cases
 
-> Swiper image smoothly
+> Swiper image
 
-![1.gif](https://cloud.githubusercontent.com/assets/7970947/18501090/878ad6f2-7a80-11e6-8602-a2c4d1f697f3.gif)
+![1.gif](https://cloud.githubusercontent.com/assets/7970947/21086300/388dedfc-c056-11e6-955e-0a2a0b541f7f.gif)
 
 > Zoom while sliding
 
-![3.gif](https://cloud.githubusercontent.com/assets/7970947/18501092/87d5efe8-7a80-11e6-9234-516b2be1e729.gif)
-
-> Intelligent zoom
-
-![2.gif](https://cloud.githubusercontent.com/assets/7970947/18501091/87b14d8c-7a80-11e6-904d-8c434e1904ce.gif)
+![2.gif](https://cloud.githubusercontent.com/assets/7970947/21086323/7355face-c056-11e6-8d68-384000d41d47.gif)
 
 ## Getting Started
 
