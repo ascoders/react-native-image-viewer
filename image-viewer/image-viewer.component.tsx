@@ -222,9 +222,17 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         if (vx > 0.7) {
             // 上一张
             this.goBack.call(this)
+
+            // 这里可能没有触发溢出滚动，为了防止图片不被加载，调用加载图片
+            if (this.state.currentShowIndex > 0) {
+                this.loadImage(this.state.currentShowIndex - 1)
+            }
         } else if (vx < -0.7) {
             // 下一张
             this.goNext.call(this)
+            if (this.state.currentShowIndex < this.props.imageUrls.length - 1) {
+                this.loadImage(this.state.currentShowIndex + 1)
+            }
         }
 
         if (this.positionXNumber - this.standardPositionX > this.props.flipThreshold) {

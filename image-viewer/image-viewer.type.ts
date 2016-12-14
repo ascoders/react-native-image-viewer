@@ -53,6 +53,10 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     onSaveToCamera?: (index?: number)=>void
 
     /**
+     *
+     */
+
+    /**
      * 当图片切换时触发
      */
     onChange?: (index?: number)=>void
