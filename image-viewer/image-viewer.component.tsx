@@ -69,8 +69,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         const imageSizes: Array<typings.ImageSize> = []
         nextProps.imageUrls.forEach(imageUrl => {
             imageSizes.push({
-                width: 0,
-                height: 0,
+                width: imageUrl.width || 0,
+                height: imageUrl.height || 0,
                 status: 'loading'
             })
         })
@@ -131,6 +131,12 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         if (this.state.imageSizes[index].status === 'success') {
             // 已经加载过就不会加载了
             return
+        }
+
+        // 如果已经有宽高了，直接设置为 success
+        if (this.state.imageSizes[index].width > 0 && this.state.imageSizes[index].height > 0) {
+            imageStatus.status = 'success'
+            saveImageSize()
         }
 
         // 是否加载完毕了图片大小
