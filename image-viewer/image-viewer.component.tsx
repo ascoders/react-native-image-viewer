@@ -137,9 +137,10 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         if (this.state.imageSizes[index].width > 0 && this.state.imageSizes[index].height > 0) {
             imageStatus.status = 'success'
             saveImageSize()
+            return
         }
 
-        // 是否加载完毕了图片大小
+        // 是否加载完毕了图片大小2
         let sizeLoaded = false
         // 是否加载完毕了图片
         let imageLoaded = false
