@@ -80,6 +80,12 @@ export interface PropsDefine extends ReactNative.ViewProperties {
      * 双击回调
      */
     onDoubleClick?: (close?: Function)=>void
+
+    /**
+     * 图片保存到本地方法，如果写了这个方法，就不会调取系统默认方法
+     * 针对安卓不支持 saveToCameraRoll 远程图片，可以在安卓调用此回调，调用安卓原生接口
+     */
+    onSave?: (url: string)=>void
 }
 
 export class PropsGaea {
@@ -100,27 +106,27 @@ export class Props extends PropsGaea implements PropsDefine {
     index = 0
     saveToLocalByLongPress = true
 
-    onShowModal = ()=> {
+    onShowModal = () => {
     }
 
-    onCancel = ()=> {
+    onCancel = () => {
     }
 
-    loadingRender = ()=> {
+    loadingRender = () => {
         return null as any
     }
 
     onSaveToCamera = () => {
     }
 
-    onChange = ()=> {
+    onChange = () => {
     }
 
-    onClick = (close?: Function)=> {
+    onClick = (close?: Function) => {
         close()
     }
 
-    onDoubleClick = (close?: Function)=> {
+    onDoubleClick = (close?: Function) => {
 
     }
 }
