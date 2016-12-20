@@ -147,7 +147,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         if (Platform.OS !== 'web') {
             // 如果是本地图片, 跳过加载图片, 直接获取图片尺寸
-            if (image.url.indexOf('http') === -1 || image.url.indexOf('https') === -1 ){
+            if (image.url.indexOf('http://') === -1 || image.url.indexOf('https://') === -1 ){
                 imageLoaded = true
             } else{
                 const prefetchImagePromise = Image.prefetch(image.url)
