@@ -89,6 +89,10 @@ export default (width: number, height: number)=> {
         operateText: {
             color: '#333'
         },
+        loadingTouchable: {
+            width: width,
+            height: height
+        } as React.ViewStyle,
         loadingContainer: {
             justifyContent: 'center',
             alignItems: 'center',

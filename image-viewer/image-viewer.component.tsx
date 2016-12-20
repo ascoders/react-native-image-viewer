@@ -415,10 +415,13 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 switch (imageInfo.status) {
                     case 'loading':
                         return (
-                            <View key={index}
-                                  style={this.styles.loadingContainer}>
-                                {this.props.loadingRender()}
-                            </View>
+                            <TouchableHighlight key={index}
+                                                onPress={this.handleClick}
+                                                style={this.styles.loadingTouchable}>
+                                <View style={this.styles.loadingContainer}>
+                                    {this.props.loadingRender()}
+                                </View>
+                            </TouchableHighlight>
                         )
                     case 'success':
                         return (
