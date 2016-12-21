@@ -6,6 +6,7 @@ import {
     Image,
     Animated,
     TouchableHighlight,
+    TouchableWithoutFeedback,
     CameraRoll,
     Dimensions,
     Platform
@@ -140,7 +141,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             return
         }
 
-        // 是否加载完毕了图片大小2
+        // 是否加载完毕了图片大小
         let sizeLoaded = false
         // 是否加载完毕了图片
         let imageLoaded = false
@@ -258,6 +259,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
      * 到上一张
      */
     goBack() {
+        console.log(111)
         if (this.state.currentShowIndex === 0) {
             // 回到之前的位置
             this.resetPosition.call(this)
@@ -456,15 +458,30 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <Animated.View style={[this.styles.container, { opacity: this.fadeAnim }]}>
+                {this.props.renderHeader()}
+
+                <View style={this.styles.arrowLeftContainer}>
+                    <TouchableWithoutFeedback onPress={this.goBack}>
+                        <View>
+                            {this.props.renderArrowLeft()}
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
+
+                <View style={this.styles.arrowRightContainer}>
+                    <TouchableWithoutFeedback onPress={this.goNext}>
+                        <View>
+                            {this.props.renderArrowRight()}
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
 
                 <Animated.View style={[this.styles.moveBox, { transform: [{ translateX: this.positionX }] }, { width: this.width * this.props.imageUrls.length }]}>
                     {ImageElements}
                 </Animated.View>
 
                 {this.props.imageUrls.length > 1 &&
-                <View style={this.styles.count}>
-                    <Text style={this.styles.countText}>{this.state.currentShowIndex + 1}/{this.props.imageUrls.length}</Text>
-                </View>
+                this.props.renderIndicator(this.state.currentShowIndex + 1, this.props.imageUrls.length)
                 }
 
                 {this.props.imageUrls[this.state.currentShowIndex].originSizeKb && this.props.imageUrls[this.state.currentShowIndex].originUrl &&
@@ -475,6 +492,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 </View>
                 }
 
+                {this.props.renderFooter()}
             </Animated.View>
         )
     }

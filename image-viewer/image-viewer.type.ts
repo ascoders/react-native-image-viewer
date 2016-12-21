@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as ReactNative from 'react-native'
+import {simpleStyle} from './image-viewer.style'
 
 export interface PropsDefine extends ReactNative.ViewProperties {
     /**
@@ -15,12 +16,12 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 弹出大图的回调
      */
-    onShowModal?: (content?: JSX.Element)=>void
+    onShowModal?: (content?: JSX.Element) => void
 
     /**
      * 取消看图的回调
      */
-    onCancel?: ()=>void
+    onCancel?: () => void
 
     /**
      * 滑动到下一页的X阈值
@@ -45,21 +46,17 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 渲染loading元素
      */
-    loadingRender?: ()=> React.ReactElement<any>
+    loadingRender?: () => React.ReactElement<any>
 
     /**
      * 保存到相册的回调
      */
-    onSaveToCamera?: (index?: number)=>void
-
-    /**
-     *
-     */
+    onSaveToCamera?: (index?: number) => void
 
     /**
      * 当图片切换时触发
      */
-    onChange?: (index?: number)=>void
+    onChange?: (index?: number) => void
 
     /**
      * 是否开启长按保存到本地的功能
@@ -74,18 +71,43 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 单击回调
      */
-    onClick?: (close?: Function)=>void
+    onClick?: (close?: Function) => void
 
     /**
      * 双击回调
      */
-    onDoubleClick?: (close?: Function)=>void
+    onDoubleClick?: (close?: Function) => void
 
     /**
      * 图片保存到本地方法，如果写了这个方法，就不会调取系统默认方法
      * 针对安卓不支持 saveToCameraRoll 远程图片，可以在安卓调用此回调，调用安卓原生接口
      */
-    onSave?: (url: string)=>void
+    onSave?: (url: string) => void
+
+    /**
+     * 自定义头部
+     */
+    renderHeader ?: () => React.ReactElement<any>
+
+    /**
+     * 自定义尾部
+     */
+    renderFooter ?: () => React.ReactElement<any>
+
+    /**
+     * 自定义计时器
+     */
+    renderIndicator?: (currentIndex?: number, allSize?: number) => React.ReactElement<any>
+
+    /**
+     * 自定义左翻页按钮
+     */
+    renderArrowLeft?: () => React.ReactElement<any>
+
+    /**
+     * 自定义右翻页按钮
+     */
+    renderArrowRight?: () => React.ReactElement<any>
 }
 
 export class PropsGaea {
@@ -128,6 +150,26 @@ export class Props extends PropsGaea implements PropsDefine {
 
     onDoubleClick = (close?: Function) => {
 
+    }
+
+    renderHeader = () => {
+        return null as any
+    }
+
+    renderFooter = () => {
+        return null as any
+    }
+
+    renderIndicator = (currentIndex: number, allSize: number) => {
+        return React.createElement(ReactNative.View, {style: simpleStyle.count}, React.createElement(ReactNative.Text, {style: simpleStyle.countText}, currentIndex + '/' + allSize))
+    }
+
+    renderArrowLeft = () => {
+        return null as any
+    }
+
+    renderArrowRight = () => {
+        return null as any
     }
 }
 

@@ -1,4 +1,4 @@
-export default (width: number, height: number)=> {
+export default (width: number, height: number) => {
     return {
         modalContainer: {
             backgroundColor: '#000',
@@ -6,24 +6,6 @@ export default (width: number, height: number)=> {
             alignItems: 'center',
             overflow: 'hidden'
         } as React.ViewStyle,
-        count: {
-            position: 'absolute',
-            width: width,
-            top: 38,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'transparent'
-        } as React.ViewStyle,
-        countText: {
-            color: 'white',
-            fontSize: 16,
-            backgroundColor: 'transparent',
-            textShadowColor: 'rgba(0, 0, 0, 0.3)',
-            textShadowOffset: {
-                width: 0, height: 0.5
-            },
-            textShadowRadius: 0
-        } as React.TextStyle,
         watchOrigin: {
             position: 'absolute',
             width: width,
@@ -108,6 +90,42 @@ export default (width: number, height: number)=> {
         failImage: {
             width: 90,
             height: 60
-        }
+        },
+        arrowLeftContainer: {
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            justifyContent: 'center'
+        } as React.ViewStyle,
+        arrowRightContainer: {
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            right: 0,
+            justifyContent: 'center'
+        } as React.ViewStyle
     }
+}
+
+export const simpleStyle = {
+    count: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 38,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent'
+    } as React.ViewStyle,
+    countText: {
+        color: 'white',
+        fontSize: 16,
+        backgroundColor: 'transparent',
+        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowOffset: {
+            width: 0, height: 0.5
+        },
+        textShadowRadius: 0
+    } as React.TextStyle
 }
