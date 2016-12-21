@@ -67,7 +67,7 @@ AppRegistry.registerComponent('myproject', () => ImageViewer);
 
 ### Document
 
-![image](https://cloud.githubusercontent.com/assets/7970947/19636837/46d68bd6-99fe-11e6-8cb5-ce279dddd9c2.png)
+![image](https://cloud.githubusercontent.com/assets/7970947/21376663/ea10baf6-c771-11e6-9570-af3333428343.png)
 
 ### Dependence
 
