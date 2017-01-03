@@ -12,7 +12,6 @@ import {
     Platform
 } from 'react-native'
 import * as typings from './image-viewer.type'
-import {autoBindClass} from 'nt-auto-bind'
 import {TransmitTransparently} from 'nt-transmit-transparently'
 import ImageZoom from 'react-native-image-pan-zoom'
 import styles from './image-viewer.style'
@@ -26,7 +25,6 @@ interface Window {
 declare var window: Window
 
 @TransmitTransparently('style')
-@autoBindClass
 export default class ImageViewer extends React.Component<typings.PropsDefine, typings.StateDefine> {
     static defaultProps: typings.PropsDefine = new typings.Props()
     public state: typings.StateDefine = new typings.State()
@@ -407,8 +405,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                                horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
                                responderRelease={this.handleResponderRelease.bind(this)}
                                onLongPress={this.handleLongPress.bind(this, image)}
-                               onClick={this.handleClick}
-                               onDoubleClick={this.handleDoubleClick}>
+                               onClick={this.handleClick.bind(this)}
+                               onDoubleClick={this.handleDoubleClick.bind(this)}>
                         <Image style={[this.styles.imageStyle, { width: width, height: height }]}
                                source={{ uri: image.url }}/>
                     </ImageZoom>
@@ -418,7 +416,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     case 'loading':
                         return (
                             <TouchableHighlight key={index}
-                                                onPress={this.handleClick}
+                                                onPress={this.handleClick.bind(this)}
                                                 style={this.styles.loadingTouchable}>
                                 <View style={this.styles.loadingContainer}>
                                     {this.props.loadingRender()}
@@ -443,8 +441,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                                        horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
                                        responderRelease={this.handleResponderRelease.bind(this)}
                                        onLongPress={this.handleLongPress.bind(this, image)}
-                                       onClick={this.handleClick}
-                                       onDoubleClick={this.handleDoubleClick}>
+                                       onClick={this.handleClick.bind(this)}
+                                       onDoubleClick={this.handleDoubleClick.bind(this)}>
                                 <TouchableOpacity key={index}
                                                   style={this.styles.failContainer}>
                                     <Image source={this.props.failImageSource}
@@ -461,7 +459,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 {this.props.renderHeader()}
 
                 <View style={this.styles.arrowLeftContainer}>
-                    <TouchableWithoutFeedback onPress={this.goBack}>
+                    <TouchableWithoutFeedback onPress={this.goBack.bind(this)}>
                         <View>
                             {this.props.renderArrowLeft()}
                         </View>
@@ -469,7 +467,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 </View>
 
                 <View style={this.styles.arrowRightContainer}>
-                    <TouchableWithoutFeedback onPress={this.goNext}>
+                    <TouchableWithoutFeedback onPress={this.goNext.bind(this)}>
                         <View>
                             {this.props.renderArrowRight()}
                         </View>
@@ -554,7 +552,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         )
 
         return (
-            <View onLayout={this.handleLayout}
+            <View onLayout={this.handleLayout.bind(this)}
                   style={[{ flex: 1, overflow: 'hidden' }, this.props.style]} {...this.props.others}>
                 {childs}
             </View>
