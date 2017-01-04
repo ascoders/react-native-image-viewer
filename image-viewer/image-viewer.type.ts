@@ -54,6 +54,11 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     onSaveToCamera?: (index?: number) => void
 
     /**
+     * Menu Context Values
+     */
+    menuContext?: Object
+
+    /**
      * 当图片切换时触发
      */
     onChange?: (index?: number) => void
@@ -127,6 +132,10 @@ export class Props extends PropsGaea implements PropsDefine {
     failImageSource = ''
     index = 0
     saveToLocalByLongPress = true
+    menuContext = {
+        saveToLocal: '保存到相册',
+        cancel: '取消'
+    }
 
     onShowModal = () => {
     }

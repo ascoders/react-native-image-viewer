@@ -523,12 +523,12 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     <TouchableHighlight underlayColor="#F2F2F2"
                                         onPress={this.saveToLocal.bind(this)}
                                         style={this.styles.operateContainer}>
-                        <Text style={this.styles.operateText}>保存到相册</Text>
+                        <Text style={this.styles.operateText}>{this.props.menuContext.saveToLocal}</Text>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor="#F2F2F2"
                                         onPress={this.handleLeaveMenu.bind(this)}
                                         style={this.styles.operateContainer}>
-                        <Text style={this.styles.operateText}>取消</Text>
+                        <Text style={this.styles.operateText}>{this.props.menuContext.cancel}</Text>
                     </TouchableHighlight>
                 </View>
             </View>
