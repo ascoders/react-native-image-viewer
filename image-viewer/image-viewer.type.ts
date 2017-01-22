@@ -56,7 +56,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * Menu Context Values
      */
-    menuContext?: Object
+    menuContext?: any
 
     /**
      * 当图片切换时触发
