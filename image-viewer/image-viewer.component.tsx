@@ -408,7 +408,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                                onClick={this.handleClick.bind(this)}
                                onDoubleClick={this.handleDoubleClick.bind(this)}>
                         <Image style={[this.styles.imageStyle, { width: width, height: height }]}
-                               source={{ uri: image.url }}/>
+                               source={{ isStatic: true, uri: image.url }}/>
                     </ImageZoom>
                 )
             } else {
