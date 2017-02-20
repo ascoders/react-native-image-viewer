@@ -394,6 +394,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             }
 
             if (imageInfo.status === 'success' && this.props.enableImageZoom) {
+                console.warn('success & enableImageZoom');
                 return (
                     <ImageZoom key={index}
                                style={this.styles.modalContainer}
@@ -424,10 +425,11 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                             </TouchableHighlight>
                         )
                     case 'success':
+                        console.warn('success');
                         return (
                             <Image key={index}
                                    style={[this.styles.imageStyle, { width: width, height: height }]}
-                                   source={{ uri: image.url }}/>
+                                   source={{ isStatic: true, uri: image.url }}/>
                         )
                     case 'fail':
                         return (
