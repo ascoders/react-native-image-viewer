@@ -45,11 +45,11 @@ import {
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 const images = [{
-    url: 'http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg'
+    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
 }, {
-    url: 'http://img.sc115.com/uploads1/sc/jpgs/1508/apic22412_sc115.com.jpg'
+    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
 }, {
-    url: 'http://v1.qzone.cc/avatar/201407/07/00/24/53b9782c444ca987.jpg!200x200.jpg'
+    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
 }]
 
 class ImageViewer extends React.Component {
