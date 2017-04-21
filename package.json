@@ -18,7 +18,7 @@
     "react-native-image-pan-zoom": "^1.1.12"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
+    "react": "*",
     "react-native": "*"
   }
 }
