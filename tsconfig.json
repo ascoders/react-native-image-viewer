@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "target": "es6",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "outDir": "built",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true,
+    "forkChecker": true,
+    "useCache": true
+  },
+  "compileOnSave": true,
+  "buildOnSave": true,
+  "exclude": [
+    "node_modules",
+    "built",
+    "built-components",
+    "built-production"
+  ]
+}

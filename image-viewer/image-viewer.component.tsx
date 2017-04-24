@@ -12,7 +12,7 @@ import {
     Platform
 } from 'react-native'
 import * as typings from './image-viewer.type'
-import {TransmitTransparently} from 'nt-transmit-transparently'
+import { TransmitTransparently } from 'nt-transmit-transparently'
 import ImageZoom from 'react-native-image-pan-zoom'
 import styles from './image-viewer.style'
 
@@ -144,7 +144,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         // 是否加载完毕了图片
         let imageLoaded = false
 
-        if (Platform.OS !== 'web') {
+        if (Platform.OS !== 'web' as any) {
             const prefetchImagePromise = Image.prefetch(image.url)
 
             // 图片加载完毕回调
@@ -349,7 +349,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     /**
      * 完成布局
      */
-    handleLayout(event: React.LayoutChangeEvent) {
+    handleLayout(event: any) {
         if (this.hasLayout) {
             return
         }
@@ -395,19 +395,19 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             if (imageInfo.status === 'success' && this.props.enableImageZoom) {
                 return (
                     <ImageZoom key={index}
-                               style={this.styles.modalContainer}
-                               cropWidth={this.width}
-                               cropHeight={this.height}
-                               imageWidth={width}
-                               imageHeight={height}
-                               maxOverflow={this.props.maxOverflow}
-                               horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
-                               responderRelease={this.handleResponderRelease.bind(this)}
-                               onLongPress={this.handleLongPress.bind(this, image)}
-                               onClick={this.handleClick.bind(this)}
-                               onDoubleClick={this.handleDoubleClick.bind(this)}>
+                        style={this.styles.modalContainer}
+                        cropWidth={this.width}
+                        cropHeight={this.height}
+                        imageWidth={width}
+                        imageHeight={height}
+                        maxOverflow={this.props.maxOverflow}
+                        horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
+                        responderRelease={this.handleResponderRelease.bind(this)}
+                        onLongPress={this.handleLongPress.bind(this, image)}
+                        onClick={this.handleClick.bind(this)}
+                        onDoubleClick={this.handleDoubleClick.bind(this)}>
                         <Image style={[this.styles.imageStyle, { width: width, height: height }]}
-                               source={{ uri: image.url }}/>
+                            source={{ uri: image.url }} />
                     </ImageZoom>
                 )
             } else {
@@ -415,8 +415,8 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     case 'loading':
                         return (
                             <TouchableHighlight key={index}
-                                                onPress={this.handleClick.bind(this)}
-                                                style={this.styles.loadingTouchable}>
+                                onPress={this.handleClick.bind(this)}
+                                style={this.styles.loadingTouchable}>
                                 <View style={this.styles.loadingContainer}>
                                     {this.props.loadingRender()}
                                 </View>
@@ -425,27 +425,27 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     case 'success':
                         return (
                             <Image key={index}
-                                   style={[this.styles.imageStyle, { width: width, height: height }]}
-                                   source={{ uri: image.url }}/>
+                                style={[this.styles.imageStyle, { width: width, height: height }]}
+                                source={{ uri: image.url }} />
                         )
                     case 'fail':
                         return (
                             <ImageZoom key={index}
-                                       style={this.styles.modalContainer}
-                                       cropWidth={this.width}
-                                       cropHeight={this.height}
-                                       imageWidth={width}
-                                       imageHeight={height}
-                                       maxOverflow={this.props.maxOverflow}
-                                       horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
-                                       responderRelease={this.handleResponderRelease.bind(this)}
-                                       onLongPress={this.handleLongPress.bind(this, image)}
-                                       onClick={this.handleClick.bind(this)}
-                                       onDoubleClick={this.handleDoubleClick.bind(this)}>
+                                style={this.styles.modalContainer}
+                                cropWidth={this.width}
+                                cropHeight={this.height}
+                                imageWidth={width}
+                                imageHeight={height}
+                                maxOverflow={this.props.maxOverflow}
+                                horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset.bind(this)}
+                                responderRelease={this.handleResponderRelease.bind(this)}
+                                onLongPress={this.handleLongPress.bind(this, image)}
+                                onClick={this.handleClick.bind(this)}
+                                onDoubleClick={this.handleDoubleClick.bind(this)}>
                                 <TouchableOpacity key={index}
-                                                  style={this.styles.failContainer}>
+                                    style={this.styles.failContainer}>
                                     <Image source={this.props.failImageSource}
-                                           style={this.styles.failImage}/>
+                                        style={this.styles.failImage} />
                                 </TouchableOpacity>
                             </ImageZoom>
                         )
@@ -478,15 +478,15 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                 </Animated.View>
 
                 {this.props.imageUrls.length > 1 &&
-                this.props.renderIndicator(this.state.currentShowIndex + 1, this.props.imageUrls.length)
+                    this.props.renderIndicator(this.state.currentShowIndex + 1, this.props.imageUrls.length)
                 }
 
                 {this.props.imageUrls[this.state.currentShowIndex].originSizeKb && this.props.imageUrls[this.state.currentShowIndex].originUrl &&
-                <View style={this.styles.watchOrigin}>
-                    <TouchableOpacity style={this.styles.watchOriginTouchable}>
-                        <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={this.styles.watchOrigin}>
+                        <TouchableOpacity style={this.styles.watchOriginTouchable}>
+                            <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
+                        </TouchableOpacity>
+                    </View>
                 }
 
                 {this.props.renderFooter()}
@@ -517,16 +517,16 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <View style={this.styles.menuContainer}>
-                <View style={this.styles.menuShadow}/>
+                <View style={this.styles.menuShadow} />
                 <View style={this.styles.menuContent}>
                     <TouchableHighlight underlayColor="#F2F2F2"
-                                        onPress={this.saveToLocal.bind(this)}
-                                        style={this.styles.operateContainer}>
+                        onPress={this.saveToLocal.bind(this)}
+                        style={this.styles.operateContainer}>
                         <Text style={this.styles.operateText}>{this.props.menuContext.saveToLocal}</Text>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor="#F2F2F2"
-                                        onPress={this.handleLeaveMenu.bind(this)}
-                                        style={this.styles.operateContainer}>
+                        onPress={this.handleLeaveMenu.bind(this)}
+                        style={this.styles.operateContainer}>
                         <Text style={this.styles.operateText}>{this.props.menuContext.cancel}</Text>
                     </TouchableHighlight>
                 </View>
@@ -552,7 +552,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <View onLayout={this.handleLayout.bind(this)}
-                  style={[{ flex: 1, overflow: 'hidden' }, this.props.style]} {...this.props.others}>
+                style={[{ flex: 1, overflow: 'hidden' }, this.props.style]} {...this.props.others}>
                 {childs}
             </View>
         )

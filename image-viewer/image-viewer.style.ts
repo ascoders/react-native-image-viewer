@@ -1,3 +1,5 @@
+import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
+
 export default (width: number, height: number) => {
     return {
         modalContainer: {
@@ -5,14 +7,14 @@ export default (width: number, height: number) => {
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden'
-        } as React.ViewStyle,
+        } as ViewStyle,
         watchOrigin: {
             position: 'absolute',
             width: width,
             bottom: 20,
             justifyContent: 'center',
             alignItems: 'center'
-        } as React.ViewStyle,
+        } as ViewStyle,
         watchOriginTouchable: {
             paddingLeft: 10,
             paddingRight: 10,
@@ -22,27 +24,27 @@ export default (width: number, height: number) => {
             borderColor: 'white',
             borderWidth: 0.5,
             backgroundColor: 'rgba(0, 0, 0, 0.1)'
-        } as React.ViewStyle,
+        } as ViewStyle,
         watchOriginText: {
             color: 'white',
             backgroundColor: 'transparent'
-        } as React.TextStyle,
-        imageStyle: {} as React.ImageStyle,
+        } as TextStyle,
+        imageStyle: {} as ImageStyle,
         container: {
             backgroundColor: 'black'
-        } as React.ViewStyle,
+        } as ViewStyle,
         // 多图浏览需要调整整体位置的盒子
         moveBox: {
             flexDirection: 'row',
             alignItems: 'center'
-        } as React.ViewStyle,
+        } as ViewStyle,
         menuContainer: {
             position: 'absolute',
             width: width,
             height: height,
             left: 0,
             bottom: 0
-        } as React.ViewStyle,
+        } as ViewStyle,
         menuShadow: {
             position: 'absolute',
             width: width,
@@ -52,14 +54,14 @@ export default (width: number, height: number) => {
             bottom: 0,
             opacity: 0.2,
             zIndex: 10
-        } as React.ViewStyle,
+        } as ViewStyle,
         menuContent: {
             position: 'absolute',
             width: width,
             left: 0,
             bottom: 0,
             zIndex: 11
-        } as React.ViewStyle,
+        } as ViewStyle,
         operateContainer: {
             justifyContent: 'center',
             alignItems: 'center',
@@ -67,26 +69,26 @@ export default (width: number, height: number) => {
             height: 40,
             borderBottomColor: '#ccc',
             borderBottomWidth: 1
-        } as React.ViewStyle,
+        } as ViewStyle,
         operateText: {
             color: '#333'
         },
         loadingTouchable: {
             width: width,
             height: height
-        } as React.ViewStyle,
+        } as ViewStyle,
         loadingContainer: {
             justifyContent: 'center',
             alignItems: 'center',
             width: width,
             height: height
-        } as React.ViewStyle,
+        } as ViewStyle,
         failContainer: {
             justifyContent: 'center',
             alignItems: 'center',
             width: width,
             height: height
-        } as React.ViewStyle,
+        } as ViewStyle,
         failImage: {
             width: 90,
             height: 60
@@ -97,14 +99,14 @@ export default (width: number, height: number) => {
             bottom: 0,
             left: 0,
             justifyContent: 'center'
-        } as React.ViewStyle,
+        } as ViewStyle,
         arrowRightContainer: {
             position: 'absolute',
             top: 0,
             bottom: 0,
             right: 0,
             justifyContent: 'center'
-        } as React.ViewStyle
+        } as ViewStyle
     }
 }
 
@@ -117,7 +119,7 @@ export const simpleStyle = {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent'
-    } as React.ViewStyle,
+    } as ViewStyle,
     countText: {
         color: 'white',
         fontSize: 16,
@@ -127,5 +129,5 @@ export const simpleStyle = {
             width: 0, height: 0.5
         },
         textShadowRadius: 0
-    } as React.TextStyle
+    } as TextStyle
 }
