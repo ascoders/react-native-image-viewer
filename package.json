@@ -1,6 +1,6 @@
 {
   "name": "react-native-image-zoom-viewer",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "大图浏览",
   "main": "built/index.js",
   "typings": "index.ts",
