@@ -4,6 +4,10 @@
   "description": "大图浏览",
   "main": "built/index.js",
   "typings": "index.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "prepublish": "rm -rf built && tsc"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ascoders/react-native-image-viewer.git"
@@ -15,10 +19,15 @@
   "license": "ISC",
   "dependencies": {
     "nt-transmit-transparently": "^1.0.7",
-    "react-native-image-pan-zoom": "^1.1.12"
+    "react-native-image-pan-zoom": "^2.0.0"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.23",
+    "@types/react-native": "^0.43.9",
+    "typescript": "^2.3.2"
   }
 }

@@ -144,6 +144,11 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         // 是否加载完毕了图片
         let imageLoaded = false
 
+        // 如果图片是 file: 开头，说明是本地图片，默认已经加载完毕
+        if (image.url.startsWith(`file:`)) {
+            imageLoaded = true
+        }
+
         if (Platform.OS !== 'web' as any) {
             const prefetchImagePromise = Image.prefetch(image.url)
 

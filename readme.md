@@ -69,6 +69,13 @@ AppRegistry.registerComponent('myproject', () => ImageViewer);
 
 ![image](https://cloud.githubusercontent.com/assets/7970947/21376663/ea10baf6-c771-11e6-9570-af3333428343.png)
 
+### How to build
+
+```bash
+yarn
+npm run tsc
+```
+
 ### Dependence
 
 Depend on `react-native-image-pan-zoom`: https://github.com/ascoders/react-native-image-zoom
