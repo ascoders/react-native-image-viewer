@@ -460,7 +460,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <Animated.View style={[this.styles.container, { opacity: this.fadeAnim }]}>
-                {this.props.renderHeader()}
+                {this.props.renderHeader(this.state.currentShowIndex)}
 
                 <View style={this.styles.arrowLeftContainer}>
                     <TouchableWithoutFeedback onPress={this.goBack.bind(this)}>
@@ -494,7 +494,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     </View>
                 }
 
-                {this.props.renderFooter()}
+                {this.props.renderFooter(this.state.currentShowIndex)}
             </Animated.View>
         )
     }

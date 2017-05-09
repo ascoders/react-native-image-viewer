@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactNative from 'react-native'
-import {simpleStyle} from './image-viewer.style'
+import { simpleStyle } from './image-viewer.style'
 
 export interface PropsDefine extends ReactNative.ViewProperties {
     /**
@@ -41,7 +41,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 加载失败的图
      */
-    failImageSource?: string | {uri: string}
+    failImageSource?: string | { uri: string }
 
     /**
      * 渲染loading元素
@@ -92,12 +92,12 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 自定义头部
      */
-    renderHeader ?: () => React.ReactElement<any>
+    renderHeader?: (currentIndex?: number) => React.ReactElement<any>
 
     /**
      * 自定义尾部
      */
-    renderFooter ?: () => React.ReactElement<any>
+    renderFooter?: (currentIndex?: number) => React.ReactElement<any>
 
     /**
      * 自定义计时器
@@ -170,7 +170,7 @@ export class Props extends PropsGaea implements PropsDefine {
     }
 
     renderIndicator = (currentIndex: number, allSize: number) => {
-        return React.createElement(ReactNative.View, {style: simpleStyle.count}, React.createElement(ReactNative.Text, {style: simpleStyle.countText}, currentIndex + '/' + allSize))
+        return React.createElement(ReactNative.View, { style: simpleStyle.count }, React.createElement(ReactNative.Text, { style: simpleStyle.countText }, currentIndex + '/' + allSize))
     }
 
     renderArrowLeft = () => {
