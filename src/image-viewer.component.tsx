@@ -54,6 +54,25 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         this.init(this.props)
     }
 
+    componentWillReceiveProps(nextProps: typings.PropsDefine) {
+        if (nextProps.index !== this.state.currentShowIndex) {
+            this.setState({
+                currentShowIndex: nextProps.index
+            }, () => {
+                // 立刻预加载要看的图
+                this.loadImage(nextProps.index)
+
+                this.jumpToCurrentImage()
+
+                // 显示动画
+                Animated.timing(this.fadeAnim, {
+                    toValue: 1,
+                    duration: 200
+                }).start()
+            })
+        }
+    }
+
     /**
      * props 有变化时执行
      */
