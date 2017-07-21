@@ -41,7 +41,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 加载失败的图
      */
-    failImageSource?: string | { uri: string }
+    failImageSource?: ReactNative.ImageURISource | ReactNative.ImageURISource[]
 
     /**
      * 渲染loading元素
@@ -129,7 +129,7 @@ export class Props extends PropsGaea implements PropsDefine {
 
     flipThreshold = 80
     maxOverflow = 300
-    failImageSource = ''
+    failImageSource = {}
     index = 0
     saveToLocalByLongPress = true
     menuContext = {
@@ -157,7 +157,7 @@ export class Props extends PropsGaea implements PropsDefine {
         close()
     }
 
-    onDoubleClick = (close?: Function) => {
+    onDoubleClick = (_close?: Function) => {
 
     }
 

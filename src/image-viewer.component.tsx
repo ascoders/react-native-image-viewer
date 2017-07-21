@@ -8,7 +8,6 @@ import {
     TouchableHighlight,
     TouchableWithoutFeedback,
     CameraRoll,
-    Dimensions,
     Platform
 } from 'react-native'
 import * as typings from './image-viewer.type'
@@ -205,7 +204,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                         imageStatus.status = 'success'
                         saveImageSize()
                     }
-                }, (error) => {
+                }, (_error) => {
                     // 获取大小失败
                     imageStatus.status = 'fail'
                     saveImageSize()
@@ -339,7 +338,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
     /**
      * 长按
      */
-    handleLongPress(image: typings.ImageInfo) {
+    handleLongPress(_image: typings.ImageInfo) {
         if (this.props.saveToLocalByLongPress) {
             // 出现保存到本地的操作框
             this.setState({
