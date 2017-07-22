@@ -2,24 +2,28 @@
 # yarn lockfile v1
 
 
-"@types/react-native@^0.43.9":
-  version "0.43.9"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.43.9.tgz#0b7607af56141ca8dd4c889bbc1834313c95a808"
+"@types/react-native@^0.46.5":
+  version "0.46.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.46.5.tgz#3b5ad2003072c4c59a565e15301b6437cb1c1399"
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^15.0.23":
+"@types/react@*":
   version "15.0.23"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.23.tgz#f3facbef5290610f54242f00308759d3a3c27346"
+
+"@types/react@^15.0.38":
+  version "15.0.38"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.38.tgz#6afea31a9fe66304af474106ba372ddaba449995"
 
 nt-transmit-transparently@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/nt-transmit-transparently/-/nt-transmit-transparently-1.0.7.tgz#345cf3ffda06ba1bd629935bafac9e7820385076"
 
-react-native-image-pan-zoom@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.0.0.tgz#45657606b58479b53c87f08bb6b32e1b7781e289"
+react-native-image-pan-zoom@^2.0.1:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.0.4.tgz#c8822294ff057b1d421c09f59a08588fa0fbed6b"
 
-typescript@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.2.tgz#f0f045e196f69a72f06b25fd3bd39d01c3ce9984"
+typescript@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
