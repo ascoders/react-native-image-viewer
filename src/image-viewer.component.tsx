@@ -18,7 +18,7 @@ import styles from './image-viewer.style'
 interface Window {
     Image: {
         prototype: HTMLImageElement
-        new (): HTMLImageElement
+        new(): HTMLImageElement
     }
 }
 declare var window: Window
@@ -344,6 +344,10 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             this.setState({
                 isShowMenu: true
             })
+        }
+
+        if (this.props.onLongPress) {
+            this.props.onLongPress()
         }
     }
 

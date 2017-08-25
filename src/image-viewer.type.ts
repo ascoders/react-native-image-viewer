@@ -69,6 +69,11 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     saveToLocalByLongPress?: boolean
 
     /**
+     * 长按图片的回调
+     */
+    onLongPress?: () => void
+
+    /**
      * 透传
      */
     others?: any
