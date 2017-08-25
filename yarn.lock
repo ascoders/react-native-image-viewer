@@ -3,27 +3,23 @@
 
 
 "@types/react-native@^0.46.5":
-  version "0.46.5"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.46.5.tgz#3b5ad2003072c4c59a565e15301b6437cb1c1399"
+  version "0.46.9"
+  resolved "http://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.46.9.tgz#35951b1e51665ec9084433070100c8c8dfef990e"
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
-  version "15.0.23"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.23.tgz#f3facbef5290610f54242f00308759d3a3c27346"
-
-"@types/react@^15.0.38":
-  version "15.0.38"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.38.tgz#6afea31a9fe66304af474106ba372ddaba449995"
+"@types/react@*", "@types/react@^15.0.38":
+  version "15.6.0"
+  resolved "http://registry.npm.taobao.org/@types/react/download/@types/react-15.6.0.tgz#3b3e92a60b65045e4df48fda324de84d83addbc4"
 
 nt-transmit-transparently@^1.0.7:
   version "1.0.7"
-  resolved "https://registry.yarnpkg.com/nt-transmit-transparently/-/nt-transmit-transparently-1.0.7.tgz#345cf3ffda06ba1bd629935bafac9e7820385076"
+  resolved "http://registry.npm.taobao.org/nt-transmit-transparently/download/nt-transmit-transparently-1.0.7.tgz#345cf3ffda06ba1bd629935bafac9e7820385076"
 
-react-native-image-pan-zoom@^2.0.1:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.0.4.tgz#c8822294ff057b1d421c09f59a08588fa0fbed6b"
+react-native-image-pan-zoom@^2.0.5:
+  version "2.0.5"
+  resolved "http://registry.npm.taobao.org/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.0.5.tgz#907ba39968dc460bfadc701edd4f63f25bb55767"
 
 typescript@^2.4.2:
   version "2.4.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
+  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"

@@ -170,18 +170,25 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         if (Platform.OS !== 'web' as any) {
             const prefetchImagePromise = Image.prefetch(image.url)
 
-            // 图片加载完毕回调
-            prefetchImagePromise.then(() => {
-                imageLoaded = true
+            if (image.url.match(/^(http|https):\/\//)) {
+                prefetchImagePromise.then(() => {
+                    imageLoaded = true;
+                    if (sizeLoaded) {
+                        imageStatus.status = 'success';
+                        saveImageSize();
+                    }
+                }, () => {
+                    imageStatus.status = 'fail';
+                    saveImageSize();
+                });
+            } else {
+                // 本地图片
+                imageLoaded = true;
                 if (sizeLoaded) {
-                    imageStatus.status = 'success'
-                    saveImageSize()
+                    imageStatus.status = 'success';
+                    saveImageSize();
                 }
-            }, () => {
-                // 预加载失败
-                imageStatus.status = 'fail'
-                saveImageSize()
-            })
+            }
 
             // 获取图片大小
             if (image.width && image.height) {
