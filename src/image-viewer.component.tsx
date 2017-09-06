@@ -440,7 +440,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                         onLongPress={this.handleLongPress.bind(this, image)}
                         onClick={this.handleClick.bind(this)}
                         onDoubleClick={this.handleDoubleClick.bind(this)}>
-                        <Image style={[this.styles.imageStyle, { width: width, height: height }]}
+                        <Image style={Object.assign(this.styles.imageStyle, { width: width, height: height })}
                             source={{ uri: image.url }} />
                     </ImageZoom>
                 )
@@ -459,7 +459,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     case 'success':
                         return (
                             <Image key={index}
-                                style={[this.styles.imageStyle, { width: width, height: height }]}
+                                style={Object.assign({}, this.styles.imageStyle, { width: width, height: height })}
                                 source={{ uri: image.url }} />
                         )
                     case 'fail':
@@ -488,7 +488,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         })
 
         return (
-            <Animated.View style={[this.styles.container, { opacity: this.fadeAnim }]}>
+            <Animated.View style={Object.assign({}, this.styles.container, { opacity: this.fadeAnim })}>
                 {this.props.renderHeader(this.state.currentShowIndex)}
 
                 <View style={this.styles.arrowLeftContainer}>
@@ -507,7 +507,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                     </TouchableWithoutFeedback>
                 </View>
 
-                <Animated.View style={[this.styles.moveBox, { transform: [{ translateX: this.positionX }] }, { width: this.width * this.props.imageUrls.length }]}>
+                <Animated.View style={Object.assign({}, this.styles.moveBox, { transform: [{ translateX: this.positionX }] }, { width: this.width * this.props.imageUrls.length })}>
                     {ImageElements}
                 </Animated.View>
 
@@ -586,7 +586,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
 
         return (
             <View onLayout={this.handleLayout.bind(this)}
-                style={[{ flex: 1, overflow: 'hidden' }, this.props.style]} {...this.props.others}>
+                style={Object.assign({ flex: 1, overflow: 'hidden' }, this.props.style)} {...this.props.others}>
                 {childs}
             </View>
         )
