@@ -184,6 +184,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             } else {
                 // 本地图片
                 imageLoaded = true;
+                prefetchImagePromise.then( () => {} ).catch( () => {} );
                 if (sizeLoaded) {
                     imageStatus.status = 'success';
                     saveImageSize();
