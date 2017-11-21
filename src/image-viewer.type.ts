@@ -71,7 +71,7 @@ export interface PropsDefine extends ReactNative.ViewProperties {
     /**
      * 长按图片的回调
      */
-    onLongPress?: () => void
+    onLongPress?: (image?: ImageInfo) => void
 
     /**
      * 透传

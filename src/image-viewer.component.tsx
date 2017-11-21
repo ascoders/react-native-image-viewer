@@ -355,7 +355,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
         }
 
         if (this.props.onLongPress) {
-            this.props.onLongPress()
+            this.props.onLongPress(_image)
         }
     }
 
