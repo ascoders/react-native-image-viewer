@@ -184,7 +184,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
             } else {
                 // 本地图片
                 imageLoaded = true;
-                prefetchImagePromise.then( () => {} ).catch( () => {} );
+                prefetchImagePromise.then(() => { }).catch(() => { });
                 if (sizeLoaded) {
                     imageStatus.status = 'success';
                     saveImageSize();
@@ -441,7 +441,7 @@ export default class ImageViewer extends React.Component<typings.PropsDefine, ty
                         onLongPress={this.handleLongPress.bind(this, image)}
                         onClick={this.handleClick.bind(this)}
                         onDoubleClick={this.handleDoubleClick.bind(this)}>
-                        <Image style={Object.assign(this.styles.imageStyle, { width: width, height: height })}
+                        <Image style={Object.assign({}, this.styles.imageStyle, { width: width, height: height })}
                             source={{ uri: image.url }} />
                     </ImageZoom>
                 )
