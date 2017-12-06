@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "nt-transmit-transparently": "^1.0.7",
-    "react-native-image-pan-zoom": "^2.0.14"
+    "react-native-image-pan-zoom": "^2.0.9"
   },
   "peerDependencies": {
     "react": "*",
