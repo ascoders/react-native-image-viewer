@@ -1,12 +1,12 @@
 {
   "name": "react-native-image-zoom-viewer",
-  "version": "2.0.16",
+  "version": "2.0.17",
   "description": "react native image viewer,大图浏览",
   "main": "built/index.js",
-  "typings": "index.ts",
+  "types": "src/index.ts",
   "scripts": {
-    "tsc": "tsc",
-    "prepublish": "rm -rf built && tsc"
+    "prepare": "rm -rf built && tsc",
+    "start": "tsc -w --outDir demo/built"
   },
   "repository": {
     "type": "git",
@@ -19,15 +19,19 @@
   "license": "MIT",
   "dependencies": {
     "nt-transmit-transparently": "^1.0.7",
-    "react-native-image-pan-zoom": "^2.0.9"
+    "react-native-image-pan-zoom": "^2.0.13"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
   },
   "devDependencies": {
-    "@types/react": "^15.0.38",
-    "@types/react-native": "^0.46.5",
+    "@types/react": "*",
+    "@types/react-native": "*",
+    "ascoders-tslint-config": "^1.0.2",
+    "react": "*",
+    "react-native": "*",
+    "tslint": "^5.8.0",
     "typescript": "^2.4.2"
   }
 }

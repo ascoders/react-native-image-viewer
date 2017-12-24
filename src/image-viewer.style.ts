@@ -1,133 +1,125 @@
-import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
+import { ImageStyle, TextStyle, ViewStyle } from "react-native"
 
-export default (width: number, height: number) => {
+export default (width: number, height: number, backgroundColor: string): {
+    [x: string]: ViewStyle | TextStyle
+} => {
     return {
         modalContainer: {
-            backgroundColor: '#000',
-            justifyContent: 'center',
-            alignItems: 'center',
-            overflow: 'hidden'
-        } as ViewStyle,
+            backgroundColor,
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden"
+        },
         watchOrigin: {
-            position: 'absolute',
-            width: width,
+            position: "absolute",
+            width,
             bottom: 20,
-            justifyContent: 'center',
-            alignItems: 'center'
-        } as ViewStyle,
+            justifyContent: "center",
+            alignItems: "center"
+        },
         watchOriginTouchable: {
             paddingLeft: 10,
             paddingRight: 10,
             paddingTop: 5,
             paddingBottom: 5,
             borderRadius: 30,
-            borderColor: 'white',
+            borderColor: "white",
             borderWidth: 0.5,
-            backgroundColor: 'rgba(0, 0, 0, 0.1)'
-        } as ViewStyle,
+            backgroundColor: "rgba(0, 0, 0, 0.1)"
+        },
         watchOriginText: {
-            color: 'white',
-            backgroundColor: 'transparent'
-        } as TextStyle,
-        imageStyle: {} as ImageStyle,
+            color: "white",
+            backgroundColor: "transparent"
+        },
+        imageStyle: {},
         container: {
-            backgroundColor: 'black'
-        } as ViewStyle,
+            backgroundColor
+        },
         // 多图浏览需要调整整体位置的盒子
         moveBox: {
-            flexDirection: 'row',
-            alignItems: 'center'
-        } as ViewStyle,
+            flexDirection: "row",
+            alignItems: "center"
+        },
         menuContainer: {
-            position: 'absolute',
-            width: width,
-            height: height,
+            position: "absolute",
+            width,
+            height,
             left: 0,
             bottom: 0
-        } as ViewStyle,
+        },
         menuShadow: {
-            position: 'absolute',
-            width: width,
-            height: height,
-            backgroundColor: 'black',
+            position: "absolute",
+            width,
+            height,
+            backgroundColor: "black",
             left: 0,
             bottom: 0,
             opacity: 0.2,
             zIndex: 10
-        } as ViewStyle,
+        },
         menuContent: {
-            position: 'absolute',
-            width: width,
+            position: "absolute",
+            width,
             left: 0,
             bottom: 0,
             zIndex: 11
-        } as ViewStyle,
+        },
         operateContainer: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'white',
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "white",
             height: 40,
-            borderBottomColor: '#ccc',
+            borderBottomColor: "#ccc",
             borderBottomWidth: 1
-        } as ViewStyle,
+        },
         operateText: {
-            color: '#333'
+            color: "#333"
         },
         loadingTouchable: {
-            width: width,
-            height: height
-        } as ViewStyle,
+            width,
+            height
+        },
         loadingContainer: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: width,
-            height: height
-        } as ViewStyle,
-        failContainer: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: width,
-            height: height
-        } as ViewStyle,
-        failImage: {
-            width: 90,
-            height: 60
+            justifyContent: "center",
+            alignItems: "center",
         },
         arrowLeftContainer: {
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             bottom: 0,
             left: 0,
-            justifyContent: 'center'
-        } as ViewStyle,
+            justifyContent: "center"
+        },
         arrowRightContainer: {
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             bottom: 0,
             right: 0,
-            justifyContent: 'center'
-        } as ViewStyle
+            justifyContent: "center"
+        }
     }
 }
 
-export const simpleStyle = {
-    count: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 38,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'
-    } as ViewStyle,
-    countText: {
-        color: 'white',
-        fontSize: 16,
-        backgroundColor: 'transparent',
-        textShadowColor: 'rgba(0, 0, 0, 0.3)',
-        textShadowOffset: {
-            width: 0, height: 0.5
+export const simpleStyle: {
+    [x: string]: ViewStyle | TextStyle
+} = {
+        count: {
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 38,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "transparent"
         },
-        textShadowRadius: 0
-    } as TextStyle
-}
+        countText: {
+            color: "white",
+            fontSize: 16,
+            backgroundColor: "transparent",
+            textShadowColor: "rgba(0, 0, 0, 0.3)",
+            textShadowOffset: {
+                width: 0, height: 0.5
+            },
+            textShadowRadius: 0
+        }
+    }

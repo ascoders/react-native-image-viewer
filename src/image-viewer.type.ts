@@ -1,227 +1,194 @@
-import * as React from 'react'
-import * as ReactNative from 'react-native'
-import { simpleStyle } from './image-viewer.style'
+import * as React from "react"
+import { ImageURISource, Text, View, ViewStyle } from "react-native"
+import { simpleStyle } from "./image-viewer.style"
 
-export interface PropsDefine extends ReactNative.ViewProperties {
+export class Props {
+    /**
+     * 是否显示
+     */
+    public show?: boolean = false
+
     /**
      * 图片数组
      */
-    imageUrls: Array<ImageInfo>
-
-    /**
-     * 是否开启图片手势功能
-     */
-    enableImageZoom?: boolean
-
-    /**
-     * 弹出大图的回调
-     */
-    onShowModal?: (content?: JSX.Element) => void
-
-    /**
-     * 取消看图的回调
-     */
-    onCancel?: () => void
+    public imageUrls: IImageInfo[] = []
 
     /**
      * 滑动到下一页的X阈值
      */
-    flipThreshold?: number
+    public flipThreshold?: number = 80
 
     /**
      * 当前页能滑到下一页X位置最大值
      */
-    maxOverflow?: number
+    public maxOverflow?: number = 300
 
     /**
      * 初始显示第几张图
      */
-    index?: number
+    public index?: number = 0
 
     /**
      * 加载失败的图
      */
-    failImageSource?: ReactNative.ImageURISource | ReactNative.ImageURISource[]
+    public failImageSource?: IImageInfo = undefined
 
     /**
-     * 渲染loading元素
+     * 背景颜色
      */
-    loadingRender?: () => React.ReactElement<any>
-
-    /**
-     * 保存到相册的回调
-     */
-    onSaveToCamera?: (index?: number) => void
+    public backgroundColor?: string = "black"
 
     /**
      * Menu Context Values
      */
-    menuContext?: any
-
-    /**
-     * 当图片切换时触发
-     */
-    onChange?: (index?: number) => void
+    public menuContext?: any = {
+        saveToLocal: "save to the album",
+        cancel: "cancel"
+    }
 
     /**
      * 是否开启长按保存到本地的功能
      */
-    saveToLocalByLongPress?: boolean
+    public saveToLocalByLongPress?: boolean = true
+
+    public style?: ViewStyle = {}
 
     /**
      * 长按图片的回调
      */
-    onLongPress?: (image?: ImageInfo) => void
-
-    /**
-     * 透传
-     */
-    others?: any
+    public onLongPress?: (image?: IImageInfo) => void = () => {
+        //
+    }
 
     /**
      * 单击回调
      */
-    onClick?: (close?: Function) => void
+    public onClick?: (close?: () => any) => void = () => {
+        //
+    }
 
     /**
      * 双击回调
      */
-    onDoubleClick?: (close?: Function) => void
+    public onDoubleClick?: (close?: () => any) => void = () => {
+        //
+    }
 
     /**
      * 图片保存到本地方法，如果写了这个方法，就不会调取系统默认方法
      * 针对安卓不支持 saveToCameraRoll 远程图片，可以在安卓调用此回调，调用安卓原生接口
      */
-    onSave?: (url: string) => void
+    public onSave?: (url: string) => void = () => {
+        //
+    }
 
     /**
      * 自定义头部
      */
-    renderHeader?: (currentIndex?: number) => React.ReactElement<any>
+    public renderHeader?: (currentIndex?: number) => React.ReactElement<any> = () => {
+        return null as any
+    }
 
     /**
      * 自定义尾部
      */
-    renderFooter?: (currentIndex?: number) => React.ReactElement<any>
+    public renderFooter?: (currentIndex?: number) => React.ReactElement<any> = () => {
+        return null as any
+    }
 
     /**
      * 自定义计时器
      */
-    renderIndicator?: (currentIndex?: number, allSize?: number) => React.ReactElement<any>
+    public renderIndicator?: (currentIndex?: number, allSize?: number) => React.ReactElement<any> = (currentIndex: number, allSize: number) => {
+        return React.createElement(
+            View,
+            { style: simpleStyle.count },
+            React.createElement(
+                Text,
+                { style: simpleStyle.countText },
+                currentIndex + "/" + allSize
+            )
+        )
+    }
 
     /**
      * 自定义左翻页按钮
      */
-    renderArrowLeft?: () => React.ReactElement<any>
+    public renderArrowLeft?: () => React.ReactElement<any> = () => {
+        return null as any
+    }
 
     /**
      * 自定义右翻页按钮
      */
-    renderArrowRight?: () => React.ReactElement<any>
-}
-
-export class PropsGaea {
-    gaeaName = '大图浏览'
-    gaeaIcon = 'square-o'
-    gaeaUniqueKey = 'nt-image-viewer'
-}
-
-export class Props extends PropsGaea implements PropsDefine {
-    show = false
-    imageUrls = [] as Array<ImageInfo>
-    enableImageZoom = true
-    visible = false
-
-    flipThreshold = 80
-    maxOverflow = 300
-    failImageSource = {}
-    index = 0
-    saveToLocalByLongPress = true
-    menuContext = {
-        saveToLocal: '保存到相册',
-        cancel: '取消'
-    }
-
-    onShowModal = () => {
-    }
-
-    onCancel = () => {
-    }
-
-    loadingRender = () => {
+    public renderArrowRight?: () => React.ReactElement<any> = () => {
         return null as any
     }
 
-    onSaveToCamera = () => {
+    /**
+     * 弹出大图的回调
+     */
+    public onShowModal?: (content?: any) => void = () => {
+        //
     }
 
-    onChange = () => {
+    /**
+     * 取消看图的回调
+     */
+    public onCancel?: () => void = () => {
+        //
     }
 
-    onClick = (close?: Function) => {
-        close()
-    }
-
-    onDoubleClick = (_close?: Function) => {
-
-    }
-
-    renderHeader = () => {
+    /**
+     * 渲染loading元素
+     */
+    public loadingRender?: () => React.ReactElement<any> = () => {
         return null as any
     }
 
-    renderFooter = () => {
-        return null as any
+    /**
+     * 保存到相册的回调
+     */
+    public onSaveToCamera?: (index?: number) => void = () => {
+        //
     }
 
-    renderIndicator = (currentIndex: number, allSize: number) => {
-        return React.createElement(ReactNative.View, { style: simpleStyle.count }, React.createElement(ReactNative.Text, { style: simpleStyle.countText }, currentIndex + '/' + allSize))
-    }
-
-    renderArrowLeft = () => {
-        return null as any
-    }
-
-    renderArrowRight = () => {
-        return null as any
+    /**
+     * 当图片切换时触发
+     */
+    public onChange?: (index?: number) => void = () => {
+        //
     }
 }
 
-export interface StateDefine {
+export class State {
     /**
      * 是否显示
      */
-    show?: boolean
+    public show?: boolean = false
 
     /**
      * 当前显示第几个
      */
-    currentShowIndex?: number
+    public currentShowIndex?: number = 0
 
     /**
      * 图片拉取是否完毕了
      */
-    imageLoaded?: boolean
+    public imageLoaded?: boolean = false
 
     /**
      * 图片长宽列表
      */
-    imageSizes?: Array<ImageSize>
+    public imageSizes?: IImageSize[] = []
 
     /**
      * 是否出现功能菜单
      */
-    isShowMenu?: boolean
+    public isShowMenu?: boolean = false
 }
 
-export class State implements StateDefine {
-    show = false
-    currentShowIndex = 0
-    imageSizes = [] as any
-    isShowMenu = false
-}
-
-export interface ImageInfo {
+export interface IImageInfo {
     url: string
     /**
      * 没有的话会自动拉取
@@ -246,9 +213,9 @@ export interface ImageInfo {
     originUrl?: string
 }
 
-export interface ImageSize {
+export interface IImageSize {
     width: number
     height: number
     // 图片加载状态
-    status: 'loading' | 'success' | 'fail'
+    status: "loading" | "success" | "fail"
 }

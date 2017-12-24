@@ -1,34 +1,22 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "target": "es6",
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "jsx": "react",
-    "sourceMap": true,
-    "outDir": "built",
-    "moduleResolution": "node",
+    "strict": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "jsx": "react-native",
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "scripthost"
+    ],
+    "target": "es5",
+    "outDir": "built",
+    "sourceMap": true
   },
-  "awesomeTypescriptLoaderOptions": {
-    "useWebpackText": true,
-    "forkChecker": true,
-    "useCache": true
-  },
-  "compileOnSave": true,
-  "buildOnSave": true,
   "exclude": [
     "node_modules",
-    "built",
-    "built-components",
-    "built-production"
+    "demo"
   ]
 }
