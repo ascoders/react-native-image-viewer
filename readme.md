@@ -18,19 +18,19 @@ npm i react-native-image-zoom-viewer --save
 
 ### Basic Usage
 
-- Install create-react-native-app first
+* Install create-react-native-app first
 
 ```bash
 $ npm install -g create-react-native-app
 ```
 
-- Initialization of a react-native project
+* Initialization of a react-native project
 
 ```bash
 $ create-react-native-app AwesomeProject
 ```
 
-- Then, edit `AwesomeProject/App.js`, like this:
+* Then, edit `AwesomeProject/App.js`, like this:
 
 ```typescript
 import { Modal } from 'react-native';
@@ -78,7 +78,7 @@ npm install
 npm start
 ```
 
-Then, scan the QR, use your [expo app](https://expo.io./). 
+Then, scan the QR, use your [expo app](https://expo.io./).
 
 ### Dependence
 

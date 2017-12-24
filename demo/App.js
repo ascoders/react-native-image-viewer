@@ -1,14 +1,12 @@
-import React from 'react';
-import { Modal, Dimensions } from 'react-native';
-import ImageViewer from './built/index';
+import React from "react"
+import { Modal, Dimensions } from "react-native"
+import ImageViewer from "./built/index"
 
-const images = [{
-  url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
-}, {
-  url: 'https://error-address'
-}, {
-  url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
-}]
+const images = [
+  {
+    url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460"
+  }
+]
 
 export default class App extends React.Component {
   render() {
@@ -17,12 +15,12 @@ export default class App extends React.Component {
         <ImageViewer
           imageUrls={images}
           failImageSource={{
-            url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').width
+            url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").width
           }}
         />
       </Modal>
-    );
+    )
   }
 }
