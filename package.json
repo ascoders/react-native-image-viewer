@@ -16,7 +16,6 @@
   "author": "ascoders",
   "license": "MIT",
   "dependencies": {
-    "transmit-transparently": "^1.0.0",
     "react-native-image-pan-zoom": "^2.0.16"
   },
   "peerDependencies": {
