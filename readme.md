@@ -55,6 +55,30 @@ export default class App extends React.Component {
 }
 ```
 
+### Props
+|parameter|type|required|description|default|
+|:---|:---|:---|:---|:---|
+|imageUrls|array|yes|||
+|enableImageZoom|boolean|no||`true`|
+|onShowModal|function|no||`() => {}`|
+|onCancel|funcion|no||`() => {}`|
+|flipThreshold|number|no||`80`|
+|maxOverflow|number|no||`300`|
+|index|number|no||`0`|
+|failImageSource|string, object|no||`''`|
+|loadingRender|function|no||`() => null`|
+|onSaveToCamera|function|no||`() => {}`|
+|onChange|function|no||`() => {}`|
+|saveToLocalByLongPress|boolean|no||`true`|
+|onClick|function|no||`(onCancel) => {onCancel()}`|
+|onDoubleClick|function|no||`(onCancel) => {onCancel()}`|
+|onSave|function|||
+|renderHeader|function|no||`() => null`|
+|renderFooter|function|no||`() => null`|
+|renderIndicator|function|no||`(currentIndex, allSize) => currentIndex + "/" + allSize`|
+|renderArrowLeft|function|no||`() => null`|
+|renderArrowRight|function|no||`() => null`|
+
 ### Document
 
 ![image](https://cloud.githubusercontent.com/assets/7970947/21376663/ea10baf6-c771-11e6-9570-af3333428343.png)
