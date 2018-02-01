@@ -1,6 +1,6 @@
 {
   "name": "react-native-image-zoom-viewer",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "react native image viewer,大图浏览",
   "main": "built/index.js",
   "types": "src/index.ts",
@@ -12,7 +12,9 @@
     "type": "git",
     "url": "https://github.com/ascoders/react-native-image-viewer.git"
   },
-  "keywords": ["image-viewer"],
+  "keywords": [
+    "image-viewer"
+  ],
   "author": "ascoders",
   "license": "MIT",
   "dependencies": {

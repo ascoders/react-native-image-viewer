@@ -490,7 +490,6 @@ export default class ImageViewer extends React.Component<Props, State> {
 
       const Wrapper = ({ children, ...others }: any) => (
         <ImageZoom
-          key={index}
           cropWidth={this.width}
           cropHeight={this.height}
           maxOverflow={this.props.maxOverflow}
@@ -524,7 +523,19 @@ export default class ImageViewer extends React.Component<Props, State> {
           )
         case "success":
           return (
-            <Wrapper key={index} imageWidth={width} imageHeight={height}>
+            <ImageZoom
+              key={index}
+              cropWidth={this.width}
+              cropHeight={this.height}
+              maxOverflow={this.props.maxOverflow}
+              horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
+              responderRelease={this.handleResponderRelease}
+              onLongPress={this.handleLongPressWithIndex.get(index)}
+              onClick={this.handleClick}
+              onDoubleClick={this.handleDoubleClick}
+              imageWidth={width}
+              imageHeight={height}
+            >
               <Image
                 style={{
                   ...this.styles.imageStyle,
@@ -533,7 +544,7 @@ export default class ImageViewer extends React.Component<Props, State> {
                 }}
                 source={{ uri: image.url }}
               />
-            </Wrapper>
+            </ImageZoom>
           )
         case "fail":
           return (
