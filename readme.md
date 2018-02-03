@@ -58,26 +58,26 @@ export default class App extends React.Component {
 ### Props
 |parameter|type|required|description|default|
 |:---|:---|:---|:---|:---|
-|imageUrls|array|yes|图片数组||
-|enableImageZoom|boolean|no|是否开启图片手势功能|`true`|
-|onShowModal|function<br><br>`(content?: JSX.Element) => void`|no|弹出大图的回调|`() => {}`|
-|onCancel|funcion<br><br>`() => void`|no|取消看图的回调|`() => {}`|
-|flipThreshold|number|no|滑动到下一页的阈值|`80`|
-|maxOverflow|number|no|当前页能滑到下一页X位置最大值|`300`|
-|index|number|no|初始显示第几张图|`0`|
-|failImageSource|string, object<br><br>`{uri: string}`|no|加载失败的图|`''`|
-|loadingRender|function<br><br>`() => React.ReactElement<any>`|no|渲染loading元素|`() => null`|
-|onSaveToCamera|function<br><br>`(index?: number => void`|no|保存到相册的回调|`() => {}`|
-|onChange|function<br><br>`(index?: number => void`|no|当图片切换时触发|`() => {}`|
-|saveToLocalByLongPress|boolean|no|是否开启长按保存到本地的功能|`true`|
-|onClick|function<br><br>`(onCancel?: function) => void`|no|单击回调|`(onCancel) => {onCancel()}`|
-|onDoubleClick|function<br><br>`(onCancel?: function) => void`|no|双击回调|`(onCancel) => {onCancel()}`|
-|onSave|function<br><br>`(url: string) => void`|no|图片保存到本地方法，如果写了这个方法就不会调取系统默认方法针对安卓不支持saveToCameraRoll远程图片，可以在安卓调用此回调调用安卓原生接口||
-|renderHeader|function<br><br>`() => React.ReactElement<any>`|no|自定义头部|`() => null`|
-|renderFooter|function<br><br>`() => React.ReactElement<any>`|no|自定义尾部|`() => null`|
-|renderIndicator|function<br><br>`(currentIndex?: number, allSize?) => React.ReactElement<any>`: number|no|自定义计时器|`(currentIndex, allSize) => currentIndex + "/" + allSize`|
-|renderArrowLeft|function<br><br>`() => React.ReactElement<any>`|no|自定义计时器|`() => null`|
-|renderArrowRight|function<br><br>`() => React.ReactElement<any>`|no|自定义左翻页按钮|`() => null`|
+|imageUrls|array|yes|Image Source||
+|enableImageZoom|boolean|no|Enable image zoom|`true`|
+|onShowModal|function<br><br>`(content?: JSX.Element) => void`|no|The callback for show modal|`() => {}`|
+|onCancel|funcion<br><br>`() => void`|no|The callback for cancel modal|`() => {}`|
+|flipThreshold|number|no|Swipe threshold of the next page|`80`|
+|maxOverflow|number|no|The X position maximum, that current page can slide to the next page|`300`|
+|index|number|no|Init index of images|`0`|
+|failImageSource|string, object<br><br>`{uri: string}`|no|placeholder for fail|`''`|
+|loadingRender|function<br><br>`() => React.ReactElement<any>`|no|placeholder for loading|`() => null`|
+|onSaveToCamera|function<br><br>`(index?: number => void`|no|The callback for save to camera|`() => {}`|
+|onChange|function<br><br>`(index?: number => void`|no|When the image changed|`() => {}`|
+|saveToLocalByLongPress|boolean|no|Enable save to camera when long press|`true`|
+|onClick|function<br><br>`(onCancel?: function) => void`|no|Onclick|`(onCancel) => {onCancel()}`|
+|onDoubleClick|function<br><br>`(onCancel?: function) => void`|no|OnDoubleClick|`(onCancel) => {onCancel()}`|
+|onSave|function<br><br>`(url: string) => void`|no|The picture is saved to the local method, if you write this method will not call the system default method for Android does not support saveToCameraRoll remote picture, you can call this callback in Android call native interface||
+|renderHeader|function<br><br>`() => React.ReactElement<any>`|no|Custom header|`() => null`|
+|renderFooter|function<br><br>`() => React.ReactElement<any>`|no|Custom footer|`() => null`|
+|renderIndicator|function<br><br>`(currentIndex?: number, allSize?) => React.ReactElement<any>`: number|no|Custom indicator|`(currentIndex, allSize) => currentIndex + "/" + allSize`|
+|renderArrowLeft|function<br><br>`() => React.ReactElement<any>`|no|Custom left arrow|`() => null`|
+|renderArrowRight|function<br><br>`() => React.ReactElement<any>`|no|Cutsom right arrow|`() => null`|
 
 ## Development pattern
 
