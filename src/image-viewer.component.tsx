@@ -543,6 +543,7 @@ export default class ImageViewer extends React.Component<Props, State> {
                   height
                 }}
                 source={{ uri: image.url }}
+                resizeMethod='resize'
               />
             </ImageZoom>
           )
