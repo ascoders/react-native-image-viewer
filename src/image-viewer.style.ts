@@ -1,4 +1,4 @@
-import { ImageStyle, TextStyle, ViewStyle } from "react-native"
+import { TextStyle, ViewStyle } from "react-native"
 
 export default (
   width: number,

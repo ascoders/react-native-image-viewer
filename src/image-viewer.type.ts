@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ImageURISource, Text, View, ViewStyle } from "react-native"
+import { Text, View, ViewStyle } from "react-native"
 import { simpleStyle } from "./image-viewer.style"
 
 export class Props {

@@ -2,7 +2,6 @@ import * as React from "react"
 import {
   Animated,
   CameraRoll,
-  Dimensions,
   Image,
   Platform,
   Text,
@@ -10,7 +9,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ViewStyle
 } from "react-native"
 import ImageZoom from "react-native-image-pan-zoom"
 import styles from "./image-viewer.style"
