@@ -61,7 +61,7 @@ export default class App extends React.Component {
 |imageUrls|array|yes|Image Source||
 |enableImageZoom|boolean|no|Enable image zoom|`true`|
 |onShowModal|function<br><br>`(content?: JSX.Element) => void`|no|The callback for show modal|`() => {}`|
-|onCancel|funcion<br><br>`() => void`|no|The callback for cancel modal|`() => {}`|
+|onCancel|function<br><br>`() => void`|no|The callback for cancel modal|`() => {}`|
 |flipThreshold|number|no|Swipe threshold of the next page|`80`|
 |maxOverflow|number|no|The X position maximum, that current page can slide to the next page|`300`|
 |index|number|no|Init index of images|`0`|
@@ -78,6 +78,8 @@ export default class App extends React.Component {
 |renderIndicator|function<br><br>`(currentIndex?: number, allSize?) => React.ReactElement<any>`: number|no|Custom indicator|`(currentIndex, allSize) => currentIndex + "/" + allSize`|
 |renderArrowLeft|function<br><br>`() => React.ReactElement<any>`|no|Custom left arrow|`() => null`|
 |renderArrowRight|function<br><br>`() => React.ReactElement<any>`|no|Cutsom right arrow|`() => null`|
+|onSwipeDown|function<br><br>`() => void`|no|Callback for swipe down|`() => null`|
+|disableSwipeDown|boolean|no|Disable swipe down interactions|`false`|
 
 ## Development pattern
 

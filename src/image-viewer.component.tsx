@@ -2,6 +2,7 @@ import * as React from "react"
 import {
   Animated,
   CameraRoll,
+  Dimensions,
   Image,
   Platform,
   Text,
@@ -9,6 +10,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ViewStyle,
+  PanResponder
 } from "react-native"
 import ImageZoom from "react-native-image-pan-zoom"
 import styles from "./image-viewer.style"
@@ -27,6 +30,8 @@ export default class ImageViewer extends React.Component<Props, State> {
   // 整体位移，用来切换图片用
   private positionXNumber = 0
   private positionX = new Animated.Value(0)
+
+  private positionY = new Animated.ValueXY()
 
   private width = 0
   private height = 0
@@ -86,11 +91,47 @@ export default class ImageViewer extends React.Component<Props, State> {
         status: "loading"
       })
     })
+    // handle user swiping down
+    const panResponderY = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (event, gesture) => {
+        if (this.props.disableSwipeDown) {
+          return;
+        }
+
+        this.positionY.setValue({ y: gesture.dy })
+      },
+      onPanResponderRelease: (event) => {
+        if (this.props.disableSwipeDown) {
+          return;
+        }
+
+        const y = event.nativeEvent.pageY;
+        const swipeDownThreshold = 230 || this.props.swipeDownThreshold;
+
+        if (y <= swipeDownThreshold) {
+          // reset back to 0
+          Animated.timing(
+            this.positionY.y,
+            {
+              toValue: 0,
+            }
+          ).start();
+        }
+
+        if (y > swipeDownThreshold) {
+          // fire swipe down function
+          return this.props.onSwipeDown()
+        }
+      }
+    })
+
 
     this.setState(
       {
         currentShowIndex: nextProps.index,
-        imageSizes
+        imageSizes,
+        panResponderY,
       },
       () => {
         // 立刻预加载要看的图
@@ -578,49 +619,56 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     return (
       <Animated.View
-        style={{ ...this.styles.container, opacity: this.fadeAnim }}
+        style={{ zIndex: 9999 }}
+        {...this.state.panResponderY.panHandlers}
+        style={this.positionY.getLayout()}
       >
-        {this!.props!.renderHeader!(this.state.currentShowIndex)}
-
-        <View style={this.styles.arrowLeftContainer}>
-          <TouchableWithoutFeedback onPress={this.goBack}>
-            <View>{this!.props!.renderArrowLeft!()}</View>
-          </TouchableWithoutFeedback>
-        </View>
-
-        <View style={this.styles.arrowRightContainer}>
-          <TouchableWithoutFeedback onPress={this.goNext}>
-            <View>{this!.props!.renderArrowRight!()}</View>
-          </TouchableWithoutFeedback>
-        </View>
-
         <Animated.View
-          style={{
-            ...this.styles.moveBox,
-            transform: [{ translateX: this.positionX }],
-            width: this.width * this.props.imageUrls.length
-          }}
+          style={{ ...this.styles.container, opacity: this.fadeAnim }}
         >
+          {this!.props!.renderHeader!(this.state.currentShowIndex)}
+
+          <View style={this.styles.arrowLeftContainer}>
+            <TouchableWithoutFeedback onPress={this.goBack}>
+              <View>{this!.props!.renderArrowLeft!()}</View>
+            </TouchableWithoutFeedback>
+          </View>
+
+          <View style={this.styles.arrowRightContainer}>
+            <TouchableWithoutFeedback onPress={this.goNext}>
+              <View>{this!.props!.renderArrowRight!()}</View>
+            </TouchableWithoutFeedback>
+          </View>
+
+          <Animated.View
+            style={{
+              ...this.styles.moveBox,
+              transform: [{ translateX: this.positionX }],
+              width: this.width * this.props.imageUrls.length
+            }}
+          >
           {ImageElements}
+
+          </Animated.View>
+
+          {
+            this!.props!.renderIndicator!(
+              (this.state.currentShowIndex || 0) + 1,
+              this.props.imageUrls.length
+            )
+          }
+
+          {this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
+            this.props.imageUrls[this.state.currentShowIndex || 0].originUrl && (
+              <View style={this.styles.watchOrigin}>
+                <TouchableOpacity style={this.styles.watchOriginTouchable}>
+                  <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+          {this!.props!.renderFooter!(this.state.currentShowIndex)}
         </Animated.View>
-
-        {
-          this!.props!.renderIndicator!(
-            (this.state.currentShowIndex || 0) + 1,
-            this.props.imageUrls.length
-          )
-        }
-
-        {this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
-          this.props.imageUrls[this.state.currentShowIndex || 0].originUrl && (
-            <View style={this.styles.watchOrigin}>
-              <TouchableOpacity style={this.styles.watchOriginTouchable}>
-                <Text style={this.styles.watchOriginText}>查看原图(2M)</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-        {this!.props!.renderFooter!(this.state.currentShowIndex)}
       </Animated.View>
     )
   }
