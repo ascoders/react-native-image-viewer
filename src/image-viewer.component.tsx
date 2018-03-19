@@ -91,7 +91,6 @@ export default class ImageViewer extends React.Component<Props, State> {
         status: "loading"
       })
     })
-
     // handle user swiping down
     const panResponderY = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -112,7 +111,12 @@ export default class ImageViewer extends React.Component<Props, State> {
 
         if (y <= swipeDownThreshold) {
           // reset back to 0
-          this.positionY.setValue({ y: 0 })
+          Animated.timing(
+            this.positionY.y,
+            {
+              toValue: 0,
+            }
+          ).start();
         }
 
         if (y > swipeDownThreshold) {
