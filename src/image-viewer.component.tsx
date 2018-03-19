@@ -617,10 +617,13 @@ export default class ImageViewer extends React.Component<Props, State> {
       }
     })
 
+    const panResponderYPanHandlers = this.state.panResponderY ?
+    this.state.panResponderY.panHandlers :
+    {}
+
     return (
       <Animated.View
-        style={{ zIndex: 9999 }}
-        {...this.state.panResponderY.panHandlers}
+        {...panResponderYPanHandlers}
         style={this.positionY.getLayout()}
       >
         <Animated.View
@@ -658,7 +661,7 @@ export default class ImageViewer extends React.Component<Props, State> {
             )
           }
 
-          {this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
+          {this.props.imageUrls[this.state.currentShowIndex || 0] && this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
             this.props.imageUrls[this.state.currentShowIndex || 0].originUrl && (
               <View style={this.styles.watchOrigin}>
                 <TouchableOpacity style={this.styles.watchOriginTouchable}>
