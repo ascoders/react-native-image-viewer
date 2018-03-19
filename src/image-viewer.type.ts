@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Text, View, ViewStyle } from "react-native"
+import { ImageURISource, Text, View, ViewStyle } from "react-native"
 import { simpleStyle } from "./image-viewer.style"
 
 export class Props {
@@ -52,6 +52,16 @@ export class Props {
   public saveToLocalByLongPress?: boolean = true
 
   public style?: ViewStyle = {}
+
+  /**
+   * threshold for firing swipe down function
+   */
+  public swipeDownThreshold?: number = 230
+
+  /**
+   * for disabling vertical movement if user doens't want it
+   */
+  public disableSwipeDown?: boolean = false
 
   /**
    * 长按图片的回调
@@ -143,6 +153,13 @@ export class Props {
    * 取消看图的回调
    */
   public onCancel?: () => void = () => {
+    //
+  }
+
+  /**
+   * function that fires when user swipes down
+   */
+  public onSwipeDown?: () => void = () => {
     //
   }
 
