@@ -499,6 +499,8 @@ export default class ImageViewer extends React.Component<Props, State> {
           onLongPress={this.handleLongPressWithIndex.get(index)}
           onClick={this.handleClick}
           onDoubleClick={this.handleDoubleClick}
+          enableSwipeDown={true}
+          onSwipeDown={this.handleSwipeDown}
           {...others}
         >
           {children}
@@ -536,13 +538,11 @@ export default class ImageViewer extends React.Component<Props, State> {
               onDoubleClick={this.handleDoubleClick}
               imageWidth={width}
               imageHeight={height}
+              enableSwipeDown={true}
+              onSwipeDown={this.handleSwipeDown}
             >
               <Image
-                style={{
-                  ...this.styles.imageStyle,
-                  width,
-                  height
-                }}
+                style={{ ...this.styles.imageStyle, width, height }}
                 source={{ uri: image.url }}
               />
             </ImageZoom>
@@ -688,6 +688,13 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   public handleLeaveMenu = () => {
     this.setState({ isShowMenu: false })
+  }
+
+  public handleSwipeDown = () => {
+    if (this.props.onSwipeDown) {
+      this.props.onSwipeDown()
+    }
+    this.handleCancel()
   }
 
   public render() {

@@ -59,16 +59,6 @@ export class Props {
   public style?: ViewStyle = {}
 
   /**
-   * threshold for firing swipe down function TODO:
-   */
-  public swipeDownThreshold?: number = 230
-
-  /**
-   * for disabling vertical movement if user doens't want it TODO:
-   */
-  public disableSwipeDown?: boolean = false
-
-  /**
    * 长按图片的回调
    */
   public onLongPress?: (image?: IImageInfo) => void = () => {
@@ -162,7 +152,7 @@ export class Props {
   }
 
   /**
-   * function that fires when user swipes down TODO:
+   * function that fires when user swipes down
    */
   public onSwipeDown?: () => void = () => {
     //
