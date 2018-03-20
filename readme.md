@@ -80,6 +80,7 @@ export default class App extends React.Component {
 |renderArrowRight|function<br><br>`() => React.ReactElement<any>`|no|Cutsom right arrow|`() => null`|
 |onSwipeDown|function<br><br>`() => void`|no|Callback for swipe down|`() => null`|
 |disableSwipeDown|boolean|no|Disable swipe down interactions|`false`|
+|footerContainerStyle|object<br><br>`{someStyle: someValue}`|no|custom style props for container that will be holding your footer that you pass|`bottom: 0, position: "absolute", zIndex: 9999 `|
 
 ## Development pattern
 

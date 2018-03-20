@@ -616,11 +616,13 @@ export default class ImageViewer extends React.Component<Props, State> {
           )
       }
     })
+    const panResponderYPanHandlers = this.state.panResponderY ?
+    this.state.panResponderY.panHandlers :
+    {}
 
     return (
       <Animated.View
-        style={{ zIndex: 9999 }}
-        {...this.state.panResponderY.panHandlers}
+        {...panResponderYPanHandlers}
         style={this.positionY.getLayout()}
       >
         <Animated.View
@@ -650,7 +652,6 @@ export default class ImageViewer extends React.Component<Props, State> {
           {ImageElements}
 
           </Animated.View>
-
           {
             this!.props!.renderIndicator!(
               (this.state.currentShowIndex || 0) + 1,
@@ -658,7 +659,7 @@ export default class ImageViewer extends React.Component<Props, State> {
             )
           }
 
-          {this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
+          {this.props.imageUrls[this.state.currentShowIndex || 0] && this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
             this.props.imageUrls[this.state.currentShowIndex || 0].originUrl && (
               <View style={this.styles.watchOrigin}>
                 <TouchableOpacity style={this.styles.watchOriginTouchable}>
@@ -666,8 +667,11 @@ export default class ImageViewer extends React.Component<Props, State> {
                 </TouchableOpacity>
               </View>
             )}
-
-          {this!.props!.renderFooter!(this.state.currentShowIndex)}
+          <View
+            style={[{ bottom: 0, position: "absolute", zIndex: 9999 }, this.props.footerContainerStyle]}
+          >
+            {this!.props!.renderFooter!(this.state.currentShowIndex)}
+          </View>
         </Animated.View>
       </Animated.View>
     )

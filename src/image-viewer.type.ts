@@ -39,6 +39,11 @@ export class Props {
   public backgroundColor?: string = "black"
 
   /**
+   * style props for the footer container
+   */
+  public footerContainerStyle?: object = {}
+
+  /**
    * Menu Context Values
    */
   public menuContext?: any = {
