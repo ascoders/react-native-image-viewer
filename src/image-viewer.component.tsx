@@ -99,7 +99,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           return;
         }
 
-        this.positionY.setValue({ y: gesture.dy })
+        this.positionY.setValue({ x: 0, y: gesture.dy })
       },
       onPanResponderRelease: (event) => {
         if (this.props.disableSwipeDown) {
@@ -121,7 +121,7 @@ export default class ImageViewer extends React.Component<Props, State> {
 
         if (y > swipeDownThreshold) {
           // fire swipe down function
-          return this.props.onSwipeDown()
+          return this.props.onSwipeDown ? this.props.onSwipeDown() : null
         }
       }
     })

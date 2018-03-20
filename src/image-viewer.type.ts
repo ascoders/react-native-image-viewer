@@ -215,6 +215,8 @@ export class State {
    * 是否出现功能菜单
    */
   public isShowMenu?: boolean = false
+
+  public panResponderY?: any = {}
 }
 
 export interface IImageInfo {
