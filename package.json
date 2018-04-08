@@ -1,6 +1,6 @@
 {
   "name": "react-native-image-zoom-viewer",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "react native image viewer,大图浏览",
   "main": "built/index.js",
   "types": "src/index.ts",
@@ -16,7 +16,7 @@
   "author": "ascoders",
   "license": "MIT",
   "dependencies": {
-    "react-native-image-pan-zoom": "^2.1.0"
+    "react-native-image-pan-zoom": "^2.1.2"
   },
   "peerDependencies": {
     "react": "*",

@@ -230,6 +230,10 @@ export interface IImageInfo {
    * 原图url地址
    */
   originUrl?: string
+  /**
+   * Pass to image props
+   */
+  props?: any
 }
 
 export interface IImageSize {
