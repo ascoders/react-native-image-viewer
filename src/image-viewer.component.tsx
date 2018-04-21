@@ -460,6 +460,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     // 获得屏幕宽高
     const screenWidth = this.width
     const screenHeight = this.height
+    const { ImageComponent = Image } = this.props
 
     const ImageElements = this.props.imageUrls.map((image, index) => {
       if (!this.handleLongPressWithIndex.has(index)) {
@@ -541,7 +542,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               enableSwipeDown={true}
               onSwipeDown={this.handleSwipeDown}
             >
-              <Image
+              <ImageComponent
                 style={{ ...this.styles.imageStyle, width, height }}
                 source={{ uri: image.url }}
                 {...image.props || {}}
@@ -565,7 +566,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               }
             >
               {this.props.failImageSource && (
-                <Image
+                <ImageComponent
                   source={{
                     uri: this.props.failImageSource.url
                   }}
