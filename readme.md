@@ -41,15 +41,17 @@ import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 const images = [{
+    // Simplest usage.
     url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-    // Pass props to <Image />.
+    // You can pass props to <Image />.
     props: {
         // headers: ...
     }
 }, {
-    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
-}, {
-    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
+    props: {
+        // Or you can set source directory.
+        source: require('../background.png')
+    }
 }]
 
 export default class App extends React.Component {

@@ -121,7 +121,7 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   /**
-   * 加载图片
+   * 加载图片，主要是获取图片长与宽
    */
   public loadImage(index: number) {
     if (!this!.state!.imageSizes![index]) {
@@ -167,93 +167,36 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
 
     // 是否加载完毕了图片大小
-    let sizeLoaded = false;
+    const sizeLoaded = false;
     // 是否加载完毕了图片
     let imageLoaded = false;
 
-    // 如果图片是 file: 开头，说明是本地图片，默认已经加载完毕
-    if (image.url.startsWith(`file:`)) {
+    // Tagged success if url is started with file:, or not set yet(for custom source.uri).
+    if (!image.url || image.url.startsWith(`file:`)) {
       imageLoaded = true;
     }
 
-    if (Platform.OS !== ("web" as any)) {
-      const prefetchImagePromise = Image.prefetch(image.url);
-
-      if (image.url.match(/^(http|https):\/\//)) {
-        prefetchImagePromise.then(
-          () => {
-            imageLoaded = true;
-            if (sizeLoaded) {
-              imageStatus.status = "success";
-              saveImageSize();
-            }
-          },
-          () => {
-            imageStatus.status = "fail";
-            saveImageSize();
-          }
-        );
-      } else {
-        // 本地图片
-        imageLoaded = true;
-        prefetchImagePromise
-          .then(() => {
-            //
-          })
-          .catch(() => {
-            //
-          });
-        if (sizeLoaded) {
-          imageStatus.status = "success";
-          saveImageSize();
-        }
-      }
-
-      // 获取图片大小
-      if (image.width && image.height) {
-        // 如果已经传了图片长宽,那直接 success
-        sizeLoaded = true;
-        imageStatus.width = image.width;
-        imageStatus.height = image.height;
-
-        if (imageLoaded) {
-          imageStatus.status = "success";
-          saveImageSize();
-        }
-      } else {
-        Image.getSize(
-          image.url,
-          (width, height) => {
-            sizeLoaded = true;
-            imageStatus.width = width;
-            imageStatus.height = height;
-
-            if (imageLoaded) {
-              imageStatus.status = "success";
-              saveImageSize();
-            }
-          },
-          error => {
-            // 获取大小失败
-            imageStatus.status = "fail";
-            saveImageSize();
-          }
-        );
-      }
-    } else {
-      const imageFetch = new (window as any).Image();
-      imageFetch.src = image.url;
-      imageFetch.onload = () => {
-        imageStatus.width = imageFetch.width;
-        imageStatus.height = imageFetch.height;
+    Image.getSize(
+      image.url,
+      (width: number, height: number) => {
+        imageStatus.width = width;
+        imageStatus.height = height;
         imageStatus.status = "success";
         saveImageSize();
-      };
-      imageFetch.onerror = () => {
-        imageStatus.status = "fail";
-        saveImageSize();
-      };
-    }
+      },
+      error => {
+        try {
+          const data = (Image as any).resolveAssetSource(image.props.source);
+          imageStatus.width = data.width;
+          imageStatus.height = data.height;
+          imageStatus.status = "success";
+          saveImageSize();
+        } catch (newError) {
+          // Give up..
+          imageStatus.status = "fail";
+        }
+      }
+    );
   }
 
   /**
@@ -527,20 +470,21 @@ export default class ImageViewer extends React.Component<Props, State> {
           );
         case "success":
           const finalProps = { ...(image.props || {}) };
+
           if (!finalProps.style) {
             finalProps.style = {};
           }
-          if (!finalProps.source) {
-            finalProps.source = {};
-          }
-
           finalProps.style = {
             ...finalProps.style,
             ...this.styles.imageStyle,
             width,
             height
           };
-          finalProps.source = { ...finalProps.source, uri: image.url };
+
+          if (!finalProps.source) {
+            finalProps.source = {};
+          }
+          finalProps.source = { uri: image.url, ...finalProps.source };
 
           return (
             <ImageZoom
