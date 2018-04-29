@@ -405,6 +405,13 @@ export default class ImageViewer extends React.Component<Props, State> {
     const screenHeight = this.height;
 
     const ImageElements = this.props.imageUrls.map((image, index) => {
+      if (
+        (this.state.currentShowIndex || 0) > index + 1 ||
+        (this.state.currentShowIndex || 0) < index - 1
+      ) {
+        return <View style={{ width: screenWidth, height: screenHeight }} />;
+      }
+
       if (!this.handleLongPressWithIndex.has(index)) {
         this.handleLongPressWithIndex.set(
           index,

@@ -18,9 +18,24 @@ const images = [
       "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
   },
   {
-    props: {
-      source: require("./background.jpg")
-    }
+    url:
+      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
+  },
+  {
+    url:
+      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
+  },
+  {
+    url:
+      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
+  },
+  {
+    url:
+      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
+  },
+  {
+    url:
+      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
   }
 ];
 

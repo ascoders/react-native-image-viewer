@@ -5,18 +5,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "jsx": "react-native",
-    "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "scripthost"
-    ],
+    "lib": ["dom", "es5", "es6", "scripthost"],
     "target": "es5",
     "outDir": "built",
     "sourceMap": true
   },
-  "exclude": [
-    "node_modules",
-    "demo"
-  ]
+  "exclude": ["node_modules", "demo"]
 }
