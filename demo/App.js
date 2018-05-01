@@ -54,22 +54,7 @@ export default class App extends React.Component {
         }}
       >
         <Modal visible={this.state.visible} transparent={true}>
-          <ImageViewer
-            imageUrls={images}
-            onCancel={() => {
-              this.setState({ visible: false });
-            }}
-            renderFooter={() => (
-              <View>
-                <Text style={{ color: "white" }}>Render footer</Text>
-              </View>
-            )}
-            failImageSource={{
-              url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
-              width: Dimensions.get("window").width,
-              height: Dimensions.get("window").width
-            }}
-          />
+          <ImageViewer imageUrls={images} />
         </Modal>
       </View>
     );

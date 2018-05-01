@@ -3,6 +3,7 @@ import {
   Animated,
   CameraRoll,
   Dimensions,
+  I18nManager,
   Image,
   PanResponder,
   Platform,
@@ -206,14 +207,16 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.positionXNumber = this.standardPositionX + offsetX;
     this.positionX.setValue(this.positionXNumber);
 
-    if (offsetX < 0) {
+    const offsetXRTL = !I18nManager.isRTL ? offsetX : -offsetX;
+
+    if (offsetXRTL < 0) {
       if (
         this!.state!.currentShowIndex ||
         0 < this.props.imageUrls.length - 1
       ) {
         this.loadImage((this!.state!.currentShowIndex || 0) + 1);
       }
-    } else if (offsetX > 0) {
+    } else if (offsetXRTL > 0) {
       if (this!.state!.currentShowIndex || 0 > 0) {
         this.loadImage((this!.state!.currentShowIndex || 0) - 1);
       }
@@ -224,7 +227,19 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 手势结束，但是没有取消浏览大图
    */
   public handleResponderRelease = (vx: number) => {
-    if (vx > 0.7) {
+    const vxRTL = I18nManager.isRTL ? -vx : vx;
+    const isLeftMove = I18nManager.isRTL
+      ? this.positionXNumber - this.standardPositionX <
+        -(this.props.flipThreshold || 0)
+      : this.positionXNumber - this.standardPositionX >
+        (this.props.flipThreshold || 0);
+    const isRightMove = I18nManager.isRTL
+      ? this.positionXNumber - this.standardPositionX >
+        (this.props.flipThreshold || 0)
+      : this.positionXNumber - this.standardPositionX <
+        -(this.props.flipThreshold || 0);
+
+    if (vxRTL > 0.7) {
       // 上一张
       this.goBack.call(this);
 
@@ -232,29 +247,27 @@ export default class ImageViewer extends React.Component<Props, State> {
       if (this.state.currentShowIndex || 0 > 0) {
         this.loadImage((this.state.currentShowIndex || 0) - 1);
       }
-    } else if (vx < -0.7) {
+      return;
+    } else if (vxRTL < -0.7) {
       // 下一张
       this.goNext.call(this);
       if (this.state.currentShowIndex || 0 < this.props.imageUrls.length - 1) {
         this.loadImage((this.state.currentShowIndex || 0) + 1);
       }
+      return;
     }
 
-    if (
-      this.positionXNumber - this.standardPositionX >
-      (this.props.flipThreshold || 0)
-    ) {
+    if (isLeftMove) {
       // 上一张
       this.goBack.call(this);
-    } else if (
-      this.positionXNumber - this.standardPositionX <
-      -(this.props.flipThreshold || 0)
-    ) {
+    } else if (isRightMove) {
       // 下一张
       this.goNext.call(this);
+      return;
     } else {
       // 回到之前的位置
       this.resetPosition.call(this);
+      return;
     }
   };
 
@@ -268,7 +281,9 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    this.positionXNumber = this.standardPositionX + this.width;
+    this.positionXNumber = !I18nManager.isRTL
+      ? this.standardPositionX + this.width
+      : this.standardPositionX - this.width;
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
@@ -299,7 +314,9 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    this.positionXNumber = this.standardPositionX - this.width;
+    this.positionXNumber = !I18nManager.isRTL
+      ? this.standardPositionX - this.width
+      : this.standardPositionX + this.width;
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
@@ -409,7 +426,12 @@ export default class ImageViewer extends React.Component<Props, State> {
         (this.state.currentShowIndex || 0) > index + 1 ||
         (this.state.currentShowIndex || 0) < index - 1
       ) {
-        return <View style={{ width: screenWidth, height: screenHeight }} />;
+        return (
+          <View
+            key={index}
+            style={{ width: screenWidth, height: screenHeight }}
+          />
+        );
       }
 
       if (!this.handleLongPressWithIndex.has(index)) {
@@ -425,6 +447,15 @@ export default class ImageViewer extends React.Component<Props, State> {
       let height =
         this.state.imageSizes![index] && this.state.imageSizes![index].height;
       const imageInfo = this.state.imageSizes![index];
+
+      if (!imageInfo || !imageInfo.status) {
+        return (
+          <View
+            key={index}
+            style={{ width: screenWidth, height: screenHeight }}
+          />
+        );
+      }
 
       // 如果宽大于屏幕宽度,整体缩放到宽度是屏幕宽度
       if (width > screenWidth) {

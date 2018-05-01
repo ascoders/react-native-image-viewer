@@ -1,11 +1,11 @@
-import { TextStyle, ViewStyle } from "react-native"
+import { TextStyle, ViewStyle } from "react-native";
 
 export default (
   width: number,
   height: number,
   backgroundColor: string
 ): {
-  [x: string]: ViewStyle | TextStyle
+  [x: string]: ViewStyle | TextStyle;
 } => {
   return {
     modalContainer: {
@@ -101,11 +101,11 @@ export default (
       right: 0,
       justifyContent: "center"
     }
-  }
-}
+  };
+};
 
 export const simpleStyle: {
-  [x: string]: ViewStyle | TextStyle
+  [x: string]: ViewStyle | TextStyle;
 } = {
   count: {
     position: "absolute",
@@ -127,4 +127,4 @@ export const simpleStyle: {
     },
     textShadowRadius: 0
   }
-}
+};
