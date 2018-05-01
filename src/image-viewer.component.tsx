@@ -394,23 +394,21 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 完成布局
    */
   public handleLayout = (event: any) => {
-    if (this.hasLayout) {
-      return;
+    if(event.nativeEvent.layout.width != _this.width) {
+      this.hasLayout = true;
+
+      this.width = event.nativeEvent.layout.width;
+      this.height = event.nativeEvent.layout.height;
+      this.styles = styles(
+        this.width,
+        this.height,
+        this.props.backgroundColor || "transparent"
+      );
+
+      // 强制刷新
+      this.forceUpdate();
+      this.jumpToCurrentImage();
     }
-
-    this.hasLayout = true;
-
-    this.width = event.nativeEvent.layout.width;
-    this.height = event.nativeEvent.layout.height;
-    this.styles = styles(
-      this.width,
-      this.height,
-      this.props.backgroundColor || "transparent"
-    );
-
-    // 强制刷新
-    this.forceUpdate();
-    this.jumpToCurrentImage();
   };
 
   /**
