@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ImageURISource, Text, View, ViewStyle } from "react-native"
+import { Image, ImageURISource, Text, View, ViewStyle } from "react-native"
 import { simpleStyle } from "./image-viewer.style"
 
 export class Props {
@@ -121,6 +121,15 @@ export class Props {
         currentIndex + "/" + allSize
       )
     )
+  }
+
+  /**
+   * Render image component
+   */
+  public renderImage?: (
+    props: any
+  ) => React.ReactElement<any> = (props: any) => {
+    return React.createElement(Image, props)
   }
 
   /**

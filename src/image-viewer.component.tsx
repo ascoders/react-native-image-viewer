@@ -540,7 +540,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               enableSwipeDown={true}
               onSwipeDown={this.handleSwipeDown}
             >
-              <Image {...finalProps} />
+              {this!.props!.renderImage!(finalProps)}
             </ImageZoom>
           );
         case "fail":
@@ -560,15 +560,15 @@ export default class ImageViewer extends React.Component<Props, State> {
               }
             >
               {this.props.failImageSource && (
-                <Image
-                  source={{
+                this!.props!.renderImage!({
+                  source: {
                     uri: this.props.failImageSource.url
-                  }}
-                  style={{
+                  },
+                  style: {
                     width: this.props.failImageSource.width,
                     height: this.props.failImageSource.height
-                  }}
-                />
+                  }
+                })
               )}
             </Wrapper>
           );
