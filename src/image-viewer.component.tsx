@@ -394,7 +394,7 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 完成布局
    */
   public handleLayout = (event: any) => {
-    if(event.nativeEvent.layout.width != this.width) {
+    if (event.nativeEvent.layout.width !== this.width) {
       this.hasLayout = true;
 
       this.width = event.nativeEvent.layout.width;
@@ -505,22 +505,32 @@ export default class ImageViewer extends React.Component<Props, State> {
             </Wrapper>
           );
         case "success":
-          const finalProps = { ...(image.props || {}) };
-
-          if (!finalProps.style) {
-            finalProps.style = {};
+          if (!image.props) {
+            image.props = {};
           }
-          finalProps.style = {
-            ...finalProps.style,
+
+          if (!image.props.style) {
+            image.props.style = {};
+          }
+          image.props.style = {
             ...this.styles.imageStyle,
             width,
-            height
+            height,
+            // User config can override above.
+            ...image.props.style
           };
 
-          if (!finalProps.source) {
-            finalProps.source = {};
+          if (typeof image.props.source === "number") {
+            // source = require(..), doing nothing
+          } else {
+            if (!image.props.source) {
+              image.props.source = {};
+            }
+            image.props.source = {
+              uri: image.url,
+              ...image.props.source
+            };
           }
-          finalProps.source = { uri: image.url, ...finalProps.source };
 
           return (
             <ImageZoom
@@ -538,7 +548,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               enableSwipeDown={true}
               onSwipeDown={this.handleSwipeDown}
             >
-              {this!.props!.renderImage!(finalProps)}
+              {this!.props!.renderImage!(image.props)}
             </ImageZoom>
           );
         case "fail":
@@ -557,7 +567,7 @@ export default class ImageViewer extends React.Component<Props, State> {
                   : screenHeight
               }
             >
-              {this.props.failImageSource && (
+              {this.props.failImageSource &&
                 this!.props!.renderImage!({
                   source: {
                     uri: this.props.failImageSource.url
@@ -566,8 +576,7 @@ export default class ImageViewer extends React.Component<Props, State> {
                     width: this.props.failImageSource.width,
                     height: this.props.failImageSource.height
                   }
-                })
-              )}
+                })}
             </Wrapper>
           );
       }
@@ -704,7 +713,11 @@ export default class ImageViewer extends React.Component<Props, State> {
     return (
       <View
         onLayout={this.handleLayout}
-        style={{ flex: 1, overflow: "hidden", ...this.props.style }}
+        style={{
+          flex: 1,
+          overflow: "hidden",
+          ...this.props.style
+        }}
       >
         {childs}
       </View>
