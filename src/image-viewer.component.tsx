@@ -513,11 +513,10 @@ export default class ImageViewer extends React.Component<Props, State> {
             image.props.style = {};
           }
           image.props.style = {
-            ...this.styles.imageStyle,
+            ...this.styles.imageStyle, // User config can override above.
+            ...image.props.style,
             width,
-            height,
-            // User config can override above.
-            ...image.props.style
+            height
           };
 
           if (typeof image.props.source === "number") {

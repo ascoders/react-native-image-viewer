@@ -1,65 +1,38 @@
-import React from "react";
-import { Modal, Dimensions, View, Text } from "react-native";
+import React, { Component } from "react";
+import { View, Modal, TouchableNativeFeedback } from "react-native";
 import ImageViewer from "./built/index";
 
 const images = [
   {
-    url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460",
-    props: {
-      source: {
-        headers: {
-          Authorization: `Bearer`
-        }
-      }
-    }
+    url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460"
   },
   {
-    props: {
-      source: require("./img.png")
-    }
+    url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460"
   },
   {
-    url:
-      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
-  },
-  {
-    url:
-      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
-  },
-  {
-    url:
-      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
-  },
-  {
-    url:
-      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
-  },
-  {
-    url:
-      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
-  },
-  {
-    url:
-      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1220656001,756766299&fm=27&gp=0.jpg"
+    url: "https://avatars2.githubusercontent.com/u/7970947?v=3&s=460"
   }
 ];
 
-export default class App extends React.Component {
+export default class Main extends Component {
   state = {
-    visible: true
+    index: 0,
+    modalVisible: true
   };
 
   render() {
     return (
       <View
         style={{
-          backgroundColor: "black",
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height
+          padding: 10
         }}
       >
-        <Modal visible={this.state.visible} transparent={true}>
-          <ImageViewer imageUrls={images} />
+        <Modal
+          visible={this.state.modalVisible}
+          transparent={true}
+          onRequestClose={() => this.setState({ modalVisible: false })}
+        >
+          <ImageViewer imageUrls={images} index={this.state.index} />
         </Modal>
       </View>
     );
