@@ -1,3 +1,14 @@
 {
-  "extends": "ascoders-tslint-config"
+  "compilerOptions": {
+    "module": "commonjs",
+    "strict": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "lib": ["dom", "es5", "es6", "scripthost"],
+    "target": "es5",
+    "outDir": "built",
+    "sourceMap": true
+  },
+  "exclude": ["node_modules", "demo"]
 }

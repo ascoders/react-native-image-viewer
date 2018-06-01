@@ -12,7 +12,9 @@
     "type": "git",
     "url": "https://github.com/ascoders/react-native-image-viewer.git"
   },
-  "keywords": ["image-viewer"],
+  "keywords": [
+    "image-viewer"
+  ],
   "author": "ascoders",
   "license": "MIT",
   "dependencies": {
@@ -29,6 +31,7 @@
     "react": "*",
     "react-native": "*",
     "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.13.0",
     "typescript": "^2.4.2"
   }
 }
