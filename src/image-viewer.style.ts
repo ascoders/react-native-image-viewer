@@ -49,7 +49,8 @@ export default (
       width,
       height,
       left: 0,
-      bottom: 0
+      bottom: 0,
+      zIndex: 10000
     },
     menuShadow: {
       position: 'absolute',
