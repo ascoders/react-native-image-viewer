@@ -536,7 +536,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     });
 
     return (
-      <Animated.View style={{ zIndex: 9999 }}>
+      <Animated.View style={{ zIndex: 9 }}>
         <Animated.View style={{ ...this.styles.container, opacity: this.fadeAnim }}>
           {this!.props!.renderHeader!(this.state.currentShowIndex)}
 
@@ -572,7 +572,7 @@ export default class ImageViewer extends React.Component<Props, State> {
                 </TouchableOpacity>
               </View>
             )}
-          <View style={[{ bottom: 0, position: 'absolute', zIndex: 9999 }, this.props.footerContainerStyle]}>
+          <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
             {this!.props!.renderFooter!(this.state.currentShowIndex)}
           </View>
         </Animated.View>

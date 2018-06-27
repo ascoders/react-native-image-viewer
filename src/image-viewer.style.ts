@@ -8,19 +8,8 @@ export default (
   [x: string]: ViewStyle | TextStyle;
 } => {
   return {
-    modalContainer: {
-      backgroundColor,
-      justifyContent: 'center',
-      alignItems: 'center',
-      overflow: 'hidden'
-    },
-    watchOrigin: {
-      position: 'absolute',
-      width,
-      bottom: 20,
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
+    modalContainer: { backgroundColor, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
+    watchOrigin: { position: 'absolute', width, bottom: 20, justifyContent: 'center', alignItems: 'center' },
     watchOriginTouchable: {
       paddingLeft: 10,
       paddingRight: 10,
@@ -31,27 +20,11 @@ export default (
       borderWidth: 0.5,
       backgroundColor: 'rgba(0, 0, 0, 0.1)'
     },
-    watchOriginText: {
-      color: 'white',
-      backgroundColor: 'transparent'
-    },
+    watchOriginText: { color: 'white', backgroundColor: 'transparent' },
     imageStyle: {},
-    container: {
-      backgroundColor
-    },
-    // 多图浏览需要调整整体位置的盒子
-    moveBox: {
-      flexDirection: 'row',
-      alignItems: 'center'
-    },
-    menuContainer: {
-      position: 'absolute',
-      width,
-      height,
-      left: 0,
-      bottom: 0,
-      zIndex: 10000
-    },
+    container: { backgroundColor }, // 多图浏览需要调整整体位置的盒子
+    moveBox: { flexDirection: 'row', alignItems: 'center' },
+    menuContainer: { position: 'absolute', width, height, left: 0, bottom: 0, zIndex: 12 },
     menuShadow: {
       position: 'absolute',
       width,
@@ -62,13 +35,7 @@ export default (
       opacity: 0.2,
       zIndex: 10
     },
-    menuContent: {
-      position: 'absolute',
-      width,
-      left: 0,
-      bottom: 0,
-      zIndex: 11
-    },
+    menuContent: { position: 'absolute', width, left: 0, bottom: 0, zIndex: 11 },
     operateContainer: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -77,31 +44,11 @@ export default (
       borderBottomColor: '#ccc',
       borderBottomWidth: 1
     },
-    operateText: {
-      color: '#333'
-    },
-    loadingTouchable: {
-      width,
-      height
-    },
-    loadingContainer: {
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    arrowLeftContainer: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      justifyContent: 'center'
-    },
-    arrowRightContainer: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      right: 0,
-      justifyContent: 'center'
-    }
+    operateText: { color: '#333' },
+    loadingTouchable: { width, height },
+    loadingContainer: { justifyContent: 'center', alignItems: 'center' },
+    arrowLeftContainer: { position: 'absolute', top: 0, bottom: 0, left: 0, justifyContent: 'center', zIndex: 13 },
+    arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 }
   };
 };
 
