@@ -22,19 +22,19 @@ npm i react-native-image-zoom-viewer --save
 
 ### Basic Usage
 
-* Install create-react-native-app first
+- Install create-react-native-app first
 
 ```bash
 $ npm install -g create-react-native-app
 ```
 
-* Initialization of a react-native project
+- Initialization of a react-native project
 
 ```bash
 $ create-react-native-app AwesomeProject
 ```
 
-* Then, edit `AwesomeProject/App.js`, like this:
+- Then, edit `AwesomeProject/App.js`, like this:
 
 ```typescript
 import { Modal } from 'react-native';
@@ -92,7 +92,9 @@ export default class App extends React.Component {
 | renderArrowRight       | function<br><br>`() => React.ReactElement<any>`                                        | no       | Custom right arrow                                                                                                                                                                                                                   | `() => null`                                              |
 | onSwipeDown            | function<br><br>`() => void`                                                           | no       | Callback for swipe down                                                                                                                                                                                                              | `() => null`                                              |
 | footerContainerStyle   | object<br><br>`{someStyle: someValue}`                                                 | no       | custom style props for container that will be holding your footer that you pass                                                                                                                                                      | `bottom: 0, position: "absolute", zIndex: 9999`           |
-| backgroundColor | string<br><br>`white`					| no | Component background color | `black`
+| backgroundColor        | string<br><br>`white`                                                                  | no       | Component background color                                                                                                                                                                                                           | `black`                                                   |
+| enableSwipeDown        | boolean                                                                                | no       | Enable swipe down to close image viewer. When swipe down, will trigger onCancel.                                                                                                                                                     | false                                                     |
+
 ## Development pattern
 
 ### Step 1, run TS listener

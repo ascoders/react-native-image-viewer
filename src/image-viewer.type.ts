@@ -59,7 +59,7 @@ export class Props {
    * Enable swipe down to close image viewer.
    * When swipe down, will trigger onCancel.
    */
-  public enableSwipeDown?: boolean = true;
+  public enableSwipeDown?: boolean = false;
 
   /**
    * 长按图片的回调
