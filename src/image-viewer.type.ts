@@ -46,10 +46,7 @@ export class Props {
   /**
    * Menu Context Values
    */
-  public menuContext?: any = {
-    saveToLocal: 'save to the album',
-    cancel: 'cancel'
-  };
+  public menuContext?: any = { saveToLocal: 'save to the album', cancel: 'cancel' };
 
   /**
    * 是否开启长按保存到本地的功能
@@ -57,6 +54,12 @@ export class Props {
   public saveToLocalByLongPress?: boolean = true;
 
   public style?: ViewStyle = {};
+
+  /**
+   * Enable swipe down to close image viewer.
+   * When swipe down, will trigger onCancel.
+   */
+  public enableSwipeDown?: boolean = true;
 
   /**
    * 长按图片的回调
