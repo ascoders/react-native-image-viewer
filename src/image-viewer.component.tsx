@@ -294,7 +294,7 @@ export default class ImageViewer extends React.Component<Props, State> {
   /**
    * 到下一张
    */
-  public goNext() {
+  public goNext = () => {
     if (this.state.currentShowIndex === this.props.imageUrls.length - 1) {
       // 回到之前的位置
       this.resetPosition.call(this);
@@ -322,7 +322,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
       }
     );
-  }
+  };
 
   /**
    * 回到原位
