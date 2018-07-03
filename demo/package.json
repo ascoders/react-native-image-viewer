@@ -22,6 +22,6 @@
     "expo": "^23.0.4",
     "react": "16.0.0",
     "react-native": "0.50.3",
-    "react-native-image-pan-zoom": "^2.1.6"
+    "react-native-image-pan-zoom": "^2.1.7"
   }
 }
