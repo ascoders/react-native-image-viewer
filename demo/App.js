@@ -47,7 +47,14 @@ export default class Main extends Component {
           transparent={true}
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
-          <ImageViewer imageUrls={images} index={this.state.index} />
+          <ImageViewer
+            imageUrls={images}
+            index={this.state.index}
+            onSwipeDown={() => {
+              console.log('onSwipeDown');
+            }}
+            enableSwipeDown={true}
+          />
         </Modal>
       </View>
     );
