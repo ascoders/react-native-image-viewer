@@ -445,6 +445,8 @@ export default class ImageViewer extends React.Component<Props, State> {
           onDoubleClick={this.handleDoubleClick}
           enableSwipeDown={this.props.enableSwipeDown}
           onSwipeDown={this.handleSwipeDown}
+          pinchToZoom={this.props.enableImageZoom}
+          enableDoubleClickZoom={this.props.enableImageZoom}
           {...others}
         >
           {children}
@@ -508,6 +510,8 @@ export default class ImageViewer extends React.Component<Props, State> {
               imageHeight={height}
               enableSwipeDown={this.props.enableSwipeDown}
               onSwipeDown={this.handleSwipeDown}
+              pinchToZoom={this.props.enableImageZoom}
+              enableDoubleClickZoom={this.props.enableImageZoom}
             >
               {this!.props!.renderImage!(image.props)}
             </ImageZoom>

@@ -53,6 +53,11 @@ export class Props {
    */
   public saveToLocalByLongPress?: boolean = true;
 
+  /**
+   * 是否允许缩放图片
+   */
+  public enableImageZoom?: boolean = true;
+
   public style?: ViewStyle = {};
 
   /**
