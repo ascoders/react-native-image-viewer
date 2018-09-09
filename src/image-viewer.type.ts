@@ -66,6 +66,8 @@ export class Props {
    */
   public enableSwipeDown?: boolean = false;
 
+  public doubleClickInterval?: number;
+
   /**
    * 长按图片的回调
    */
