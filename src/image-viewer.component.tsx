@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
   Animated,
   CameraRoll,
@@ -44,6 +45,8 @@ export default class ImageViewer extends React.Component<Props, State> {
   private loadedIndex = new Map<number, boolean>();
 
   private handleLongPressWithIndex = new Map<number, any>();
+
+  private imageRefs: any[] = [];
 
   public componentWillMount() {
     this.init(this.props);
@@ -110,7 +113,13 @@ export default class ImageViewer extends React.Component<Props, State> {
       }
     );
   }
+  /**
+   * props 有变化时执行
+   */
 
+  public resetImageByIndex = (index: number) => {
+    this.imageRefs[index] && this.imageRefs[index].reset();
+  };
   /**
    * 调到当前看图位置
    */
@@ -499,6 +508,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           return (
             <ImageZoom
               key={index}
+              ref={el => (this.imageRefs[index] = el)}
               cropWidth={this.width}
               cropHeight={this.height}
               maxOverflow={this.props.maxOverflow}
