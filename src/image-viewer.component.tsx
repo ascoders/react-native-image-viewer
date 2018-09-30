@@ -114,9 +114,8 @@ export default class ImageViewer extends React.Component<Props, State> {
     );
   }
   /**
-   * props 有变化时执行
+   * reset Image scale and position
    */
-
   public resetImageByIndex = (index: number) => {
     this.imageRefs[index] && this.imageRefs[index].reset();
   };
