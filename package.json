@@ -3,7 +3,7 @@
   "version": "2.2.18",
   "description": "react native image viewer,大图浏览",
   "main": "built/index.js",
-  "types": "src/index.ts",
+  "types": "built/index.d.ts",
   "scripts": {
     "prepare": "rm -rf built && tsc",
     "start": "tsc -w --outDir demo/built"
