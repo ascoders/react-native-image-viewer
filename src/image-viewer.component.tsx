@@ -179,6 +179,15 @@ export default class ImageViewer extends React.Component<Props, State> {
       imageLoaded = true;
     }
 
+    // 如果已知源图片宽高，直接设置为 success
+    if (image.width && image.height){
+      imageStatus.width = image.width;
+      imageStatus.height = image.height;
+      imageStatus.status = 'success';
+      saveImageSize();
+      return;
+    }
+
     Image.getSize(
       image.url,
       (width: number, height: number) => {
