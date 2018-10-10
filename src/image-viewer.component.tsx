@@ -212,6 +212,14 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   /**
+  * 预加载图片
+  */
+  public preloadImage = (index: number) =>{
+    if (index < this.state.imageSizes!.length){
+      this.loadImage(index + 1);
+    }
+  }
+  /**
    * 触发溢出水平滚动
    */
   public handleHorizontalOuterRangeOffset = (offsetX: number = 0) => {
@@ -371,7 +379,8 @@ export default class ImageViewer extends React.Component<Props, State> {
    */
   public handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick(this.handleCancel);
+      //this.props.onClick(this.handleCancel);
+      this.props.onClick(this.state.currentShowIndex);
     }
   };
 
@@ -512,7 +521,9 @@ export default class ImageViewer extends React.Component<Props, State> {
               ...image.props.source
             };
           }
-
+          if (this.props.enablePreload){
+            this.preloadImage(this.state.currentShowIndex||0)
+          }
           return (
             <ImageZoom
               key={index}
