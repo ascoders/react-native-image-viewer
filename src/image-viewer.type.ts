@@ -69,6 +69,11 @@ export class Props {
   public doubleClickInterval?: number;
 
   /**
+   * 是否预加载图片
+   */
+  public enablePreload?: boolean = false;
+
+  /**
    * 长按图片的回调
    */
   public onLongPress?: (image?: IImageInfo) => void = () => {
@@ -78,7 +83,7 @@ export class Props {
   /**
    * 单击回调
    */
-  public onClick?: (close?: () => any) => void = () => {
+   public onClick?:  (close?: () => any, currentShowIndex?: number) => void = () => {
     //
   };
 
