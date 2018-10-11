@@ -181,6 +181,9 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     // 如果已知源图片宽高，直接设置为 success
     if (image.width && image.height){
+      if(this.props.enablePreload && imageLoaded===false){
+        Image.prefetch(image.url)
+      }
       imageStatus.width = image.width;
       imageStatus.height = image.height;
       imageStatus.status = 'success';
@@ -299,7 +302,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
-      duration: 100
+      duration: this.props.pageAnimateTime
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) - 1;
@@ -332,7 +335,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
-      duration: 100
+      duration: this.props.pageAnimateTime
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) + 1;
