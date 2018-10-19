@@ -60,7 +60,7 @@ export const simpleStyle: {
     left: 0,
     right: 0,
     top: 38,
-    zIndex: -1,
+    zIndex: 13,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent'
