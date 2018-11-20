@@ -66,6 +66,11 @@ export class Props {
    */
   public enableSwipeDown?: boolean = false;
 
+  /**
+   * threshold for firing swipe down function
+   */
+  public swipeDownThreshold?: number;
+
   public doubleClickInterval?: number;
 
   /**
