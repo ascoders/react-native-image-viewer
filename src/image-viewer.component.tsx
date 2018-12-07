@@ -72,6 +72,14 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
       );
     }
+    if (nextProps.imageUrls.length !== this.props.imageUrls.length ){
+      this.loadedIndex = new Map<number, boolean>();
+      this.handleLongPressWithIndex = new Map<number, any>();
+      this.imageRefs = [];
+      this.setState({ ... new State() }, () => {
+        this.init(nextProps);
+      });
+    }
   }
 
   /**
