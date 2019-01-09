@@ -46,7 +46,7 @@ export default (
     },
     operateText: { color: '#333' },
     loadingTouchable: { width, height },
-    loadingContainer: { justifyContent: 'center', alignItems: 'center' },
+    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     arrowLeftContainer: { position: 'absolute', top: 0, bottom: 0, left: 0, justifyContent: 'center', zIndex: 13 },
     arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 }
   };
