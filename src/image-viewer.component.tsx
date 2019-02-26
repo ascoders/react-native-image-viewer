@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  SafeAreaView,
   ViewStyle
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
@@ -679,7 +680,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     );
 
     return (
-      <View
+      <SafeAreaView
         onLayout={this.handleLayout}
         style={{
           flex: 1,
@@ -688,7 +689,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         }}
       >
         {childs}
-      </View>
+      </SafeAreaView>
     );
   }
 }
