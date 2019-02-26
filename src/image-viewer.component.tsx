@@ -20,6 +20,8 @@ import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
 import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
 
+const MainView = SafeAreaView || View;
+
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
   public state = new State();
@@ -680,7 +682,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     );
 
     return (
-      <SafeAreaView
+      <MainView
         onLayout={this.handleLayout}
         style={{
           flex: 1,
@@ -689,7 +691,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         }}
       >
         {childs}
-      </SafeAreaView>
+      </MainView>
     );
   }
 }
