@@ -472,14 +472,14 @@ export default class ImageViewer extends React.Component<Props, State> {
       }
 
       // 如果宽大于屏幕宽度,整体缩放到宽度是屏幕宽度
-      if (width > screenWidth) {
+      if (width > screenWidth || this!.props.loadingWithBlur) {
         const widthPixel = screenWidth / width;
         width *= widthPixel;
         height *= widthPixel;
       }
 
       // 如果此时高度还大于屏幕高度,整体缩放到高度是屏幕高度
-      if (height > screenHeight) {
+      if (height > screenHeight || this!.props.loadingWithBlur) {
         const HeightPixel = screenHeight / height;
         width *= HeightPixel;
         height *= HeightPixel;
@@ -615,29 +615,16 @@ export default class ImageViewer extends React.Component<Props, State> {
             height
           };
 
-          if (typeof image.props.source === 'number') {
-            // source = require(..), doing nothing
-          } else {
-            if (!image.props.source) {
-              image.props.source = {};
-            }
-            image.props.source = {
-              uri: image.url,
-              ...image.props.source
-            };
-          }
           const loadingWithBlurProps = {
-            imageProps: image.props,
-            loadingPropd: {
-              ...image.props,
-              source: {
-                ...image.props.source,
-                uri: image.loadingUrl,
-              }
+            source: {
+              uri: image.url,
             },
-            status: imageInfo.status
+            loadingSource: {
+              uri: image.loadingUrl,
+            },
+            style: image.props.style,
           }
-          if (this.props.enablePreload){
+          if (this.props.enablePreload) {
             this.preloadImage(this.state.currentShowIndex||0)
           }
           return (
