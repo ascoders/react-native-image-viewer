@@ -209,6 +209,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         } catch (newError) {
           // Give up..
           imageStatus.status = 'fail';
+          saveImageSize();
         }
       }
     );
