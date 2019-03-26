@@ -472,17 +472,29 @@ export default class ImageViewer extends React.Component<Props, State> {
       }
 
       // 如果宽大于屏幕宽度,整体缩放到宽度是屏幕宽度
-      if (width > screenWidth || this!.props.loadingWithBlur) {
+      if (width > screenWidth) {
         const widthPixel = screenWidth / width;
         width *= widthPixel;
         height *= widthPixel;
       }
 
       // 如果此时高度还大于屏幕高度,整体缩放到高度是屏幕高度
-      if (height > screenHeight || this!.props.loadingWithBlur) {
+      if (height > screenHeight) {
         const HeightPixel = screenHeight / height;
         width *= HeightPixel;
         height *= HeightPixel;
+      }
+
+      if (this!.props.loadingWithBlur && width < screenWidth && height < screenHeight) {
+        const imageRatio = height / width
+        const screenRatio = screenHeight / screenWidth
+        if (imageRatio > screenRatio) {
+          height = screenHeight
+          width = screenHeight / imageRatio
+        } else {
+          width = screenWidth
+          height = screenWidth * imageRatio 
+        }
       }
 
       const Wrapper = ({ children, ...others }: any) => (
