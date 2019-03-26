@@ -191,27 +191,51 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    Image.getSize(
-      image.url,
-      (width: number, height: number) => {
-        imageStatus.width = width;
-        imageStatus.height = height;
-        imageStatus.status = 'success';
-        saveImageSize();
-      },
-      () => {
-        try {
-          const data = (Image as any).resolveAssetSource(image.props.source);
-          imageStatus.width = data.width;
-          imageStatus.height = data.height;
+    if (this!.props.loadingWithBlur) {
+      Image.getSize(
+        image.loadingUrl,
+        (width: number, height: number) => {
+          imageStatus.width = width;
+          imageStatus.height = height;
+          imageStatus.status = 'loadingWithBlur';
+          saveImageSize();
+        },
+        () => {
+          try {
+            const data = (Image as any).resolveAssetSource(image.props.source);
+            imageStatus.width = data.width;
+            imageStatus.height = data.height;
+            imageStatus.status = 'loadingWithBlur';
+            saveImageSize();
+          } catch (newError) {
+            // Give up..
+            imageStatus.status = 'fail';
+          }
+        }
+      );
+    } else {
+      Image.getSize(
+        image.url,
+        (width: number, height: number) => {
+          imageStatus.width = width;
+          imageStatus.height = height;
           imageStatus.status = 'success';
           saveImageSize();
-        } catch (newError) {
-          // Give up..
-          imageStatus.status = 'fail';
+        },
+        () => {
+          try {
+            const data = (Image as any).resolveAssetSource(image.props.source);
+            imageStatus.width = data.width;
+            imageStatus.height = data.height;
+            imageStatus.status = 'success';
+            saveImageSize();
+          } catch (newError) {
+            // Give up..
+            imageStatus.status = 'fail';
+          }
         }
-      }
-    );
+      );
+    }
   }
 
   /**
@@ -599,9 +623,19 @@ export default class ImageViewer extends React.Component<Props, State> {
             }
             image.props.source = {
               uri: image.url,
-              loadingUri: image.loadingUrl,
               ...image.props.source
             };
+          }
+          const loadingWithBlurProps = {
+            imageProps: image.props,
+            loadingPropd: {
+              ...image.props,
+              source: {
+                ...image.props.source,
+                uri: image.loadingUrl,
+              }
+            },
+            status: imageInfo.status
           }
           if (this.props.enablePreload){
             this.preloadImage(this.state.currentShowIndex||0)
@@ -627,7 +661,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               enableDoubleClickZoom={this.props.enableImageZoom}
               doubleClickInterval={this.props.doubleClickInterval}
             >
-              {this!.props!.renderLoadingWithBlur!(image.props)}
+              {this!.props!.renderLoadingWithBlur!(loadingWithBlurProps)}
             </ImageZoom>
           );
       }
