@@ -202,6 +202,19 @@ export class Props {
   public onChange?: (index?: number) => void = () => {
     //
   };
+
+  /**
+   * 图片加载展示自定义
+   */
+  public loadingWithBlur?: boolean = false;
+
+
+  /**
+   * 图片加载展示自定义方法
+   */
+  public renderLoadingWithBlur?: (props: any) => React.ReactElement<any> = (props: any) => {
+    return React.createElement(Image, props);
+  };
 }
 
 export class State {
@@ -233,6 +246,7 @@ export class State {
 
 export interface IImageInfo {
   url: string;
+  loadingUrl: string;
   /**
    * 没有的话会自动拉取
    */
@@ -272,5 +286,5 @@ export interface IImageSize {
   width: number;
   height: number;
   // 图片加载状态
-  status: 'loading' | 'success' | 'fail';
+  status: 'loading' | 'success' | 'fail' | 'loadingWithBlur';
 }

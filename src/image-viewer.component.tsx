@@ -571,6 +571,60 @@ export default class ImageViewer extends React.Component<Props, State> {
                 })}
             </Wrapper>
           );
+        case 'loadingWithBlur':
+          if (!image.props) {
+            image.props = {};
+          }
+
+          if (!image.props.style) {
+            image.props.style = {};
+          }
+          image.props.style = {
+            ...this.styles.imageStyle, // User config can override above.
+            ...image.props.style,
+            width,
+            height
+          };
+
+          if (typeof image.props.source === 'number') {
+            // source = require(..), doing nothing
+          } else {
+            if (!image.props.source) {
+              image.props.source = {};
+            }
+            image.props.source = {
+              uri: image.url,
+              loadingUri: image.loadingUrl,
+              ...image.props.source
+            };
+          }
+          if (this.props.enablePreload){
+            this.preloadImage(this.state.currentShowIndex||0)
+          }
+          return (
+            <ImageZoom
+              key={index}
+              ref={el => (this.imageRefs[index] = el)}
+              cropWidth={this.width}
+              cropHeight={this.height}
+              maxOverflow={this.props.maxOverflow}
+              horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
+              responderRelease={this.handleResponderRelease}
+              onLongPress={this.handleLongPressWithIndex.get(index)}
+              onClick={this.handleClick}
+              onDoubleClick={this.handleDoubleClick}
+              imageWidth={width}
+              imageHeight={height}
+              enableSwipeDown={this.props.enableSwipeDown}
+              swipeDownThreshold={this.props.swipeDownThreshold}
+              onSwipeDown={this.handleSwipeDown}
+              pinchToZoom={this.props.enableImageZoom}
+              enableDoubleClickZoom={this.props.enableImageZoom}
+              doubleClickInterval={this.props.doubleClickInterval}
+            >
+              {this!.props!.renderLoadingWithBlur!(image.props)}
+            </ImageZoom>
+          );
       }
     });
 
