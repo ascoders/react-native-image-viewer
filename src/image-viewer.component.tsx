@@ -483,7 +483,12 @@ export default class ImageViewer extends React.Component<Props, State> {
         </ImageZoom>
       );
 
-      switch (imageInfo.status) {
+      let statusNow = imageInfo.status
+      if (this!.props.loadingWithBlur && imageInfo.status !== 'fail') {
+        statusNow = 'loadingWithBlur'
+      }
+
+      switch (statusNow) {
         case 'loading':
           return (
             <Wrapper
