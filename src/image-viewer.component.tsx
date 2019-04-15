@@ -469,6 +469,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           maxOverflow={this.props.maxOverflow}
           horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
           responderRelease={this.handleResponderRelease}
+          onMove={this.props.onMove}
           onLongPress={this.handleLongPressWithIndex.get(index)}
           onClick={this.handleClick}
           onDoubleClick={this.handleDoubleClick}
@@ -537,6 +538,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               maxOverflow={this.props.maxOverflow}
               horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
               responderRelease={this.handleResponderRelease}
+              onMove={this.props.onMove}
               onLongPress={this.handleLongPressWithIndex.get(index)}
               onClick={this.handleClick}
               onDoubleClick={this.handleDoubleClick}

@@ -53,6 +53,7 @@ export default class Main extends Component {
             onSwipeDown={() => {
               console.log('onSwipeDown');
             }}
+            onMove={data => console.log(data)}
             enableSwipeDown={true}
           />
         </Modal>
