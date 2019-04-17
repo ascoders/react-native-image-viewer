@@ -2,6 +2,14 @@ import * as React from 'react';
 import { Image, ImageURISource, Text, View, ViewStyle } from 'react-native';
 import { simpleStyle } from './image-viewer.style';
 
+interface IOnMove {
+  type: string;
+  positionX: number;
+  positionY: number;
+  scale: number;
+  zoomCurrentDistance: number;
+}
+
 export class Props {
   /**
    * 是否显示
@@ -109,6 +117,10 @@ export class Props {
    * 针对安卓不支持 saveToCameraRoll 远程图片，可以在安卓调用此回调，调用安卓原生接口
    */
   public onSave?: (url: string) => void = () => {
+    //
+  };
+
+  public onMove?: (position?: IOnMove) => void = () => {
     //
   };
 
