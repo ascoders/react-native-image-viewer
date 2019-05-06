@@ -134,7 +134,7 @@ export class Props {
   /**
    * 自定义尾部
    */
-  public renderFooter?: (currentIndex?: number) => React.ReactElement<any> = () => {
+  public renderFooter?: (currentIndex: number) => React.ReactElement<any> = () => {
     return null as any;
   };
 
