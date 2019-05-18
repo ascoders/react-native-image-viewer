@@ -642,6 +642,14 @@ export default class ImageViewer extends React.Component<Props, State> {
       return null;
     }
 
+    if(this.props.menus) {
+      return (
+          <View style={this.styles.menuContainer}>
+            {this.props.menus({cancel:this.handleLeaveMenu,saveToLocal:this.saveToLocal})}
+          </View>
+      )
+    }
+
     return (
       <View style={this.styles.menuContainer}>
         <View style={this.styles.menuShadow} />
