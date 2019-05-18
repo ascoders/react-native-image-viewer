@@ -105,7 +105,7 @@ export default class App extends React.Component {
 | doubleClickInterval    | number                                                                                 | no       | Double click interval.                                                                                                                                                                                                               |                                                           |
 | pageAnimateTime        | number                                                                                 | no       | Set the animation time for page flipping.                                                                                                                                                                                            | `100`                                                     |
 | enablePreload          | boolean                                                                                | no       | Preload the next image                                                                                                                                                                                                               | `false`                                                   |
-
+| menus                  | function<br><br>`({cancel,saveToLocal}) => React.ReactElement<any>`                    | no       | Custom menus, with 2 methods:`cancel` to hide menus and `saveToLocal` to save image to camera
 ## Development pattern
 
 ### Step 1, run TS listener
