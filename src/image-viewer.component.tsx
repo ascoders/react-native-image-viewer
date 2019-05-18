@@ -180,9 +180,9 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
 
     // 如果已知源图片宽高，直接设置为 success
-    if (image.width && image.height){
-      if(this.props.enablePreload && imageLoaded===false){
-        Image.prefetch(image.url)
+    if (image.width && image.height) {
+      if (this.props.enablePreload && imageLoaded === false) {
+        Image.prefetch(image.url);
       }
       imageStatus.width = image.width;
       imageStatus.height = image.height;
@@ -216,13 +216,13 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   /**
-  * 预加载图片
-  */
-  public preloadImage = (index: number) =>{
-    if (index < this.state.imageSizes!.length){
+   * 预加载图片
+   */
+  public preloadImage = (index: number) => {
+    if (index < this.state.imageSizes!.length) {
       this.loadImage(index + 1);
     }
-  }
+  };
   /**
    * 触发溢出水平滚动
    */
@@ -526,8 +526,8 @@ export default class ImageViewer extends React.Component<Props, State> {
               ...image.props.source
             };
           }
-          if (this.props.enablePreload){
-            this.preloadImage(this.state.currentShowIndex||0)
+          if (this.props.enablePreload) {
+            this.preloadImage(this.state.currentShowIndex || 0);
           }
           return (
             <ImageZoom
@@ -548,8 +548,8 @@ export default class ImageViewer extends React.Component<Props, State> {
               swipeDownThreshold={this.props.swipeDownThreshold}
               onSwipeDown={this.handleSwipeDown}
               panToMove={!this.state.isShowMenu}
-              pinchToZoom={this.props.enableImageZoom&&!this.state.isShowMenu}
-              enableDoubleClickZoom={this.props.enableImageZoom&&!this.state.isShowMenu}
+              pinchToZoom={this.props.enableImageZoom && !this.state.isShowMenu}
+              enableDoubleClickZoom={this.props.enableImageZoom && !this.state.isShowMenu}
               doubleClickInterval={this.props.doubleClickInterval}
             >
               {this!.props!.renderImage!(image.props)}
@@ -616,7 +616,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               </View>
             )}
           <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
-            {this!.props!.renderFooter!(this.state.currentShowIndex)}
+            {this!.props!.renderFooter!(this.state.currentShowIndex || -1)}
           </View>
         </Animated.View>
       </Animated.View>
@@ -642,12 +642,12 @@ export default class ImageViewer extends React.Component<Props, State> {
       return null;
     }
 
-    if(this.props.menus) {
+    if (this.props.menus) {
       return (
-          <View style={this.styles.menuContainer}>
-            {this.props.menus({cancel:this.handleLeaveMenu,saveToLocal:this.saveToLocal})}
-          </View>
-      )
+        <View style={this.styles.menuContainer}>
+          {this.props.menus({ cancel: this.handleLeaveMenu, saveToLocal: this.saveToLocal })}
+        </View>
+      );
     }
 
     return (

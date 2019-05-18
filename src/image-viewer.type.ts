@@ -101,7 +101,7 @@ export class Props {
   /**
    * 单击回调
    */
-   public onClick?:  (close?: () => any, currentShowIndex?: number) => void = () => {
+  public onClick?: (close?: () => any, currentShowIndex?: number) => void = () => {
     //
   };
 
@@ -214,6 +214,8 @@ export class Props {
   public onChange?: (index?: number) => void = () => {
     //
   };
+
+  public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
 }
 
 export class State {
