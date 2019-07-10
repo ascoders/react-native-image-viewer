@@ -105,6 +105,11 @@ export class Props {
   public useNativeDriver?: boolean = false;
 
   /**
+   * Boolean that will disable the swipe-left and swipe-right navigation.
+   */
+  public swipeNavigationDisabled?: boolean = false;
+
+  /**
    * 长按图片的回调
    */
   public onLongPress?: (image?: IImageInfo) => void = () => {
