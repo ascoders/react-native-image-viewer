@@ -585,13 +585,13 @@ export default class ImageViewer extends React.Component<Props, State> {
 
           <View style={this.styles.arrowLeftContainer}>
             <TouchableWithoutFeedback onPress={this.goBack}>
-              <View>{this!.props!.renderArrowLeft!()}</View>
+              <View>{this!.props!.renderArrowLeft!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}</View>
             </TouchableWithoutFeedback>
           </View>
 
           <View style={this.styles.arrowRightContainer}>
             <TouchableWithoutFeedback onPress={this.goNext}>
-              <View>{this!.props!.renderArrowRight!()}</View>
+              <View>{this!.props!.renderArrowRight!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}</View>
             </TouchableWithoutFeedback>
           </View>
 
