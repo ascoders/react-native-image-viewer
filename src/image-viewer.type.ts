@@ -82,6 +82,13 @@ export class Props {
   public doubleClickInterval?: number;
 
   /**
+   * Min and Max scale for zooming
+   */
+  public minScale?: number;
+
+  public maxScale?: number;
+
+  /**
    * 是否预加载图片
    */
   public enablePreload?: boolean = false;
