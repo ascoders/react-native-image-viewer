@@ -651,8 +651,8 @@ export default class ImageViewer extends React.Component<Props, State> {
               onLongPress={this.handleLongPressWithIndex.get(index)}
               onClick={this.handleClick}
               onDoubleClick={this.handleDoubleClick}
-              imageWidth={width}
-              imageHeight={height}
+              imageWidth={this.props.contentWidth || width}
+              imageHeight={this.props.contentHeight || height}
               enableSwipeDown={this.props.enableSwipeDown}
               swipeDownThreshold={this.props.swipeDownThreshold}
               onSwipeDown={this.handleSwipeDown}

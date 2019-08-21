@@ -215,6 +215,16 @@ export class Props {
   public renderLoadingWithBlur?: (props: any) => React.ReactElement<any> = (props: any) => {
     return React.createElement(Image, props);
   };
+
+  /**
+   * 设置内容高度
+   */
+  public contentHeight?: number = 0;
+
+  /**
+   * 设置内容高度
+   */
+  public contentWidth?: number = 0;
 }
 
 export class State {
