@@ -486,7 +486,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       }
 
       if (this!.props.loadingWithBlur && width < screenWidth && height < screenHeight) {
-        const imageRatio = height / width
+        const imageRatio = height / width || 1
         const screenRatio = screenHeight / screenWidth
         if (imageRatio > screenRatio) {
           height = screenHeight
