@@ -230,6 +230,11 @@ export class State {
   public currentShowIndex?: number = 0;
 
   /**
+   * Used to detect if parent component applied new index prop
+   */
+  public prevIndexProp?: number = 0;
+
+  /**
    * 图片拉取是否完毕了
    */
   public imageLoaded?: boolean = false;
