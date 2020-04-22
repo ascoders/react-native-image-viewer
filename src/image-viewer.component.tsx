@@ -69,7 +69,8 @@ export default class ImageViewer extends React.Component<Props, State> {
       // 显示动画
       Animated.timing(this.fadeAnim, {
         toValue: 1,
-        duration: 200
+        duration: 200,
+        useNativeDriver: true
       }).start();
     }
   }
@@ -109,7 +110,8 @@ export default class ImageViewer extends React.Component<Props, State> {
         // 显示动画
         Animated.timing(this.fadeAnim, {
           toValue: 1,
-          duration: 200
+          duration: 200,
+          useNativeDriver: true
         }).start();
       }
     );
@@ -304,7 +306,8 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
-      duration: this.props.pageAnimateTime
+      duration: this.props.pageAnimateTime,
+      useNativeDriver: true
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) - 1;
@@ -337,7 +340,8 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
-      duration: this.props.pageAnimateTime
+      duration: this.props.pageAnimateTime,
+      useNativeDriver: true
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) + 1;
@@ -361,7 +365,8 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.positionXNumber = this.standardPositionX;
     Animated.timing(this.positionX, {
       toValue: this.standardPositionX,
-      duration: 150
+      duration: 150,
+      useNativeDriver: true
     }).start();
   }
 
