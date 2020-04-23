@@ -70,7 +70,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       Animated.timing(this.fadeAnim, {
         toValue: 1,
         duration: 200,
-        useNativeDriver: true
+        useNativeDriver: false
       }).start();
     }
   }
@@ -111,7 +111,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         Animated.timing(this.fadeAnim, {
           toValue: 1,
           duration: 200,
-          useNativeDriver: true
+          useNativeDriver: false
         }).start();
       }
     );
@@ -307,7 +307,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
       duration: this.props.pageAnimateTime,
-      useNativeDriver: true
+      useNativeDriver: false
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) - 1;
@@ -341,7 +341,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
       duration: this.props.pageAnimateTime,
-      useNativeDriver: true
+      useNativeDriver: false
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) + 1;
@@ -366,7 +366,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     Animated.timing(this.positionX, {
       toValue: this.standardPositionX,
       duration: 150,
-      useNativeDriver: true
+      useNativeDriver: false
     }).start();
   }
 
