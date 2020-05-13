@@ -603,7 +603,7 @@ export default class ImageViewer extends React.Component<Props, State> {
             </TouchableWithoutFeedback>
           </View>
 
-          <View style={{zIndex: 9}}>
+          <View style={{zIndex: 9, position: 'absolute'}}>
             {this.props.renderIndicator((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
           </View>
 
