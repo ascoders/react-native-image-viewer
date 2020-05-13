@@ -604,7 +604,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           </View>
 
           <View style={{zIndex: 9, position: 'absolute'}}>
-            {this.props.renderIndicator((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
+            {this!.props!.renderIndicator!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
           </View>
 
           <Animated.View
