@@ -98,6 +98,12 @@ export class Props {
    */
   public pageAnimateTime?: number = 100;
 
+  /** 
+   * 是否启用原生动画驱动
+   * Whether to use the native code to perform animations.
+   */
+  public useNativeDriver?: boolean = false;
+
   /**
    * 长按图片的回调
    */
