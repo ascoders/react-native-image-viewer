@@ -127,7 +127,11 @@ export default class ImageViewer extends React.Component<Props, State> {
    */
   public jumpToCurrentImage() {
     // 跳到当前图的位置
-    this.positionXNumber = this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
+    const newPositionXNumber = this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
+    // 如果已经到位了，不要重复。会打扰现有的 Animation
+    if (newPositionXNumber === this.positionXNumber) return;
+
+    this.positionXNumber = newPositionXNumber;
     this.standardPositionX = this.positionXNumber;
     this.positionX.setValue(this.positionXNumber);
   }
