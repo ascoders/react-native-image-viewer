@@ -603,6 +603,10 @@ export default class ImageViewer extends React.Component<Props, State> {
             </TouchableWithoutFeedback>
           </View>
 
+          <View style={{zIndex: 9, position: 'absolute'}}>
+            {this!.props!.renderIndicator!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
+          </View>
+
           <Animated.View
             style={{
               ...this.styles.moveBox,
@@ -612,7 +616,6 @@ export default class ImageViewer extends React.Component<Props, State> {
           >
             {ImageElements}
           </Animated.View>
-          {this!.props!.renderIndicator!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
 
           {this.props.imageUrls[this.state.currentShowIndex || 0] &&
             this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
