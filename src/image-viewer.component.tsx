@@ -261,18 +261,10 @@ export default class ImageViewer extends React.Component<Props, State> {
     if (vxRTL > 0.7) {
       // 上一张
       this.goBack.call(this);
-
-      // 这里可能没有触发溢出滚动，为了防止图片不被加载，调用加载图片
-      if (this.state.currentShowIndex || 0 > 0) {
-        this.loadImage((this.state.currentShowIndex || 0) - 1);
-      }
       return;
     } else if (vxRTL < -0.7) {
       // 下一张
       this.goNext.call(this);
-      if (this.state.currentShowIndex || 0 < this.props.imageUrls.length - 1) {
-        this.loadImage((this.state.currentShowIndex || 0) + 1);
-      }
       return;
     }
 
@@ -310,6 +302,10 @@ export default class ImageViewer extends React.Component<Props, State> {
       useNativeDriver: !!this.props.useNativeDriver
     }).start();
 
+    if (this.state.currentShowIndex || 0 > 0) {
+      this.loadImage((this.state.currentShowIndex || 0) - 1);
+    }
+
     const nextIndex = (this.state.currentShowIndex || 0) - 1;
 
     this.setState(
@@ -343,6 +339,10 @@ export default class ImageViewer extends React.Component<Props, State> {
       duration: this.props.pageAnimateTime,
       useNativeDriver: !!this.props.useNativeDriver
     }).start();
+
+    if (this.state.currentShowIndex || 0 < this.props.imageUrls.length - 1) {
+      this.loadImage((this.state.currentShowIndex || 0) + 1);
+    }
 
     const nextIndex = (this.state.currentShowIndex || 0) + 1;
 
@@ -593,13 +593,13 @@ export default class ImageViewer extends React.Component<Props, State> {
 
           <View style={this.styles.arrowLeftContainer}>
             <TouchableWithoutFeedback onPress={this.goBack}>
-              <View>{this!.props!.renderArrowLeft!()}</View>
+              <View>{this!.props!.renderArrowLeft!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}</View>
             </TouchableWithoutFeedback>
           </View>
 
           <View style={this.styles.arrowRightContainer}>
             <TouchableWithoutFeedback onPress={this.goNext}>
-              <View>{this!.props!.renderArrowRight!()}</View>
+              <View>{this!.props!.renderArrowRight!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}</View>
             </TouchableWithoutFeedback>
           </View>
 

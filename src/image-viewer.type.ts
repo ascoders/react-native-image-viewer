@@ -175,14 +175,14 @@ export class Props {
   /**
    * 自定义左翻页按钮
    */
-  public renderArrowLeft?: () => React.ReactElement<any> = () => {
+  public renderArrowLeft?: (currentIndex?: number, allSize?: number) => React.ReactElement<any> = () => {
     return null as any;
   };
 
   /**
    * 自定义右翻页按钮
    */
-  public renderArrowRight?: () => React.ReactElement<any> = () => {
+  public renderArrowRight?: (currentIndex?: number, allSize?: number) => React.ReactElement<any> = () => {
     return null as any;
   };
 
