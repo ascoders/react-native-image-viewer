@@ -6,6 +6,8 @@
   "types": "built/index.d.ts",
   "scripts": {
     "prepare": "rm -rf built && tsc",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "prettier": "prettier --write src demo",
     "start": "tsc -w --outDir demo/built"
   },
   "repository": {
@@ -27,11 +29,18 @@
   "devDependencies": {
     "@types/react": "*",
     "@types/react-native": "*",
-    "ascoders-tslint-config": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-native": "^3.8.1",
+    "prettier": "^2.0.5",
     "react": "*",
-    "react-native": "*",
+    "react-native": "^0.61.4",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.13.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.9.2"
   }
 }

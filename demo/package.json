@@ -4,8 +4,8 @@
   "private": true,
   "devDependencies": {
     "babel-preset-expo": "^7.1.0",
-    "jest-expo": "^35.0.0",
-    "react-test-renderer": "16.0.0"
+    "jest-expo": "^37.0.0",
+    "react-test-renderer": "16.13.1"
   },
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -19,9 +19,9 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^35.0.0",
-    "react": "16.8.3",
-    "react-native": "0.59.8",
+    "expo": "^37.0.10",
+    "react": "^16.13.1",
+    "react-native": "^0.61.4",
     "react-native-image-pan-zoom": "^2.1.7"
   }
 }

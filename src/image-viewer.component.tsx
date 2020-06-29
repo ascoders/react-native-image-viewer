@@ -3,24 +3,23 @@ import * as React from 'react';
 import {
   Animated,
   CameraRoll,
-  Dimensions,
   I18nManager,
   Image,
-  PanResponder,
-  Platform,
   Text,
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ViewStyle
+  LayoutChangeEvent,
+  ImageProps,
+  StyleSheet,
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
-import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
+import { IImageInfo, IImageSize, Props, State, defaultProps } from './image-viewer.type';
 
 export default class ImageViewer extends React.Component<Props, State> {
-  public static defaultProps = new Props();
+  public static defaultProps = defaultProps;
   public state = new State();
 
   // 背景透明度渐变动画
@@ -38,15 +37,12 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   private styles = styles(0, 0, 'transparent');
 
-  // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
-  private hasLayout = false;
-
   // 记录已加载的图片 index
   private loadedIndex = new Map<number, boolean>();
 
-  private handleLongPressWithIndex = new Map<number, any>();
+  private handleLongPressWithIndex = new Map<number, () => void>();
 
-  private imageRefs: any[] = [];
+  private imageRefs: (ImageZoom | null)[] = [];
 
   public componentDidMount() {
     this.init(this.props);
@@ -59,7 +55,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     return null;
   }
 
-  public componentDidUpdate(prevProps: Props, prevState: State) {
+  public componentDidUpdate(prevProps: Props) {
     if (prevProps.index !== this.props.index) {
       // 立刻预加载要看的图
       this.loadImage(this.props.index || 0);
@@ -70,7 +66,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       Animated.timing(this.fadeAnim, {
         toValue: 1,
         duration: 200,
-        useNativeDriver: !!this.props.useNativeDriver
+        useNativeDriver: !!this.props.useNativeDriver,
       }).start();
     }
   }
@@ -87,11 +83,11 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     // 给 imageSizes 塞入空数组
     const imageSizes: IImageSize[] = [];
-    nextProps.imageUrls.forEach(imageUrl => {
+    nextProps.imageUrls.forEach((imageUrl) => {
       imageSizes.push({
         width: imageUrl.width || 0,
         height: imageUrl.height || 0,
-        status: 'loading'
+        status: 'loading',
       });
     });
 
@@ -99,7 +95,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       {
         currentShowIndex: nextProps.index,
         prevIndexProp: nextProps.index || 0,
-        imageSizes
+        imageSizes,
       },
       () => {
         // 立刻预加载要看的图
@@ -111,7 +107,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         Animated.timing(this.fadeAnim, {
           toValue: 1,
           duration: 200,
-          useNativeDriver: !!nextProps.useNativeDriver
+          useNativeDriver: !!nextProps.useNativeDriver,
         }).start();
       }
     );
@@ -120,7 +116,8 @@ export default class ImageViewer extends React.Component<Props, State> {
    * reset Image scale and position
    */
   public resetImageByIndex = (index: number) => {
-    this.imageRefs[index] && this.imageRefs[index].reset();
+    const imageRef = this.imageRefs[index];
+    if (imageRef) imageRef.reset();
   };
   /**
    * 调到当前看图位置
@@ -136,7 +133,7 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 加载图片，主要是获取图片长与宽
    */
   public loadImage(index: number) {
-    if (!this!.state!.imageSizes![index]) {
+    if (!this.state.imageSizes[index]) {
       return;
     }
 
@@ -146,34 +143,33 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.loadedIndex.set(index, true);
 
     const image = this.props.imageUrls[index];
-    const imageStatus = { ...this!.state!.imageSizes![index] };
+    const imageStatus = { ...this.state.imageSizes[index] };
 
     // 保存 imageSize
     const saveImageSize = () => {
       // 如果已经 success 了，就不做处理
-      if (this!.state!.imageSizes![index] && this!.state!.imageSizes![index].status !== 'loading') {
+      if (this.state.imageSizes[index] && this.state.imageSizes[index].status !== 'loading') {
         return;
       }
 
-      const imageSizes = this!.state!.imageSizes!.slice();
+      const imageSizes = this.state.imageSizes.slice();
       imageSizes[index] = imageStatus;
       this.setState({ imageSizes });
     };
 
-    if (this!.state!.imageSizes![index].status === 'success') {
+    if (this.state.imageSizes[index].status === 'success') {
       // 已经加载过就不会加载了
       return;
     }
 
     // 如果已经有宽高了，直接设置为 success
-    if (this!.state!.imageSizes![index].width > 0 && this!.state!.imageSizes![index].height > 0) {
+    if (this.state.imageSizes[index].width > 0 && this.state.imageSizes[index].height > 0) {
       imageStatus.status = 'success';
       saveImageSize();
       return;
     }
 
     // 是否加载完毕了图片大小
-    const sizeLoaded = false;
     // 是否加载完毕了图片
     let imageLoaded = false;
 
@@ -194,35 +190,40 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    Image.getSize(
-      image.url,
-      (width: number, height: number) => {
-        imageStatus.width = width;
-        imageStatus.height = height;
-        imageStatus.status = 'success';
-        saveImageSize();
-      },
-      () => {
-        try {
-          const data = (Image as any).resolveAssetSource(image.props.source);
-          imageStatus.width = data.width;
-          imageStatus.height = data.height;
+    if (image.url) {
+      Image.getSize(
+        image.url,
+        (width: number, height: number) => {
+          imageStatus.width = width;
+          imageStatus.height = height;
           imageStatus.status = 'success';
           saveImageSize();
-        } catch (newError) {
+        },
+        () => {
           // Give up..
           imageStatus.status = 'fail';
           saveImageSize();
         }
-      }
-    );
+      );
+    } else if (image.props && image.props.source) {
+      // require('./someImage.png') image
+      const data = Image.resolveAssetSource(image.props.source);
+      imageStatus.width = data.width;
+      imageStatus.height = data.height;
+      imageStatus.status = 'success';
+      saveImageSize();
+    } else {
+      // Give up..
+      imageStatus.status = 'fail';
+      saveImageSize();
+    }
   }
 
   /**
    * 预加载图片
    */
   public preloadImage = (index: number) => {
-    if (index < this.state.imageSizes!.length) {
+    if (index < this.state.imageSizes.length) {
       this.loadImage(index + 1);
     }
   };
@@ -236,12 +237,12 @@ export default class ImageViewer extends React.Component<Props, State> {
     const offsetXRTL = !I18nManager.isRTL ? offsetX : -offsetX;
 
     if (offsetXRTL < 0) {
-      if (this!.state!.currentShowIndex || 0 < this.props.imageUrls.length - 1) {
-        this.loadImage((this!.state!.currentShowIndex || 0) + 1);
+      if (this.state.currentShowIndex || 0 < this.props.imageUrls.length - 1) {
+        this.loadImage((this.state.currentShowIndex || 0) + 1);
       }
     } else if (offsetXRTL > 0) {
-      if (this!.state!.currentShowIndex || 0 > 0) {
-        this.loadImage((this!.state!.currentShowIndex || 0) - 1);
+      if (this.state.currentShowIndex || 0 > 0) {
+        this.loadImage((this.state.currentShowIndex || 0) - 1);
       }
     }
   };
@@ -307,14 +308,14 @@ export default class ImageViewer extends React.Component<Props, State> {
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
       duration: this.props.pageAnimateTime,
-      useNativeDriver: !!this.props.useNativeDriver
+      useNativeDriver: !!this.props.useNativeDriver,
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) - 1;
 
     this.setState(
       {
-        currentShowIndex: nextIndex
+        currentShowIndex: nextIndex,
       },
       () => {
         if (this.props.onChange) {
@@ -341,14 +342,14 @@ export default class ImageViewer extends React.Component<Props, State> {
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
       duration: this.props.pageAnimateTime,
-      useNativeDriver: !!this.props.useNativeDriver
+      useNativeDriver: !!this.props.useNativeDriver,
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) + 1;
 
     this.setState(
       {
-        currentShowIndex: nextIndex
+        currentShowIndex: nextIndex,
       },
       () => {
         if (this.props.onChange) {
@@ -366,7 +367,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     Animated.timing(this.positionX, {
       toValue: this.standardPositionX,
       duration: 150,
-      useNativeDriver: !!this.props.useNativeDriver
+      useNativeDriver: !!this.props.useNativeDriver,
     }).start();
   }
 
@@ -406,7 +407,6 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 退出
    */
   public handleCancel = () => {
-    this.hasLayout = false;
     if (this.props.onCancel) {
       this.props.onCancel();
     }
@@ -415,10 +415,8 @@ export default class ImageViewer extends React.Component<Props, State> {
   /**
    * 完成布局
    */
-  public handleLayout = (event: any) => {
+  public handleLayout = (event: LayoutChangeEvent) => {
     if (event.nativeEvent.layout.width !== this.width) {
-      this.hasLayout = true;
-
       this.width = event.nativeEvent.layout.width;
       this.height = event.nativeEvent.layout.height;
       this.styles = styles(this.width, this.height, this.props.backgroundColor || 'transparent');
@@ -446,13 +444,15 @@ export default class ImageViewer extends React.Component<Props, State> {
         this.handleLongPressWithIndex.set(index, this.handleLongPress.bind(this, image));
       }
 
-      let width = this!.state!.imageSizes![index] && this!.state!.imageSizes![index].width;
-      let height = this.state.imageSizes![index] && this.state.imageSizes![index].height;
-      const imageInfo = this.state.imageSizes![index];
+      const { imageSizes } = this.state;
 
+      const imageInfo = imageSizes && imageSizes[index];
       if (!imageInfo || !imageInfo.status) {
         return <View key={index} style={{ width: screenWidth, height: screenHeight }} />;
       }
+
+      let width = imageInfo.width;
+      let height = imageInfo.height;
 
       // 如果宽大于屏幕宽度,整体缩放到宽度是屏幕宽度
       if (width > screenWidth) {
@@ -468,7 +468,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         height *= HeightPixel;
       }
 
-      const Wrapper = ({ children, ...others }: any) => (
+      const Wrapper = ({ children, ...others }: Partial<ImageZoom['props']>) => (
         <ImageZoom
           cropWidth={this.width}
           cropHeight={this.height}
@@ -496,14 +496,11 @@ export default class ImageViewer extends React.Component<Props, State> {
           return (
             <Wrapper
               key={index}
-              style={{
-                ...this.styles.modalContainer,
-                ...this.styles.loadingContainer
-              }}
+              style={StyleSheet.flatten([this.styles.modalContainer, this.styles.loadingContainer])}
               imageWidth={screenWidth}
               imageHeight={screenHeight}
             >
-              <View style={this.styles.loadingContainer}>{this!.props!.loadingRender!()}</View>
+              <View style={this.styles.loadingContainer}>{this.props.loadingRender()}</View>
             </Wrapper>
           );
         case 'success':
@@ -514,12 +511,14 @@ export default class ImageViewer extends React.Component<Props, State> {
           if (!image.props.style) {
             image.props.style = {};
           }
-          image.props.style = {
-            ...this.styles.imageStyle, // User config can override above.
-            ...image.props.style,
-            width,
-            height
-          };
+          image.props.style = [
+            this.styles.imageStyle,
+            image.props.style, // User config can override above.
+            {
+              width,
+              height,
+            },
+          ];
 
           if (typeof image.props.source === 'number') {
             // source = require(..), doing nothing
@@ -529,7 +528,7 @@ export default class ImageViewer extends React.Component<Props, State> {
             }
             image.props.source = {
               uri: image.url,
-              ...image.props.source
+              ...image.props.source,
             };
           }
           if (this.props.enablePreload) {
@@ -538,7 +537,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           return (
             <ImageZoom
               key={index}
-              ref={el => (this.imageRefs[index] = el)}
+              ref={(el: ImageZoom) => (this.imageRefs[index] = el)}
               cropWidth={this.width}
               cropHeight={this.height}
               maxOverflow={this.props.maxOverflow}
@@ -560,59 +559,63 @@ export default class ImageViewer extends React.Component<Props, State> {
               minScale={this.props.minScale}
               maxScale={this.props.maxScale}
             >
-              {this!.props!.renderImage!(image.props)}
+              {this.props.renderImage(image.props as ImageProps)}
             </ImageZoom>
           );
         case 'fail':
           return (
             <Wrapper
               key={index}
-              style={this.styles.modalContainer}
+              style={StyleSheet.flatten(this.styles.modalContainer)}
               imageWidth={this.props.failImageSource ? this.props.failImageSource.width : screenWidth}
               imageHeight={this.props.failImageSource ? this.props.failImageSource.height : screenHeight}
             >
               {this.props.failImageSource &&
-                this!.props!.renderImage!({
+                this.props.renderImage({
                   source: {
-                    uri: this.props.failImageSource.url
+                    uri: this.props.failImageSource.url,
                   },
                   style: {
                     width: this.props.failImageSource.width,
-                    height: this.props.failImageSource.height
-                  }
+                    height: this.props.failImageSource.height,
+                  },
                 })}
             </Wrapper>
           );
       }
     });
 
+    const { renderHeader, renderArrowLeft, renderArrowRight } = this.props;
+
     return (
       <Animated.View style={{ zIndex: 9 }}>
-        <Animated.View style={{ ...this.styles.container, opacity: this.fadeAnim }}>
-          {this!.props!.renderHeader!(this.state.currentShowIndex)}
+        <Animated.View style={[this.styles.container, { opacity: this.fadeAnim }]}>
+          {renderHeader ? renderHeader(this.state.currentShowIndex) : null}
 
           <View style={this.styles.arrowLeftContainer}>
             <TouchableWithoutFeedback onPress={this.goBack}>
-              <View>{this!.props!.renderArrowLeft!()}</View>
+              <View>{renderArrowLeft ? renderArrowLeft() : null}</View>
             </TouchableWithoutFeedback>
           </View>
 
           <View style={this.styles.arrowRightContainer}>
             <TouchableWithoutFeedback onPress={this.goNext}>
-              <View>{this!.props!.renderArrowRight!()}</View>
+              <View>{renderArrowRight ? renderArrowRight() : null}</View>
             </TouchableWithoutFeedback>
           </View>
 
           <Animated.View
-            style={{
-              ...this.styles.moveBox,
-              transform: [{ translateX: this.positionX }],
-              width: this.width * this.props.imageUrls.length
-            }}
+            style={[
+              this.styles.moveBox,
+              {
+                transform: [{ translateX: this.positionX }],
+                width: this.width * this.props.imageUrls.length,
+              },
+            ]}
           >
             {ImageElements}
           </Animated.View>
-          {this!.props!.renderIndicator!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
+          {this.props.renderIndicator((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
 
           {this.props.imageUrls[this.state.currentShowIndex || 0] &&
             this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
@@ -624,7 +627,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               </View>
             )}
           <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
-            {this!.props!.renderFooter!(this.state.currentShowIndex || 0)}
+            {this.props.renderFooter(this.state.currentShowIndex || 0)}
           </View>
         </Animated.View>
       </Animated.View>
@@ -637,7 +640,7 @@ export default class ImageViewer extends React.Component<Props, State> {
   public saveToLocal = () => {
     if (!this.props.onSave) {
       CameraRoll.saveToCameraRoll(this.props.imageUrls[this.state.currentShowIndex || 0].url);
-      this!.props!.onSaveToCamera!(this.state.currentShowIndex);
+      this.props.onSaveToCamera(this.state.currentShowIndex);
     } else {
       this.props.onSave(this.props.imageUrls[this.state.currentShowIndex || 0].url);
     }
@@ -689,9 +692,7 @@ export default class ImageViewer extends React.Component<Props, State> {
   };
 
   public render() {
-    let childs: React.ReactElement<any> = null as any;
-
-    childs = (
+    const childs = (
       <View>
         {this.getContent()}
         {this.getMenu()}
@@ -704,7 +705,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         style={{
           flex: 1,
           overflow: 'hidden',
-          ...this.props.style
+          ...this.props.style,
         }}
       >
         {childs}
