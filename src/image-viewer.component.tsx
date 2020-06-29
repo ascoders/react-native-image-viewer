@@ -190,30 +190,33 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    Image.getSize(
-      image.url,
-      (width: number, height: number) => {
-        imageStatus.width = width;
-        imageStatus.height = height;
-        imageStatus.status = 'success';
-        saveImageSize();
-      },
-      () => {
-        try {
-          if (image.props && image.props.source) {
-            const data = Image.resolveAssetSource(image.props.source);
-            imageStatus.width = data.width;
-            imageStatus.height = data.height;
-            imageStatus.status = 'success';
-            saveImageSize();
-          }
-        } catch (newError) {
+    if (image.url) {
+      Image.getSize(
+        image.url,
+        (width: number, height: number) => {
+          imageStatus.width = width;
+          imageStatus.height = height;
+          imageStatus.status = 'success';
+          saveImageSize();
+        },
+        () => {
           // Give up..
           imageStatus.status = 'fail';
           saveImageSize();
         }
-      }
-    );
+      );
+    } else if (image.props && image.props.source) {
+      // require('./someImage.png') image
+      const data = Image.resolveAssetSource(image.props.source);
+      imageStatus.width = data.width;
+      imageStatus.height = data.height;
+      imageStatus.status = 'success';
+      saveImageSize();
+    } else {
+      // Give up..
+      imageStatus.status = 'fail';
+      saveImageSize();
+    }
   }
 
   /**
@@ -501,29 +504,31 @@ export default class ImageViewer extends React.Component<Props, State> {
             </Wrapper>
           );
         case 'success':
-          const imageProps: ImageProps = {
-            source: { uri: image.url },
-            ...image.props,
-          };
-
-          if (!imageProps.style) {
-            imageProps.style = {};
+          if (!image.props) {
+            image.props = {};
           }
-          imageProps.style = [
-            this.styles.imageStyle, // User config can override above.
-            imageProps.style,
-            { width, height },
+
+          if (!image.props.style) {
+            image.props.style = {};
+          }
+          image.props.style = [
+            this.styles.imageStyle,
+            image.props.style, // User config can override above.
+            {
+              width,
+              height,
+            },
           ];
 
-          if (typeof imageProps.source === 'number') {
+          if (typeof image.props.source === 'number') {
             // source = require(..), doing nothing
           } else {
-            if (!imageProps.source) {
-              imageProps.source = {};
+            if (!image.props.source) {
+              image.props.source = {};
             }
-            imageProps.source = {
+            image.props.source = {
               uri: image.url,
-              ...imageProps.source,
+              ...image.props.source,
             };
           }
           if (this.props.enablePreload) {
@@ -554,7 +559,7 @@ export default class ImageViewer extends React.Component<Props, State> {
               minScale={this.props.minScale}
               maxScale={this.props.maxScale}
             >
-              {this.props.renderImage(imageProps)}
+              {this.props.renderImage(image.props as ImageProps)}
             </ImageZoom>
           );
         case 'fail':
