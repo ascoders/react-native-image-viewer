@@ -1,13 +1,7 @@
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle, StyleSheet } from 'react-native';
 
-export default (
-  width: number,
-  height: number,
-  backgroundColor: string
-): {
-  [x: string]: ViewStyle | TextStyle;
-} => {
-  return {
+export default (width: number, height: number, backgroundColor: string) => {
+  return StyleSheet.create({
     modalContainer: { backgroundColor, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
     watchOrigin: { position: 'absolute', width, bottom: 20, justifyContent: 'center', alignItems: 'center' },
     watchOriginTouchable: {
@@ -18,7 +12,7 @@ export default (
       borderRadius: 30,
       borderColor: 'white',
       borderWidth: 0.5,
-      backgroundColor: 'rgba(0, 0, 0, 0.1)'
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
     watchOriginText: { color: 'white', backgroundColor: 'transparent' },
     imageStyle: {},
@@ -33,7 +27,7 @@ export default (
       left: 0,
       bottom: 0,
       opacity: 0.2,
-      zIndex: 10
+      zIndex: 10,
     },
     menuContent: { position: 'absolute', width, left: 0, bottom: 0, zIndex: 11 },
     operateContainer: {
@@ -42,14 +36,14 @@ export default (
       backgroundColor: 'white',
       height: 40,
       borderBottomColor: '#ccc',
-      borderBottomWidth: 1
+      borderBottomWidth: 1,
     },
     operateText: { color: '#333' },
     loadingTouchable: { width, height },
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     arrowLeftContainer: { position: 'absolute', top: 0, bottom: 0, left: 0, justifyContent: 'center', zIndex: 13 },
-    arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 }
-  };
+    arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 },
+  });
 };
 
 export const simpleStyle: {
@@ -63,7 +57,7 @@ export const simpleStyle: {
     zIndex: 13,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   countText: {
     color: 'white',
@@ -72,8 +66,8 @@ export const simpleStyle: {
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: {
       width: 0,
-      height: 0.5
+      height: 0.5,
     },
-    textShadowRadius: 0
-  }
+    textShadowRadius: 0,
+  },
 };

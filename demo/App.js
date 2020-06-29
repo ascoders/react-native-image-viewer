@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableNativeFeedback, Text } from 'react-native';
+import { View, Modal } from 'react-native';
 import ImageViewer from './built/index';
 
 const images = [
@@ -11,9 +11,9 @@ const images = [
     // You can pass props to <Image />.
     props: {
       // headers: ...
-      source: require('./img.png')
+      source: require('./img.png'),
     },
-    freeHeight: true
+    freeHeight: true,
   },
   {
     // Simplest usage.
@@ -23,23 +23,23 @@ const images = [
     // You can pass props to <Image />.
     props: {
       // headers: ...
-      source: require('./img.png')
+      source: require('./img.png'),
     },
-    freeHeight: true
-  }
+    freeHeight: true,
+  },
 ];
 
 export default class Main extends Component {
   state = {
     index: 0,
-    modalVisible: true
+    modalVisible: true,
   };
 
   render() {
     return (
       <View
         style={{
-          padding: 10
+          padding: 10,
         }}
       >
         <Modal
@@ -53,7 +53,7 @@ export default class Main extends Component {
             onSwipeDown={() => {
               console.log('onSwipeDown');
             }}
-            onMove={data => console.log(data)}
+            onMove={(data) => console.log(data)}
             enableSwipeDown={true}
           />
         </Modal>
