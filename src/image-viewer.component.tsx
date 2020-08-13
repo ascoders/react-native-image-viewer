@@ -13,11 +13,20 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ViewStyle
+  ViewStyle,
+  ScrollView,
+  TouchableNativeFeedback,
+  GestureResponderEvent,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  NativeTouchEvent,
+  LayoutChangeEvent,
+  LayoutRectangle
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
 import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
+import { SyntheticEvent } from 'react';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -47,6 +56,10 @@ export default class ImageViewer extends React.Component<Props, State> {
   private handleLongPressWithIndex = new Map<number, any>();
 
   private imageRefs: any[] = [];
+
+  private thumbnailRef: ScrollView | null | undefined;
+
+  private layout: LayoutRectangle | undefined;
 
   public componentDidMount() {
     this.init(this.props);
@@ -294,49 +307,90 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 到上一张
    */
   public goBack = () => {
-    if (this.state.currentShowIndex === 0) {
-      // 回到之前的位置
-      this.resetPosition.call(this);
-      return;
-    }
+    this.goToIndex((this.state.currentShowIndex || 0) - 1)
+    // if (this.state.currentShowIndex === 0) {
+    //   // 回到之前的位置
+    //   this.resetPosition.call(this);
+    //   return;
+    // }
 
-    this.positionXNumber = !I18nManager.isRTL
-      ? this.standardPositionX + this.width
-      : this.standardPositionX - this.width;
-    this.standardPositionX = this.positionXNumber;
-    Animated.timing(this.positionX, {
-      toValue: this.positionXNumber,
-      duration: this.props.pageAnimateTime,
-      useNativeDriver: !!this.props.useNativeDriver
-    }).start();
+    // this.positionXNumber = !I18nManager.isRTL
+    //   ? this.standardPositionX + this.width
+    //   : this.standardPositionX - this.width;
+    // this.standardPositionX = this.positionXNumber;
+    // Animated.timing(this.positionX, {
+    //   toValue: this.positionXNumber,
+    //   duration: this.props.pageAnimateTime,
+    //   useNativeDriver: !!this.props.useNativeDriver
+    // }).start();
 
-    const nextIndex = (this.state.currentShowIndex || 0) - 1;
+    // const nextIndex = (this.state.currentShowIndex || 0) - 1;
 
-    this.setState(
-      {
-        currentShowIndex: nextIndex
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.currentShowIndex);
-        }
-      }
-    );
+    // this.setState(
+    //   {
+    //     currentShowIndex: nextIndex
+    //   },
+    //   () => {
+    //     if (this.props.onChange) {
+    //       this.props.onChange(this.state.currentShowIndex);
+    //     }
+    //   }
+    // );
   };
 
   /**
    * 到下一张
    */
   public goNext = () => {
-    if (this.state.currentShowIndex === this.props.imageUrls.length - 1) {
-      // 回到之前的位置
+    this.goToIndex((this.state.currentShowIndex || 0) + 1)
+
+    // if (this.state.currentShowIndex === this.props.imageUrls.length - 1) {
+    //   // 回到之前的位置
+    //   this.resetPosition.call(this);
+    //   return;
+    // }
+
+    // this.positionXNumber = !I18nManager.isRTL
+    //   ? this.standardPositionX - this.width
+    //   : this.standardPositionX + this.width;
+    // this.standardPositionX = this.positionXNumber;
+    // Animated.timing(this.positionX, {
+    //   toValue: this.positionXNumber,
+    //   duration: this.props.pageAnimateTime,
+    //   useNativeDriver: !!this.props.useNativeDriver
+    // }).start();
+
+    // const nextIndex = (this.state.currentShowIndex || 0) + 1;
+
+    // this.setState(
+    //   {
+    //     currentShowIndex: nextIndex
+    //   },
+    //   () => {
+    //     if (this.props.onChange) {
+    //       this.props.onChange(this.state.currentShowIndex);
+    //     }
+    //   }
+    // );
+
+  };
+
+  public goToIndex = (index: number, loadImage = false) => {
+
+    if (index < 0 || index > this.props.imageUrls.length - 1) {
       this.resetPosition.call(this);
       return;
     }
 
+    if (loadImage) {
+      this.loadImage(index)
+    }
+
+    const deltaIndex = index - (this.state.currentShowIndex || 0);
+
     this.positionXNumber = !I18nManager.isRTL
-      ? this.standardPositionX - this.width
-      : this.standardPositionX + this.width;
+      ? this.standardPositionX - this.width * deltaIndex
+      : this.standardPositionX + this.width * deltaIndex;
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
@@ -344,7 +398,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       useNativeDriver: !!this.props.useNativeDriver
     }).start();
 
-    const nextIndex = (this.state.currentShowIndex || 0) + 1;
+    const nextIndex = index;
 
     this.setState(
       {
@@ -356,8 +410,10 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
       }
     );
-  };
 
+    this.centerThumbnailOn(index)
+
+  }
   /**
    * 回到原位
    */
@@ -428,6 +484,31 @@ export default class ImageViewer extends React.Component<Props, State> {
       this.jumpToCurrentImage();
     }
   };
+
+  public centerThumbnailOn = (index: number) => {
+    if (this.thumbnailRef) {
+      this.thumbnailRef.scrollTo({ x: this.layout?.x, y: 0, animated: true })
+    }
+  }
+
+  public getThumbnails = () => {
+    if (this.props.showThumbnails) {
+      return (
+        <ScrollView horizontal={true} ref={ref => this.thumbnailRef = ref}>
+          {
+            this.props.imageUrls.map((image: IImageInfo, index: number) => {
+              return (
+                <TouchableNativeFeedback key={index} onPress={() => { this.goToIndex(index, true) }} onLayout={(event: LayoutChangeEvent) => this.layout = event.nativeEvent.layout}>
+                  <Image source={{ uri: image.thumbnailUrl }} style={[{ height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 1, borderColor: index === this.state.currentShowIndex ? 'red' : 'green' }, this.props.thumbnailStyle]} />
+                </TouchableNativeFeedback>
+              )
+            })
+          }
+        </ScrollView>
+      )
+    }
+    return null;
+  }
 
   /**
    * 获得整体内容
@@ -623,6 +704,11 @@ export default class ImageViewer extends React.Component<Props, State> {
                 </TouchableOpacity>
               </View>
             )}
+
+          <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.thumbnailContainerStyle]}>
+            {this!.getThumbnails!()}
+          </View>
+
           <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
             {this!.props!.renderFooter!(this.state.currentShowIndex || 0)}
           </View>

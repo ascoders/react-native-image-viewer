@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, ImageURISource, Text, View, ViewStyle } from 'react-native';
+import { Image, ImageURISource, Text, View, ViewStyle, ImageStyle } from 'react-native';
 import { simpleStyle } from './image-viewer.style';
 
 interface IOnMove {
@@ -229,6 +229,13 @@ export class Props {
   };
 
   public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
+
+  thumbnailContainerStyle?: ViewStyle;
+
+  thumbnailStyle?: ImageStyle = {};
+
+  showThumbnails?: boolean = false;
+
 }
 
 export class State {
@@ -265,6 +272,7 @@ export class State {
 
 export interface IImageInfo {
   url: string;
+  thumbnailUrl?: string,
   /**
    * 没有的话会自动拉取
    */

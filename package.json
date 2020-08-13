@@ -25,6 +25,7 @@
     "react-native": "*"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@types/react": "*",
     "@types/react-native": "*",
     "ascoders-tslint-config": "^1.0.2",
