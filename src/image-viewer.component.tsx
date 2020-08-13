@@ -59,8 +59,6 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   private thumbnailRef: ScrollView | null | undefined;
 
-  private layout: LayoutRectangle | undefined;
-
   public componentDidMount() {
     this.init(this.props);
   }
@@ -487,19 +485,22 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   public centerThumbnailOn = (index: number) => {
     if (this.thumbnailRef) {
-      this.thumbnailRef.scrollTo({ x: this.layout?.x, y: 0, animated: true })
+      this.thumbnailRef.scrollTo({ x: (104 * (index - 1)), y: 0, animated: true })
     }
   }
 
   public getThumbnails = () => {
     if (this.props.showThumbnails) {
+
+      console.log(this.state.currentShowIndex)
+
       return (
         <ScrollView horizontal={true} ref={ref => this.thumbnailRef = ref}>
           {
             this.props.imageUrls.map((image: IImageInfo, index: number) => {
               return (
-                <TouchableNativeFeedback key={index} onPress={() => { this.goToIndex(index, true) }} onLayout={(event: LayoutChangeEvent) => this.layout = event.nativeEvent.layout}>
-                  <Image source={{ uri: image.thumbnailUrl }} style={[{ height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 1, borderColor: index === this.state.currentShowIndex ? 'red' : 'green' }, this.props.thumbnailStyle]} />
+                <TouchableNativeFeedback key={index} onPress={() => { this.goToIndex(index, true) }}>
+                  <Image source={{ uri: image.thumbnailUrl }} style={[{ height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, borderColor: index === this.state.currentShowIndex ? 'blue' : 'transparent' }, this.props.thumbnailStyle]} />
                 </TouchableNativeFeedback>
               )
             })
