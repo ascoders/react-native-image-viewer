@@ -45,6 +45,9 @@ export default class ImageViewer extends React.Component<Props, State> {
   private width = 0;
   private height = 0;
 
+  private thumbnailWidth = 0;
+  private thumbnailHeight = 0;
+
   private styles = styles(0, 0, 'transparent');
 
   // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
@@ -373,15 +376,11 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   };
 
-  public goToIndex = (index: number, loadImage = false) => {
+  public goToIndex = (index: number) => {
 
     if (index < 0 || index > this.props.imageUrls.length - 1) {
       this.resetPosition.call(this);
       return;
-    }
-
-    if (loadImage) {
-      this.loadImage(index)
     }
 
     const deltaIndex = index - (this.state.currentShowIndex || 0);
@@ -412,6 +411,17 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.centerThumbnailOn(index)
 
   }
+
+  /**
+   * onPress of thumbnail,
+   * load image at index and scroll ImageZoom to index.
+   */
+
+  public handleThumbnailClick = (index: number) => {
+    this.loadImage(index)
+    this.goToIndex(index)
+  }
+
   /**
    * 回到原位
    */
@@ -483,24 +493,32 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
   };
 
+  public handleThumbnailLayout = (event: LayoutChangeEvent, index: number) => {
+    this.thumbnailHeight = event.nativeEvent.layout.height;
+    this.thumbnailWidth = event.nativeEvent.layout.width;
+  }
+
   public centerThumbnailOn = (index: number) => {
     if (this.thumbnailRef) {
-      this.thumbnailRef.scrollTo({ x: (104 * (index - 1)), y: 0, animated: true })
+      const positionX = Math.floor(this.thumbnailWidth * (index - 1))
+      this.thumbnailRef.scrollTo({ x: positionX, y: 0, animated: true })
     }
   }
 
   public getThumbnails = () => {
     if (this.props.showThumbnails) {
 
-      console.log(this.state.currentShowIndex)
-
       return (
         <ScrollView horizontal={true} ref={ref => this.thumbnailRef = ref}>
           {
             this.props.imageUrls.map((image: IImageInfo, index: number) => {
               return (
-                <TouchableNativeFeedback key={index} onPress={() => { this.goToIndex(index, true) }}>
-                  <Image source={{ uri: image.thumbnailUrl }} style={[{ height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, borderColor: index === this.state.currentShowIndex ? 'blue' : 'transparent' }, this.props.thumbnailStyle]} />
+                <TouchableNativeFeedback
+                  key={index}
+                  onPress={() => { this.handleThumbnailClick(index) }}
+                  onLayout={(event) => { this.handleThumbnailLayout(event, index) }}
+                >
+                  <Image source={{ uri: image.thumbnailUrl }} style={[{ height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, borderColor: index === this.state.currentShowIndex ? 'blue' : 'transparent' }]} />
                 </TouchableNativeFeedback>
               )
             })
