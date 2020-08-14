@@ -48,7 +48,8 @@ export default (
     loadingTouchable: { width, height },
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     arrowLeftContainer: { position: 'absolute', top: 0, bottom: 0, left: 0, justifyContent: 'center', zIndex: 13 },
-    arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 }
+    arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 },
+    thumbnailStyle: { height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, }
   };
 };
 

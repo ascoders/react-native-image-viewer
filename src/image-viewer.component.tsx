@@ -60,7 +60,7 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   private imageRefs: any[] = [];
 
-  private thumbnailRef: ScrollView | null | undefined;
+  private thumbnailScrollViewRef: ScrollView | null | undefined;
 
   public componentDidMount() {
     this.init(this.props);
@@ -499,9 +499,9 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   public centerThumbnailOn = (index: number) => {
-    if (this.thumbnailRef) {
-      const positionX = Math.floor(this.thumbnailWidth * (index - 1))
-      this.thumbnailRef.scrollTo({ x: positionX, y: 0, animated: true })
+    if (this.thumbnailScrollViewRef) {
+      const positionX = Math.floor((this.thumbnailWidth * (index - 1)))
+      this.thumbnailScrollViewRef.scrollTo({ x: positionX, y: 0, animated: true })
     }
   }
 
@@ -509,17 +509,23 @@ export default class ImageViewer extends React.Component<Props, State> {
     if (this.props.showThumbnails) {
 
       return (
-        <ScrollView horizontal={true} ref={ref => this.thumbnailRef = ref}>
+        <ScrollView horizontal={true} ref={ref => this.thumbnailScrollViewRef = ref} contentContainerStyle={this.props.thumbnailContainerStyle}>
           {
             this.props.imageUrls.map((image: IImageInfo, index: number) => {
               return (
-                <TouchableNativeFeedback
-                  key={index}
-                  onPress={() => { this.handleThumbnailClick(index) }}
-                  onLayout={(event) => { this.handleThumbnailLayout(event, index) }}
-                >
-                  <Image source={{ uri: image.thumbnailUrl }} style={[{ height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, borderColor: index === this.state.currentShowIndex ? 'blue' : 'transparent' }]} />
-                </TouchableNativeFeedback>
+                <View
+                  style={[this.styles.thumbnailStyle, { borderColor: index === this.state.currentShowIndex ? 'blue' : 'transparent' },]}
+                  onLayout={(event) => { this.handleThumbnailLayout(event, index) }}>
+                  <TouchableNativeFeedback
+                    key={index}
+                    onPress={() => { this.handleThumbnailClick(index) }}
+                  >
+                    <Image
+                      source={{ uri: image.thumbnailUrl }}
+                      {...image.thumbnailProps} />
+
+                  </TouchableNativeFeedback>
+                </View>
               )
             })
           }
