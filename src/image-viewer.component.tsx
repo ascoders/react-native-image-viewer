@@ -21,7 +21,10 @@ import {
   NativeScrollEvent,
   NativeTouchEvent,
   LayoutChangeEvent,
-  LayoutRectangle
+  LayoutRectangle,
+  FlatList,
+  ListRenderItem,
+  SafeAreaView
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
@@ -60,7 +63,7 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   private imageRefs: any[] = [];
 
-  private thumbnailScrollViewRef: ScrollView | null | undefined;
+  private thumbnailFlatListRef: any;//FlatList<> | null | undefined;
 
   public componentDidMount() {
     this.init(this.props);
@@ -493,43 +496,55 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
   };
 
-  public handleThumbnailLayout = (event: LayoutChangeEvent, index: number) => {
-    this.thumbnailHeight = event.nativeEvent.layout.height;
-    this.thumbnailWidth = event.nativeEvent.layout.width;
-  }
+  // public handleThumbnailLayout = (event: LayoutChangeEvent, index: number) => {
+  //   this.thumbnailHeight = event.nativeEvent.layout.height;
+  //   this.thumbnailWidth = event.nativeEvent.layout.width;
+  // }
 
-  public centerThumbnailOn = (index: number) => {
-    if (this.thumbnailScrollViewRef) {
-      const positionX = Math.floor((this.thumbnailWidth * (index - 1)))
-      this.thumbnailScrollViewRef.scrollTo({ x: positionX, y: 0, animated: true })
+  public centerThumbnailOn(index: number) {
+    if (this.thumbnailFlatListRef) {
+      this.thumbnailFlatListRef.scrollToIndex({ animated: true, index, viewPosition: .5 })
     }
   }
 
-  public getThumbnails = () => {
+  private renderThumbnail(params: { item: IImageInfo, index: number }) {
+    console.log('this was called 2')
+    const { item, index } = params
+    console.log('item: ', JSON.stringify(item))
+    const borderColor = (index === this.state.currentShowIndex) ? 'blue' : 'transparent'
+    console.log(JSON.stringify(item))
+    return (
+      <View
+        style={[
+          this.styles.thumbnailStyle,
+          { borderColor: borderColor },
+        ]}
+      >
+        {/* <TouchableNativeFeedback
+          style={{ height: 100, width: 100, }}
+          onPress={() => { this.handleThumbnailClick(index) }}
+        > */}
+        <Image
+          style={{ height: 100, width: 100, padding: 4, }}
+          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+        />
+        {/* </TouchableNativeFeedback> */}
+      </View>
+    )
+  }
+
+  private getThumbnails() {
+    console.log('this was called')
     if (this.props.showThumbnails) {
-
       return (
-        <ScrollView horizontal={true} ref={ref => this.thumbnailScrollViewRef = ref} contentContainerStyle={this.props.thumbnailContainerStyle}>
-          {
-            this.props.imageUrls.map((image: IImageInfo, index: number) => {
-              return (
-                <View
-                  style={[this.styles.thumbnailStyle, { borderColor: index === this.state.currentShowIndex ? 'blue' : 'transparent' },]}
-                  onLayout={(event) => { this.handleThumbnailLayout(event, index) }}>
-                  <TouchableNativeFeedback
-                    key={index}
-                    onPress={() => { this.handleThumbnailClick(index) }}
-                  >
-                    <Image
-                      source={{ uri: image.thumbnailUrl }}
-                      {...image.thumbnailProps} />
-
-                  </TouchableNativeFeedback>
-                </View>
-              )
-            })
-          }
-        </ScrollView>
+        <FlatList
+          horizontal={true}
+          ref={ref => this.thumbnailFlatListRef = ref}
+          data={this.props.imageUrls}
+          renderItem={this.renderThumbnail}
+          keyExtractor={(item: IImageInfo, index: number) => index.toString()}
+          removeClippedSubviews
+        />
       )
     }
     return null;
@@ -731,7 +746,7 @@ export default class ImageViewer extends React.Component<Props, State> {
             )}
 
           <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.thumbnailContainerStyle]}>
-            {this!.getThumbnails!()}
+            {this.getThumbnails()}
           </View>
 
           <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>

@@ -5,10 +5,10 @@ export default (
   height: number,
   backgroundColor: string
 ): {
-  [x: string]: ViewStyle | TextStyle;
-} => {
+    [x: string]: ViewStyle | TextStyle;
+  } => {
   return {
-    modalContainer: { backgroundColor, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
+    modalContainer: { backgroundColor, justifyContent: 'center', alignItems: 'center', overflow: 'scroll' },
     watchOrigin: { position: 'absolute', width, bottom: 20, justifyContent: 'center', alignItems: 'center' },
     watchOriginTouchable: {
       paddingLeft: 10,
@@ -23,7 +23,7 @@ export default (
     watchOriginText: { color: 'white', backgroundColor: 'transparent' },
     imageStyle: {},
     container: { backgroundColor }, // 多图浏览需要调整整体位置的盒子
-    moveBox: { flexDirection: 'row', alignItems: 'center' },
+    moveBox: { flexDirection: 'row', alignItems: 'center', flex: 4 },
     menuContainer: { position: 'absolute', width, height, left: 0, bottom: 0, zIndex: 12 },
     menuShadow: {
       position: 'absolute',
@@ -49,7 +49,7 @@ export default (
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     arrowLeftContainer: { position: 'absolute', top: 0, bottom: 0, left: 0, justifyContent: 'center', zIndex: 13 },
     arrowRightContainer: { position: 'absolute', top: 0, bottom: 0, right: 0, justifyContent: 'center', zIndex: 13 },
-    thumbnailStyle: { height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, }
+    thumbnailStyle: { height: 100, width: 100, margin: 4, borderRadius: 12, borderWidth: 2, flex: 1, backgroundColor: 'green' }
   };
 };
 
