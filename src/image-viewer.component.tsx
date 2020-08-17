@@ -13,11 +13,23 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ViewStyle
+  ViewStyle,
+  ScrollView,
+  TouchableNativeFeedback,
+  GestureResponderEvent,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  NativeTouchEvent,
+  LayoutChangeEvent,
+  LayoutRectangle,
+  FlatList,
+  ListRenderItem,
+  SafeAreaView
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
 import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
+import { SyntheticEvent } from 'react';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -36,6 +48,9 @@ export default class ImageViewer extends React.Component<Props, State> {
   private width = 0;
   private height = 0;
 
+  private thumbnailWidth = 0;
+  private thumbnailHeight = 0;
+
   private styles = styles(0, 0, 'transparent');
 
   // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
@@ -47,6 +62,8 @@ export default class ImageViewer extends React.Component<Props, State> {
   private handleLongPressWithIndex = new Map<number, any>();
 
   private imageRefs: any[] = [];
+
+  private thumbnailFlatListRef: any;//FlatList<> | null | undefined;
 
   public componentDidMount() {
     this.init(this.props);
@@ -294,49 +311,86 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 到上一张
    */
   public goBack = () => {
-    if (this.state.currentShowIndex === 0) {
-      // 回到之前的位置
-      this.resetPosition.call(this);
-      return;
-    }
+    this.goToIndex((this.state.currentShowIndex || 0) - 1)
+    // if (this.state.currentShowIndex === 0) {
+    //   // 回到之前的位置
+    //   this.resetPosition.call(this);
+    //   return;
+    // }
 
-    this.positionXNumber = !I18nManager.isRTL
-      ? this.standardPositionX + this.width
-      : this.standardPositionX - this.width;
-    this.standardPositionX = this.positionXNumber;
-    Animated.timing(this.positionX, {
-      toValue: this.positionXNumber,
-      duration: this.props.pageAnimateTime,
-      useNativeDriver: !!this.props.useNativeDriver
-    }).start();
+    // this.positionXNumber = !I18nManager.isRTL
+    //   ? this.standardPositionX + this.width
+    //   : this.standardPositionX - this.width;
+    // this.standardPositionX = this.positionXNumber;
+    // Animated.timing(this.positionX, {
+    //   toValue: this.positionXNumber,
+    //   duration: this.props.pageAnimateTime,
+    //   useNativeDriver: !!this.props.useNativeDriver
+    // }).start();
 
-    const nextIndex = (this.state.currentShowIndex || 0) - 1;
+    // const nextIndex = (this.state.currentShowIndex || 0) - 1;
 
-    this.setState(
-      {
-        currentShowIndex: nextIndex
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.currentShowIndex);
-        }
-      }
-    );
+    // this.setState(
+    //   {
+    //     currentShowIndex: nextIndex
+    //   },
+    //   () => {
+    //     if (this.props.onChange) {
+    //       this.props.onChange(this.state.currentShowIndex);
+    //     }
+    //   }
+    // );
   };
 
   /**
    * 到下一张
    */
   public goNext = () => {
-    if (this.state.currentShowIndex === this.props.imageUrls.length - 1) {
-      // 回到之前的位置
+    this.goToIndex((this.state.currentShowIndex || 0) + 1)
+
+    // if (this.state.currentShowIndex === this.props.imageUrls.length - 1) {
+    //   // 回到之前的位置
+    //   this.resetPosition.call(this);
+    //   return;
+    // }
+
+    // this.positionXNumber = !I18nManager.isRTL
+    //   ? this.standardPositionX - this.width
+    //   : this.standardPositionX + this.width;
+    // this.standardPositionX = this.positionXNumber;
+    // Animated.timing(this.positionX, {
+    //   toValue: this.positionXNumber,
+    //   duration: this.props.pageAnimateTime,
+    //   useNativeDriver: !!this.props.useNativeDriver
+    // }).start();
+
+    // const nextIndex = (this.state.currentShowIndex || 0) + 1;
+
+    // this.setState(
+    //   {
+    //     currentShowIndex: nextIndex
+    //   },
+    //   () => {
+    //     if (this.props.onChange) {
+    //       this.props.onChange(this.state.currentShowIndex);
+    //     }
+    //   }
+    // );
+
+  };
+
+  public goToIndex = (index: number) => {
+
+    if (index < 0 || index > this.props.imageUrls.length - 1) {
       this.resetPosition.call(this);
       return;
     }
 
+    const deltaIndex = index - (this.state.currentShowIndex || 0);
+
     this.positionXNumber = !I18nManager.isRTL
-      ? this.standardPositionX - this.width
-      : this.standardPositionX + this.width;
+      ? this.standardPositionX - this.width * deltaIndex
+      : this.standardPositionX + this.width * deltaIndex;
     this.standardPositionX = this.positionXNumber;
     Animated.timing(this.positionX, {
       toValue: this.positionXNumber,
@@ -344,7 +398,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       useNativeDriver: !!this.props.useNativeDriver
     }).start();
 
-    const nextIndex = (this.state.currentShowIndex || 0) + 1;
+    const nextIndex = index;
 
     this.setState(
       {
@@ -356,7 +410,20 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
       }
     );
-  };
+
+    this.centerThumbnailOn(index)
+
+  }
+
+  /**
+   * onPress of thumbnail,
+   * load image at index and scroll ImageZoom to index.
+   */
+
+  public handleThumbnailClick = (index: number) => {
+    this.loadImage(index)
+    this.goToIndex(index)
+  }
 
   /**
    * 回到原位
@@ -428,6 +495,60 @@ export default class ImageViewer extends React.Component<Props, State> {
       this.jumpToCurrentImage();
     }
   };
+
+  // public handleThumbnailLayout = (event: LayoutChangeEvent, index: number) => {
+  //   this.thumbnailHeight = event.nativeEvent.layout.height;
+  //   this.thumbnailWidth = event.nativeEvent.layout.width;
+  // }
+
+  public centerThumbnailOn(index: number) {
+    if (this.thumbnailFlatListRef) {
+      this.thumbnailFlatListRef.scrollToIndex({ animated: true, index, viewPosition: .5 })
+    }
+  }
+
+  private renderThumbnail(params: { item: IImageInfo, index: number }) {
+    console.log('this was called 2')
+    const { item, index } = params
+    console.log('item: ', JSON.stringify(item))
+    const borderColor = (index === this.state.currentShowIndex) ? 'blue' : 'transparent'
+    console.log(JSON.stringify(item))
+    return (
+      <View
+        style={[
+          this.styles.thumbnailStyle,
+          { borderColor: borderColor },
+        ]}
+      >
+        {/* <TouchableNativeFeedback
+          style={{ height: 100, width: 100, }}
+          onPress={() => { this.handleThumbnailClick(index) }}
+        > */}
+        <Image
+          style={{ height: 100, width: 100, padding: 4, }}
+          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+        />
+        {/* </TouchableNativeFeedback> */}
+      </View>
+    )
+  }
+
+  private getThumbnails() {
+    console.log('this was called')
+    if (this.props.showThumbnails) {
+      return (
+        <FlatList
+          horizontal={true}
+          ref={ref => this.thumbnailFlatListRef = ref}
+          data={this.props.imageUrls}
+          renderItem={this.renderThumbnail}
+          keyExtractor={(item: IImageInfo, index: number) => index.toString()}
+          removeClippedSubviews
+        />
+      )
+    }
+    return null;
+  }
 
   /**
    * 获得整体内容
@@ -623,6 +744,11 @@ export default class ImageViewer extends React.Component<Props, State> {
                 </TouchableOpacity>
               </View>
             )}
+
+          <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.thumbnailContainerStyle]}>
+            {this.getThumbnails()}
+          </View>
+
           <View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
             {this!.props!.renderFooter!(this.state.currentShowIndex || 0)}
           </View>

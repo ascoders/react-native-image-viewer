@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, ImageURISource, Text, View, ViewStyle } from 'react-native';
+import { Image, ImageURISource, Text, View, ViewStyle, ImageStyle, ImageProps } from 'react-native';
 import { simpleStyle } from './image-viewer.style';
 
 interface IOnMove {
@@ -229,6 +229,11 @@ export class Props {
   };
 
   public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
+
+  thumbnailContainerStyle?: ViewStyle = {};
+
+  showThumbnails?: boolean = false;
+
 }
 
 export class State {
@@ -256,7 +261,6 @@ export class State {
    * 图片长宽列表
    */
   public imageSizes?: IImageSize[] = [];
-
   /**
    * 是否出现功能菜单
    */
@@ -265,6 +269,7 @@ export class State {
 
 export interface IImageInfo {
   url: string;
+  thumbnailUrl?: string,
   /**
    * 没有的话会自动拉取
    */
@@ -273,6 +278,17 @@ export interface IImageInfo {
    * 没有的话会自动拉取
    */
   height?: number;
+
+  /**
+   * thumbnail height
+   */
+  thumbnailHeight?: number,
+
+  /**
+   * thumbnail height
+   */
+  thumbnailWidth?: number,
+
   /**
    * 图片字节大小(kb为单位)
    */
@@ -290,6 +306,10 @@ export interface IImageInfo {
    * Pass to image props
    */
   props?: any;
+  /**
+   * Pass to thumbnail image props
+   */
+  thumbnailProps?: ImageProps
   /**
    * 初始是否不超高 TODO:
    */
