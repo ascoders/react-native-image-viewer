@@ -108,6 +108,7 @@ export default class App extends React.Component {
 | useNativeDriver        | boolean                                                                                | no       | Whether to animate using [`useNativeDriver`](https://reactnative.dev/docs/animations#using-the-native-driver)                                                                                                                        | `false`                                                   |
 | menus                  | function<br><br>`({cancel,saveToLocal}) => React.ReactElement<any>`                    | no       | Custom menus, with 2 methods:`cancel` to hide menus and `saveToLocal` to save image to camera
 | menuContext            | object<br><br>`{someKey: someValue}`                                                   | no       | Custom menu context.                              | `{ saveToLocal: 'save to the album', cancel: 'cancel' }`
+| swipeNavigationDisabled| boolean                                                                                | no       | On true, The swipe navigations will be disabled.
 ## Development pattern
 
 ### Step 1, run TS listener
