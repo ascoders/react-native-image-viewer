@@ -2,6 +2,13 @@ import * as React from 'react';
 import { Image, ImageURISource, Text, View, ViewStyle } from 'react-native';
 import { simpleStyle } from './image-viewer.style';
 
+interface IOnClick {
+  locationX: number;
+  locationY: number;
+  pageX: number;
+  pageY: number;
+}
+
 interface IOnMove {
   type: string;
   positionX: number;
@@ -114,14 +121,14 @@ export class Props {
   /**
    * 单击回调
    */
-  public onClick?: (close?: () => any, currentShowIndex?: number) => void = () => {
+  public onClick?: (close?: () => any, currentShowIndex?: number, eventParams?: IOnClick) => void = () => {
     //
   };
 
   /**
    * 双击回调
    */
-  public onDoubleClick?: (close?: () => any) => void = () => {
+  public onDoubleClick?: (close?: () => any, eventParams?: IOnClick) => void = () => {
     //
   };
 
