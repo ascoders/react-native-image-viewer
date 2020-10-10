@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
-import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
+import { IImageInfo, IImageSize, Props, State, IOnClick } from './image-viewer.type';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -387,18 +387,18 @@ export default class ImageViewer extends React.Component<Props, State> {
   /**
    * 单击
    */
-  public handleClick = () => {
+  public handleClick = (eventParams: IOnClick) => {
     if (this.props.onClick) {
-      this.props.onClick(this.handleCancel, this.state.currentShowIndex);
+      this.props.onClick(this.handleCancel, this.state.currentShowIndex, eventParams);
     }
   };
 
   /**
    * 双击
    */
-  public handleDoubleClick = () => {
+  public handleDoubleClick = (eventParams: IOnClick) => {
     if (this.props.onDoubleClick) {
-      this.props.onDoubleClick(this.handleCancel);
+      this.props.onDoubleClick(this.handleCancel, eventParams);
     }
   };
 
