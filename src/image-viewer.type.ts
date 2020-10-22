@@ -231,8 +231,6 @@ export class Props {
   };
 
   public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
-
-  public predefinedData?: { scale: number, positionX: number, positionY: number };
 }
 
 export class State {

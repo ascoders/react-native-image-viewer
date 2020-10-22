@@ -565,7 +565,6 @@ export default class ImageViewer extends React.Component<Props, State> {
               doubleClickInterval={this.props.doubleClickInterval}
               minScale={this.props.minScale}
               maxScale={this.props.maxScale}
-              predefinedData={this.state.currentShowIndex === index ? this.props.predefinedData : undefined}
             >
               {this!.props!.renderImage!(image.props)}
             </ImageZoom>
