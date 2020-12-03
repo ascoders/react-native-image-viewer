@@ -10,6 +10,11 @@ interface IOnMove {
   zoomCurrentDistance: number;
 }
 
+interface IOnLoadCallbacks {
+  onLoaded(index: number, url: string): void
+  onFailed(index: number): void
+}
+
 export class Props {
   /**
    * 是否显示
@@ -225,6 +230,13 @@ export class Props {
    * 当图片切换时触发
    */
   public onChange?: (index?: number) => void = () => {
+    //
+  };
+
+  /**
+   * This method can be used to implement custom download logic.
+   */
+  public onLoad?: (index: number, callbacks: IOnLoadCallbacks) => void = () => {
     //
   };
 
