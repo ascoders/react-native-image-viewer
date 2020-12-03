@@ -133,6 +133,29 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   /**
+   * Used to implement custom download logic by client.
+   * @see IOnLoadCallbacks
+   */
+  public onLoaded(index: number, url: string) {
+    if (index < this.props.imageUrls.length) {
+      this.props.imageUrls[index].url = url
+      this.loadedIndex.delete(index)
+      this.loadImage(index)
+    }
+  }
+
+  /**
+   * Used to implement custom download logic by client.
+   * @see IOnLoadCallbacks
+   */
+  public onFailed(index: number) {
+    if (index < this.props.imageUrls.length) {
+      const imageStatus = { ...this!.state!.imageSizes![index] }
+      imageStatus.status = "fail"
+    }
+  }
+
+  /**
    * 加载图片，主要是获取图片长与宽
    */
   public loadImage(index: number) {
@@ -147,6 +170,13 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     const image = this.props.imageUrls[index];
     const imageStatus = { ...this!.state!.imageSizes![index] };
+
+    // Placeholder detected: Ask client to download the image and provide us the URL (via IOnLoadCallbacks).
+    if (image.url === "" && this.props.onLoad) {
+      imageStatus.status = "loading"
+      this.props.onLoad(index, this)
+      return
+    }
 
     // 保存 imageSize
     const saveImageSize = () => {
