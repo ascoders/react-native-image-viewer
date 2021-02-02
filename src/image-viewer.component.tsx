@@ -146,76 +146,78 @@ export default class ImageViewer extends React.Component<Props, State> {
     this.loadedIndex.set(index, true);
 
     const image = this.props.imageUrls[index];
-    const imageStatus = { ...this!.state!.imageSizes![index] };
+    if (image !== undefined) {
+      const imageStatus = { ...this!.state!.imageSizes![index] };
 
-    // 保存 imageSize
-    const saveImageSize = () => {
-      // 如果已经 success 了，就不做处理
-      if (this!.state!.imageSizes![index] && this!.state!.imageSizes![index].status !== 'loading') {
+      // 保存 imageSize
+      const saveImageSize = () => {
+        // 如果已经 success 了，就不做处理
+        if (this!.state!.imageSizes![index] && this!.state!.imageSizes![index].status !== 'loading') {
+          return;
+        }
+
+        const imageSizes = this!.state!.imageSizes!.slice();
+        imageSizes[index] = imageStatus;
+        this.setState({ imageSizes });
+      };
+
+      if (this!.state!.imageSizes![index].status === 'success') {
+        // 已经加载过就不会加载了
         return;
       }
 
-      const imageSizes = this!.state!.imageSizes!.slice();
-      imageSizes[index] = imageStatus;
-      this.setState({ imageSizes });
-    };
-
-    if (this!.state!.imageSizes![index].status === 'success') {
-      // 已经加载过就不会加载了
-      return;
-    }
-
-    // 如果已经有宽高了，直接设置为 success
-    if (this!.state!.imageSizes![index].width > 0 && this!.state!.imageSizes![index].height > 0) {
-      imageStatus.status = 'success';
-      saveImageSize();
-      return;
-    }
-
-    // 是否加载完毕了图片大小
-    const sizeLoaded = false;
-    // 是否加载完毕了图片
-    let imageLoaded = false;
-
-    // Tagged success if url is started with file:, or not set yet(for custom source.uri).
-    if (!image.url || image.url.startsWith(`file:`)) {
-      imageLoaded = true;
-    }
-
-    // 如果已知源图片宽高，直接设置为 success
-    if (image.width && image.height) {
-      if (this.props.enablePreload && imageLoaded === false) {
-        Image.prefetch(image.url);
-      }
-      imageStatus.width = image.width;
-      imageStatus.height = image.height;
-      imageStatus.status = 'success';
-      saveImageSize();
-      return;
-    }
-
-    Image.getSize(
-      image.url,
-      (width: number, height: number) => {
-        imageStatus.width = width;
-        imageStatus.height = height;
+      // 如果已经有宽高了，直接设置为 success
+      if (this!.state!.imageSizes![index].width > 0 && this!.state!.imageSizes![index].height > 0) {
         imageStatus.status = 'success';
         saveImageSize();
-      },
-      () => {
-        try {
-          const data = (Image as any).resolveAssetSource(image.props.source);
-          imageStatus.width = data.width;
-          imageStatus.height = data.height;
+        return;
+      }
+
+      // 是否加载完毕了图片大小
+      const sizeLoaded = false;
+      // 是否加载完毕了图片
+      let imageLoaded = false;
+
+      // Tagged success if url is started with file:, or not set yet(for custom source.uri).
+      if (!image.url || image.url.startsWith(`file:`)) {
+        imageLoaded = true;
+      }
+
+      // 如果已知源图片宽高，直接设置为 success
+      if (image.width && image.height) {
+        if (this.props.enablePreload && imageLoaded === false) {
+          Image.prefetch(image.url);
+        }
+        imageStatus.width = image.width;
+        imageStatus.height = image.height;
+        imageStatus.status = 'success';
+        saveImageSize();
+        return;
+      }
+
+      Image.getSize(
+        image.url,
+        (width: number, height: number) => {
+          imageStatus.width = width;
+          imageStatus.height = height;
           imageStatus.status = 'success';
           saveImageSize();
-        } catch (newError) {
-          // Give up..
-          imageStatus.status = 'fail';
-          saveImageSize();
+        },
+        () => {
+          try {
+            const data = (Image as any).resolveAssetSource(image.props.source);
+            imageStatus.width = data.width;
+            imageStatus.height = data.height;
+            imageStatus.status = 'success';
+            saveImageSize();
+          } catch (newError) {
+            // Give up..
+            imageStatus.status = 'fail';
+            saveImageSize();
+          }
         }
-      }
-    );
+      );
+    }
   }
 
   /**
