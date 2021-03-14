@@ -8,7 +8,7 @@ export default (
   [x: string]: ViewStyle | TextStyle;
 } => {
   return {
-    modalContainer: { backgroundColor, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
+    modalContainer: { backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
     watchOrigin: { position: 'absolute', width, bottom: 20, justifyContent: 'center', alignItems: 'center' },
     watchOriginTouchable: {
       paddingLeft: 10,
