@@ -98,7 +98,7 @@ export class Props {
    */
   public pageAnimateTime?: number = 100;
 
-  /** 
+  /**
    * 是否启用原生动画驱动
    * Whether to use the native code to perform animations.
    */
@@ -304,5 +304,5 @@ export interface IImageSize {
   width: number;
   height: number;
   // 图片加载状态
-  status: 'loading' | 'success' | 'fail';
+  status: 'loading' | 'success' | 'loadSuccess' | 'fail';
 }
