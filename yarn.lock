@@ -3645,10 +3645,10 @@ react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.npm.alibaba-inc.com/react-is/download/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha1-LMD+D7p0LZf9UnxCoTvsTusGJBw=
 
-react-native-image-pan-zoom@^2.1.9:
-  version "2.1.11"
-  resolved "https://registry.npm.alibaba-inc.com/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.1.11.tgz#61bcb69219d95e76a9797d23e4a2e8e0bd654ae9"
-  integrity sha1-Yby2khnZXnapeX0j5KLo4L1lSuk=
+react-native-image-pan-zoom@^2.1.12:
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"
+  integrity sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==
 
 react-native@*:
   version "0.61.4"
@@ -4431,9 +4431,9 @@ typescript@^2.9.2:
   integrity sha1-HL9h0F1rliaSROtqO85L2RTg8Aw=
 
 ua-parser-js@^0.7.18:
-  version "0.7.20"
-  resolved "https://registry.npm.alibaba-inc.com/ua-parser-js/download/ua-parser-js-0.7.20.tgz#7527178b82f6a62a0f243d1f94fd30e3e3c21098"
-  integrity sha1-dScXi4L2pioPJD0flP0w4+PCEJg=
+  version "0.7.28"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
+  integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 uglify-es@^3.1.9:
   version "3.3.9"
