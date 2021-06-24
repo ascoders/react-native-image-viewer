@@ -304,5 +304,5 @@ export interface IImageSize {
   width: number;
   height: number;
   // 图片加载状态
-  status: 'loading' | 'success' | 'fail';
+  status: 'loading' | 'success' | 'loadSuccess' | 'fail';
 }

@@ -48,8 +48,9 @@ export default class ImageViewer extends React.Component<Props, State> {
 
   private imageRefs: any[] = [];
 
-  public componentDidMount() {
-    this.init(this.props);
+  public constructor(props: any) {
+    super(props);
+    this.init(props);
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -73,6 +74,9 @@ export default class ImageViewer extends React.Component<Props, State> {
         useNativeDriver: !!this.props.useNativeDriver
       }).start();
     }
+    if (prevProps.imageUrls?.length !== this.props.imageUrls?.length) {
+      this.init(this.props);
+    }
   }
 
   /**
@@ -86,13 +90,14 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
 
     // 给 imageSizes 塞入空数组
-    const imageSizes: IImageSize[] = [];
-    nextProps.imageUrls.forEach(imageUrl => {
-      imageSizes.push({
-        width: imageUrl.width || 0,
-        height: imageUrl.height || 0,
-        status: 'loading'
-      });
+    const imageSizes = this.state.imageSizes ?? [];
+    nextProps.imageUrls.forEach((imageUrl, i) => {
+      let nowImageSize = imageSizes[i];
+      imageSizes[i] = {
+        width: nowImageSize?.width ?? imageUrl.width ?? 0,
+        height: nowImageSize?.height ?? imageUrl.height ?? 0,
+        status: nowImageSize?.status ?? 'loading'
+      };
     });
 
     this.setState(
@@ -127,7 +132,13 @@ export default class ImageViewer extends React.Component<Props, State> {
    */
   public jumpToCurrentImage() {
     // 跳到当前图的位置
-    this.positionXNumber = this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
+    const newPositionXNumber = this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
+    // 如果已经到位了，不要重复。会打扰现有的 Animation
+    // If the position we'd like to set it to is the same, don't set it.
+    // It may interfere with an existing Animation
+    if (newPositionXNumber === this.positionXNumber) return;
+
+    this.positionXNumber = newPositionXNumber;
     this.standardPositionX = this.positionXNumber;
     this.positionX.setValue(this.positionXNumber);
   }
@@ -194,8 +205,9 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    Image.getSize(
+    Image.getSizeWithHeaders(
       image.url,
+      image!.props!.source!.headers,
       (width: number, height: number) => {
         imageStatus.width = width;
         imageStatus.height = height;
@@ -204,7 +216,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       },
       () => {
         try {
-          const data = (Image as any).resolveAssetSource(image.props.source);
+          const data = (Image as any).resolveAssetSource(image!.props!.source);
           imageStatus.width = data.width;
           imageStatus.height = data.height;
           imageStatus.status = 'success';
@@ -311,7 +323,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) - 1;
-
+    this.loadImage(nextIndex);
     this.setState(
       {
         currentShowIndex: nextIndex
@@ -345,7 +357,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     }).start();
 
     const nextIndex = (this.state.currentShowIndex || 0) + 1;
-
+    this.loadImage(nextIndex);
     this.setState(
       {
         currentShowIndex: nextIndex
@@ -485,6 +497,7 @@ export default class ImageViewer extends React.Component<Props, State> {
           pinchToZoom={this.props.enableImageZoom}
           enableDoubleClickZoom={this.props.enableImageZoom}
           doubleClickInterval={this.props.doubleClickInterval}
+          useNativeDriver={!!this.props.useNativeDriver}
           {...others}
         >
           {children}
@@ -507,10 +520,17 @@ export default class ImageViewer extends React.Component<Props, State> {
             </Wrapper>
           );
         case 'success':
+        case 'loadSuccess':
           if (!image.props) {
             image.props = {};
           }
 
+          image.props.onLoad = () => {
+            const imageSizes = [...this.state.imageSizes!];
+            imageSizes[index].status = 'loadSuccess';
+            this.setState({ imageSizes });
+          };
+          
           if (!image.props.style) {
             image.props.style = {};
           }
@@ -521,16 +541,18 @@ export default class ImageViewer extends React.Component<Props, State> {
             height
           };
 
-          if (typeof image.props.source === 'number') {
+          if (typeof image.props!.source === 'number') {
             // source = require(..), doing nothing
           } else {
-            if (!image.props.source) {
-              image.props.source = {};
+            if (image.props) {
+              if (!image.props!.source) {
+                image.props.source = {};
+              }
+              image.props.source = {
+                uri: image.url,
+                ...image.props.source
+              };
             }
-            image.props.source = {
-              uri: image.url,
-              ...image.props.source
-            };
           }
           if (this.props.enablePreload) {
             this.preloadImage(this.state.currentShowIndex || 0);
@@ -559,8 +581,20 @@ export default class ImageViewer extends React.Component<Props, State> {
               doubleClickInterval={this.props.doubleClickInterval}
               minScale={this.props.minScale}
               maxScale={this.props.maxScale}
+              useNativeDriver={!!this.props.useNativeDriver}
             >
               {this!.props!.renderImage!(image.props)}
+              {imageInfo.status === 'success' ? (
+                <View
+                  style={[
+                    this.styles.loadingContainer,
+                    this.styles.modalContainer,
+                    { position: 'absolute', width: '100%', height: '100%' }
+                  ]}
+                >
+                  {this!.props!.loadingRender!()}
+                </View>
+              ) : null}
             </ImageZoom>
           );
         case 'fail':
