@@ -1,16 +1,7 @@
-## Show Cases
+## Original
 
-**Swiper image**
+https://github.com/ascoders/react-native-image-viewer
 
-![](https://cloud.githubusercontent.com/assets/7970947/21086300/388dedfc-c056-11e6-955e-0a2a0b541f7f.gif)
-
-**Zoom while sliding**
-
-![](https://cloud.githubusercontent.com/assets/7970947/21086323/7355face-c056-11e6-8d68-384000d41d47.gif)
-
-**Swipe down**
-
-![](https://user-images.githubusercontent.com/7970947/37651584-8b642458-2c73-11e8-9ecc-ef7c72aca1be.gif)
 
 ## Getting Started
 
