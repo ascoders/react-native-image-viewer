@@ -1,5 +1,5 @@
 {
-  "root:true,
+  "root":true,
   "bracketSpacing": true,
   "printWidth": 120,
   "proseWrap": "never",
