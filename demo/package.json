@@ -21,7 +21,7 @@
   "dependencies": {
     "expo": "^35.0.0",
     "react": "16.8.3",
-    "react-native": "0.59.8",
+    "react-native": "0.62.3",
     "react-native-image-pan-zoom": "^2.1.7"
   }
 }
