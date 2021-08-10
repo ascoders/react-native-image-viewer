@@ -168,7 +168,7 @@ export class Props {
   /**
    * Render image component
    */
-  public renderImage?: (props: any) => React.ReactElement<any> = (props: any) => {
+  public renderImage?: (props: any, index: number) => React.ReactElement<any> = (props: any) => {
     return React.createElement(Image, props);
   };
 
